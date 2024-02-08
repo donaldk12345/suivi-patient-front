@@ -1,0 +1,176 @@
+<div class="container mt-3 pb-4">
+    <div class="col-md">
+        <div class="col-md mt-2 mt-2 p-2">
+            <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer consultation </button>
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateConsultationView()"> <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
+            <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Supprimer </button>
+        </div>
+        <div class="card p-3">
+            <h4 style="color:#303548; font-weight: 800;" class="text-center">Liste des consultations</h4>
+            <app-tables [data]="consultations" [colum]="cols" (datas)="getData($event)" (datas)="onRowSelect($event)" [loading]="loading" class="mt-3"></app-tables>
+
+        </div>
+    </div>
+
+</div>
+
+<p-dialog header="Ajouter une consultation" [(visible)]="display" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addConsultationForm">
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Nom</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir le prenom" formControlName="nom">
+                <!--<div class="col-md" *ngIf="nom.touched && nom.invalid">
+                  <small *ngIf=" nom.errors?.['required']" style="color:red ;">Le nom ne peut-etre null !</small>
+
+              </div> -->
+
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Problème</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir le prenom" formControlName="probleme">
+                <!--
+            <div class="col-md" *ngIf="prenom.touched && prenom.invalid">
+                  <small *ngIf=" prenom.errors?.['required']" style="color:red ;">Le prénom ne peut-etre null !</small>
+
+              </div>
+            -->
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Date </label>
+                <input type="date" class="form-control" id="username" placeholder="Veillez saisir le quartier" formControlName="startDate">
+                <!--
+           <div class="col-md" *ngIf="quartier.touched && quartier.invalid">
+                  <small *ngIf=" quartier.errors?.['required']" style="color:red ;">Le quartier ne peut-etre null !</small>
+
+              </div>
+        -->
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Evolution</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir le numéro de la cni" formControlName="evolution">
+                <!--
+
+               <div class="col-md" *ngIf="numero_cni.touched && numero_cni.invalid">
+                  <small *ngIf=" numero_cni.errors?.['required']" style="color:red ;">Le numéro de la cni ne peut-etre null !</small>
+
+              </div>
+        -->
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">symtomes associer</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir la profession" formControlName="symptomeAssocier">
+                <!--
+                 <div class="col-md" *ngIf="profession.touched && profession.invalid">
+                  <small *ngIf=" profession.errors?.['required']" style="color:red ;">Le profession ne peut-etre null !</small>
+
+              </div>
+            -->
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Facteurs </label>
+                <input formControlName="facteurs" class="form-control" type="text" placeholder="Quelques facteurs ">
+                <!--
+                    <div class="col-md" *ngIf="date_naiss.touched && date_naiss.invalid">
+                  <small *ngIf=" date_naiss.errors?.['required']" style="color:red ;">La date de naissance ne peut-etre null !</small>
+
+              </div>
+            -->
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Allergies</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir la profession" formControlName="allergies">
+                <!--
+                 <div class="col-md" *ngIf="telephone.touched && telephone.invalid">
+                  <small *ngIf=" telephone.errors?.['required']" style="color:red ;">Le profession ne peut-etre null !</small>
+
+              </div>
+            -->
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Maladies Chronique</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir la profession" formControlName="allergies">
+                <!--
+                  <div class="col-md" *ngIf="sexe.touched && sexe.invalid">
+                  <small *ngIf=" sexe.errors?.['required']" style="color:red ;">Le sexe ne peut-etre null !</small>
+
+              </div>
+            -->
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Patient</label>
+                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="patient" optionLabel="nom" appendTo="body" optionValue="id" formControlName="patientId" placeholder="Choisir le patient " class="col-md"></p-dropdown>
+                <!--
+
+                   <div class="col-md" *ngIf="sexe.touched && sexe.invalid">
+                  <small *ngIf=" sexe.errors?.['required']" style="color:red ;">Le sexe ne peut-etre null !</small>
+
+              </div>
+            -->
+            </div>
+            <div class="mb-3">
+                <div class="mt-2 bg-light p-2 ">
+                    <h4 class="text-center text-secondary">Maladies antécedentes</h4>
+                    <div class="col">
+                        <input type="text" placeholder="nom de la maladie antécedente " class="form-control" pInputText [formControl]="nom" required />
+                    </div><br>
+                    <div class="col">
+                        <textarea type="textarea" rows="3" placeholder=" description de la maladie" class="form-control" pInputText [formControl]="descirption" required></textarea>
+                    </div><br>
+                    <div class="col">
+                        <input type="text" placeholder=" type de maladie" class="form-control" pInputText [formControl]="type" required />
+                    </div><br>
+                    <div class="col">
+                        <input type="date" placeholder=" date de la maladie" class="form-control" pInputText [formControl]="date" required />
+
+                    </div><br>
+                    <div class="col">
+                        <button type="button" [disabled]="nom.status != 'VALID' || date.status != 'VALID' || descirption.status != 'VALID' || type.status != 'VALID'" pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addAntecedent(nom,descirption,type,date)"></button>
+                    </div>
+
+                </div>
+
+                <p-table [value]="antecedents" [scrollable]="true" scrollHeight="200px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nom antécedent</th>
+                            <th>Type </th>
+                            <th>Date</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-antecedent>
+                        <tr>
+                            <td>
+                                {{antecedent.nom}}
+                            </td>
+                            <td>
+                                {{antecedent.type}}
+                            </td>
+                            <td>
+                                {{antecedent.date | date}}
+                            </td>
+                            <td>
+                                <button pButton pRipple type="button" (click)="deleteAntecedent(antecedent.nom)" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+
+
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <span>
+          <button pButton pRipple label="Enregistrer" (click)="addConsultation()" ></button>
+      </span>
+        <span>
+          <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="hideDialog()" class="p-button-danger"></button>
+      </span>
+    </ng-template>
+</p-dialog>

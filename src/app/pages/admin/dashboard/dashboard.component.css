@@ -1,0 +1,94 @@
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+    text-decoration: none!important;
+    color: #111!important;
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    color: #303548!important;
+    background: #ffffff;
+    border-color: #303548!important;
+}
+
+#ico i {
+    color: #303548!important;
+    background: #bbbab83d;
+    padding: 9px;
+    size: 25;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+#ico1 i {
+    color: #303548!important;
+    background: #bbbab83d;
+    padding: 9px;
+    size: 25;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+#ico2 i {
+    color: #303548!important;
+    background: #bbbab83d;
+    padding: 9px;
+    size: 25;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+#ico3 i {
+    color: #303548!important;
+    background: #bbbab83d;
+    padding: 9px;
+    size: 25;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+#ico[_ngcontent-spd-c112] i[_ngcontent-spd-c112] {
+    color: #624bff!important;
+    background: #e0dcfe;
+    padding: 9px;
+    size: 25;
+    border-radius: 50%;
+}
+
+.jour {
+    margin-right: 15px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 28px 13px 28px;
+    background-color: #002e5b79;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+    border: none;
+    color: #fff;
+}
+
+.semaine {
+    margin-right: 15px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 28px 13px 28px;
+    background-color: #5b1a0081;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+    border: none;
+    color: #fff;
+}
+
+.mois {
+    margin-right: 15px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 28px 13px 28px;
+    background-color: #4d5b0079;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+    border: none;
+    color: #fff;
+}
+
+element.style {
+    color: white!important;
+}

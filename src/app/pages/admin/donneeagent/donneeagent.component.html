@@ -1,0 +1,258 @@
+<div class="container mt-3 pb-4">
+    <div class="col-md">
+       <div class="col-md mt-2 mt-2 p-2">  
+        <button class="ico mt-2" type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;"></i>&nbsp;Ajouter données agents</button>
+        </div>
+
+            <div class="col-md">
+                <div class="card p-3">
+                    <h4 style="color:#303548; font-weight: 800;" class="text-center">Données agents</h4>
+                    <p-table class="mt-2" #myTab [value]="donnees" [scrollable]="true" selectionMode="multiple" styleClass="mt-3"
+                    (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="5" (datas)="getData($event)" 
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]"
+                    
+                    >
+        
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width:100px;">
+                                    <p-tableHeaderCheckbox>
+                                    </p-tableHeaderCheckbox>
+                                </th>
+                                <th style="width:150px; size: 10px;">Nom</th>
+                                <th style="width:150px"  pFrozenColumn>Noms de l'agent</th>
+                                <th style="width:150px">Noms de l'équipe</th>
+                                <th style="width:150px">Temps de connexion</th>
+                                <th style="width:150px">Temps de préparation</th>
+                                <th style="width:150px">Temps hors ligne</th>
+                                <th style="width:150px">  Heure de cap</th>
+                                <th style="width:150px">Temps de maintien</th>
+                                <th style="width:150px"> ACW Time</th>
+                                <th style="width:150px">Offert </th>
+                                <th style="width:150px">Répondue</th>
+                                <th style="width:150px">AHT</th>
+                                <th style="width:150px"  pFrozenColumn> Occupation des agents</th>
+        
+                            </tr>
+                        </ng-template>
+        
+                        <ng-template pTemplate="body" let-donnees id="tab">
+                            <tr [pSelectableRow]="donnees">
+                                <td style="width:100px;" >
+                                    <p-tableCheckbox [value]="donnees">
+                                    </p-tableCheckbox>
+                                </td>
+                                <th style="width:150px" >
+                                    {{ donnees.nom }}
+                                </th>
+                                <th style="width:150px" pFrozenColumn>
+                                    {{ donnees?.agent?.nom }}
+                                </th>
+                                <th style="width:150px">
+                                    {{ donnees.agent?.equipe?.nom}}
+                                </th>
+                                <td style="width:150px">
+                                    {{ donnees.loginTime }}&nbsp;mn
+                                </td>
+                                <td style="width:150px">
+                                    
+                                    {{ donnees?.readyTime }}&nbsp;mn
+                                </td>
+                                <td style="width:150px">
+                                    {{ donnees.offlineTime }}&nbsp;mn
+                                  
+                                </td>
+                                <td style="width:150px">
+                                    {{ donnees?.holdTime }}&nbsp;mn
+                                </td>
+                                <td style="width:150px">
+                                    {{ donnees?.holdTime
+                                    }}&nbsp;mn
+                                </td>
+                                <td style="width:150px">
+                                    {{ donnees?.acwtime }}&nbsp;mn
+                                </td>
+                                <td style="width:150px">
+                                    {{ donnees?.offered }}&nbsp;mn
+                                </td>
+                                <td style="width:150px">
+                                    {{ donnees?.answered }}&nbsp;mn
+                                </td>
+                                <td style="width:150px">
+                                    {{ donnees?.aht }}&nbsp;mn
+                                </td>
+                                <td style="width:150px">
+                                    {{ donnees?.agentOccupancy }}&nbsp;<i class="pi pi-percentage" style="font-size: 1rem"></i>
+                                </td>
+                                
+                            </tr>
+        
+                        </ng-template>
+                    </p-table>
+        
+                </div>
+            </div>
+    </div>
+
+</div>
+<p-dialog header="Ajouter les données agent" [(visible)]="display" [style]="{width: '650px'}" styleClass="p-fluid"
+ [modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addDataAgentForm">
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">Nom</label>
+                <input type="nom" class="form-control" id="nom" placeholder="" formControlName="nom"> 
+                <div class="col-md" *ngIf="nom.touched && nom.invalid">
+                    <small *ngIf="  nom.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+    
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname"></label>
+                <p-dropdown
+                inputId="dropdown"
+                [autoDisplayFirst]="false"
+                [filter]="true"
+                filterBy="nom"
+                [options]="agents"
+                optionLabel="nom"
+                appendTo="body"
+                optionValue="id"
+                (onChange)="myEvent($event)"
+                formControlName="agentId"
+                placeholder="Choisir l'agent "
+                class="col-md"
+              ></p-dropdown>
+                <div class="col-md" *ngIf="agentId.touched && agentId.invalid">
+                    <small *ngIf="  agentId.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+                </div>
+              </div>
+              <div class="row justify-content-center">           
+                    <div class="col-md">
+                        <label class="form-label" for="basic-default-company">Temps de connexion</label>
+                        <input type="number" class="form-control" id="nom" placeholder="" formControlName="loginTime"> 
+                        <div class="col-md" *ngIf="loginTime.touched && loginTime.invalid">
+                            <small *ngIf="  loginTime.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+            
+                        </div>
+                    </div>
+               
+                    <div class="col-md">
+                        <label class="form-label" for="basic-default-company">Temps de préparation</label>
+                        <input type="number" class="form-control" id="nom" placeholder="" formControlName="readyTime"> 
+                        <div class="col-md" *ngIf="readyTime.touched && readyTime.invalid">
+                            <small *ngIf="  readyTime.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+            
+                        </div>
+                    </div>
+                </div>
+            
+              <div class="row justify-content-center">
+
+           
+                    <div class="col">
+                        <label class="form-label" for="basic-default-company">Temps hors ligne</label>
+                        <input type="number" class="form-control" id="nom" placeholder="" formControlName="offlineTime"> 
+                        <div class="col-md" *ngIf="offlineTime.touched && offlineTime.invalid">
+                            <small *ngIf="  offlineTime.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+            
+                        </div>
+                    </div>
+                
+                
+                    <div class="col">
+                        <label class="form-label" for="basic-default-company">Heure de cap</label>
+                        <input type="number" class="form-control" id="nom" placeholder="" formControlName="handleTine"> 
+                        <div class="col-md" *ngIf="handleTine.touched && handleTine.invalid">
+                            <small *ngIf="  handleTine.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+            
+                        </div>
+                    </div>
+                </div>
+             
+
+              <div class="row justify-content-center">
+
+              
+                    <div class="col">
+                        <label class="form-label" for="basic-default-company">Temps de mentien</label>
+                        <input type="number" class="form-control" id="nom" placeholder="" formControlName="holdTime"> 
+                        <div class="col-md" *ngIf="holdTime.touched && holdTime.invalid">
+                            <small *ngIf="  holdTime.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+            
+                        </div>
+                    </div>
+            
+                    <div class="col">
+                        <label class="form-label" for="basic-default-company">ACH Time</label>
+                        <input type="number" class="form-control" id="nom" placeholder="" formControlName="acwtime"> 
+                        <div class="col-md" *ngIf="acwtime.touched && acwtime.invalid">
+                            <small *ngIf="  acwtime.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+            
+                        </div>
+                    </div>
+                </div>
+          
+
+              <div class="row justify-content-center">
+
+            
+                    <div class="col">
+                        <label class="form-label" for="basic-default-company">Offert</label>
+                        <input type="number" class="form-control" id="nom" placeholder="" formControlName="offered"> 
+                        <div class="col-md" *ngIf="offered.touched && offered.invalid">
+                            <small *ngIf="  offered.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+            
+                        </div>
+                    </div>
+         
+                    <div class="col">
+                        <label class="form-label" for="basic-default-company">Répondue</label>
+                        <input type="number" class="form-control" id="nom" placeholder="" formControlName="answered"> 
+                        <div class="col-md" *ngIf="answered.touched && answered.invalid">
+                            <small *ngIf="  answered.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+            
+                        </div>
+                    </div>
+                </div>
+            
+
+              <div class="row justify-content-center">
+
+          
+                    <div class="col">
+                        <label class="form-label" for="basic-default-company">AHT</label>
+                        <input type="number" class="form-control" id="nom" placeholder="" formControlName="aht"> 
+                        <div class="col-md" *ngIf="aht.touched && aht.invalid">
+                            <small *ngIf="  aht.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+            
+                        </div>
+                    </div>
+           
+                    <div class="col">
+                        <label class="form-label" for="basic-default-company">Occupation des agents</label>
+                        <input type="number" class="form-control" id="nom" placeholder="" formControlName="agentOccupancy"> 
+                        <div class="col-md" *ngIf="agentOccupancy.touched && agentOccupancy.invalid">
+                            <small *ngIf="  agentOccupancy.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+            
+                        </div>
+                    </div>
+                </div>
+              <br>
+
+            <div class="row mt-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button" [disabled]="addDataAgentForm.status != 'VALID'" (click)="addAgentData()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
+    </ng-template>
+</p-dialog>

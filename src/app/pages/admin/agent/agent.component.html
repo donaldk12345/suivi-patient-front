@@ -1,0 +1,224 @@
+
+<div class="container mt-3 pb-4">
+    <div class="col-md">
+        <div class="col-md mt-2 mt-2 p-2">
+            <button class="ico mt-2" type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;"></i>&nbsp;Créer un agent</button>
+            <button class="icoa mt-2" type="button" (click)="showDialogSet()"  [disabled]="disabled"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Associer un agent à une équipe</button>
+            <button class="icomd mt-2" type="button" (click)="agentImportDialog()"> <i class="fas fa-file-upload" style="color: #fff;"></i>&nbsp;Importer</button>
+           <button class="icom mt-2" type="button" (click)="agentSearch()"> <i class="fas fa-search" style="color: #fff;"></i>&nbsp;Rechercher</button>
+           <p-button icon="pi pi-refresh" *ngIf=" this.isRefresh" (onClick)="getAgent()"></p-button>
+          
+        </div>
+        <div class="card p-3">
+            <h4 style="color:#303548; font-weight: 800;" class="text-center">Liste des agents</h4>
+            <p-table class="mt-2" #myTab [value]="agents" [scrollable]="true" scrollHeight="400px" selectionMode="multiple" 
+            (onRowSelect)="onRowSelect($event)"
+             [paginator]="true" [rows]="5"
+             #dt
+             [loading]="loading"
+             (datas)="getData($event)">
+
+             
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 1rem">
+                            <p-tableHeaderCheckbox>
+                            </p-tableHeaderCheckbox>
+                        </th>
+                        <th>Nom de l'agent </th>
+                        <th>Code</th>
+                        <th>Equipe</th>
+                        <th>Est dans une équipe</th>
+                        <th>Créer le </th>
+
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-agents id="tab">
+                    <tr [pSelectableRow]="agents">
+                        <td style="width: 1rem">
+                            <p-tableCheckbox [value]="agents">
+                            </p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{ agents.nom }}
+                        </td>
+                        <td>
+                            {{ agents.code }}
+                        </td>
+                        <td>
+                            
+                            {{ agents.equipe?.nom }}
+                        </td>
+                        <td>
+                            <p-tag [value]="agents.status" [severity]="getStatusSeverity(agents.status)"></p-tag>
+                        </td>
+                        <td>
+                            {{ agents.createdAt| date:'dd/MM/yyyy' }}
+                        </td>
+                    </tr>
+
+                </ng-template>
+            </p-table>
+
+        </div>
+    </div>
+
+</div>
+
+<p-dialog header="Ajouter un agent" [(visible)]="display" [style]="{width: '550px'}" styleClass="p-fluid"
+ [modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addArgentForm">
+       
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">Nom</label>
+                <input type="nom" class="form-control" id="nom" placeholder="Veillez saisir le nom d'équipe" formControlName="nom"> 
+                <div class="col-md" *ngIf="nom.touched && nom.invalid">
+                    <small *ngIf="  nom.errors?.['required']" style="color:red ;">Le champ est requies !</small>
+    
+                </div>
+            </div>
+
+            
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">Code</label>
+                <input type="nom" class="form-control" id="nom" placeholder="Veillez saisir le nom d'équipe" formControlName="code"> 
+                <div class="col-md" *ngIf="code.touched && code.invalid">
+                    <small *ngIf="  code.errors?.['required']" style="color:red ;">Le champ est requies !</small>
+    
+                </div>
+            </div>
+        
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname"></label>
+                <p-dropdown
+                inputId="dropdown"
+                [autoDisplayFirst]="false"
+                [filter]="true"
+                filterBy="nomEquipe"
+                [options]="equipes"
+                optionLabel="nomEquipe"
+                appendTo="body"
+                optionValue="id"
+                formControlName="equipeId"
+                placeholder="Choisir une équipe "
+                class="col-md"
+              ></p-dropdown>
+                <div class="col-md" *ngIf="myEquipeId.touched && myEquipeId.invalid">
+                    <small *ngIf="  myEquipeId.errors?.['required']" style="color:red ;">Le champ est requies !</small>
+    
+                </div>
+              </div>
+
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button" [disabled]="addArgentForm.status != 'VALID'" (click)="addAgent()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Import des agents" [(visible)]="displayImport" [style]="{width: '550px'}" styleClass="p-fluid"
+[modal]="true">
+    <ng-template pTemplate="content">
+        <form>
+      
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">Fichier</label>
+                <input type="file" (change)="onUpload($event)" multiple="false">
+            </div>
+
+
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button"  (click)="uploadAgent()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Importer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Associer agent" [(visible)]="equipeset" [style]="{width: '550px'}" styleClass="p-fluid"
+[modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="setAgentForm">
+      
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname"></label>
+                <p-dropdown
+                  inputId="dropdown"
+                  [autoDisplayFirst]="false"
+                  [filter]="true"
+                  filterBy="nomEquipe"
+                  [options]="equipes"
+                  optionLabel="nomEquipe"
+                  appendTo="body"
+                  optionValue="id"
+                  formControlName="equipeId"
+                  placeholder="Choisir une équipe "
+                  class="col-md"
+                ></p-dropdown>
+              </div>
+
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button" [disabled]="setAgentForm.status != 'VALID'" (click)="associerAgent()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Associer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
+    </ng-template>
+</p-dialog>
+
+
+<p-dialog header="Filtrer les agents" [(visible)]="searchDialog" [style]="{width: '550px'}" styleClass="p-fluid"
+[modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="searchForm">
+      
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">Code ou Equipe</label>
+                <input type="nom" class="form-control" id="nom" placeholder="saisir le code de l'argent ou l'équipe " formControlName="keys"> 
+            </div>
+
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button" (click)="agentSearchApi()"> <i class="fas fa-search" style="color: #fff;"></i>&nbsp;Rechercher</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
+    </ng-template>
+</p-dialog>
+
+
+<p-toast></p-toast>

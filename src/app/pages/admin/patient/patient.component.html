@@ -1,0 +1,240 @@
+<div class="container mt-3 pb-4">
+    <div class="col-md">
+        <div class="col-md mt-2 mt-2 p-2">
+            <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer patient </button>
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updatePatientView()"> <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
+            <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Supprimer </button>
+        </div>
+        <div class="card p-3">
+            <h4 style="color:#303548; font-weight: 800;" class="text-center">Liste des patients</h4>
+            <app-tables [data]="patient" [colum]="cols" (datas)="getData($event)" (datas)="onRowSelect($event)" [loading]="loading" class="mt-3"></app-tables>
+
+        </div>
+    </div>
+
+</div>
+<p-dialog header="Ajouter patient" [(visible)]="display" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addPatientForm">
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">Nom</label>
+                <input type="text" class="form-control" id="nom" placeholder="" formControlName="nom">
+                <div class="col-md" *ngIf="nom.touched && nom.invalid">
+                    <small *ngIf="  nom.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Sexe</label>
+                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="sexes" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="sexe" placeholder="Choisir le sexe " class="col-md"></p-dropdown>
+                <div class="col-md" *ngIf="sexe.touched && sexe.invalid">
+                    <small *ngIf="  sexe.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md">
+                    <label class="form-label" for="basic-default-company">Prénom</label>
+                    <input type="text" class="form-control" id="nom" placeholder="" formControlName="prenom">
+                    <div class="col-md" *ngIf="prenom.touched && prenom.invalid">
+                        <small *ngIf="  prenom.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <label class="form-label" for="basic-default-company">Ville</label>
+                    <input type="text" class="form-control" id="nom" placeholder="" formControlName="ville">
+                    <div class="col-md" *ngIf="ville.touched && ville.invalid">
+                        <small *ngIf="  ville.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Quartier</label>
+                    <input type="text" class="form-control" id="nom" placeholder="" formControlName="quartier">
+                    <div class="col-md" *ngIf="quartier.touched && quartier.invalid">
+                        <small *ngIf="  quartier.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+
+
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Numéro cni</label>
+                    <input type="text" class="form-control" id="nom" placeholder="" formControlName="numeroCni">
+                    <div class="col-md" *ngIf="numeroCni.touched && numeroCni.invalid">
+                        <small *ngIf="  numeroCni.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Profession</label>
+                    <input type="text" class="form-control" id="nom" placeholder="" formControlName="profesion">
+                    <div class="col-md" *ngIf="profesion.touched && profesion.invalid">
+                        <small *ngIf="  profesion.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Téléphone</label>
+                    <input type="number" class="form-control" id="nom" placeholder="" formControlName="telephone">
+                    <div class="col-md" *ngIf="telephone.touched && telephone.invalid">
+                        <small *ngIf="  telephone.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Email</label>
+                    <input type="email" class="form-control" id="nom" placeholder="" formControlName="email">
+                </div>
+
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Date de naissance</label>
+                    <input type="date" class="form-control" id="nom" placeholder="" formControlName="date_naiss">
+                    <div class="col-md" *ngIf="date_naiss.touched && date_naiss.invalid">
+                        <small *ngIf="  date_naiss.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button" [disabled]="addPatientForm.status != 'VALID'" (click)="addPatientData()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+
+                </div>
+
+            </div>
+
+
+        </form>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Modifier patient" [(visible)]="addUpdateForm" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addPatientForm">
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">Nom</label>
+                <input type="text" class="form-control" id="nom" placeholder="" formControlName="nom">
+                <div class="col-md" *ngIf="nom.touched && nom.invalid">
+                    <small *ngIf="  nom.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Sexe</label>
+                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="sexes" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="sexe" placeholder="Choisir le sexe " class="col-md"></p-dropdown>
+                <div class="col-md" *ngIf="sexe.touched && sexe.invalid">
+                    <small *ngIf="  sexe.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md">
+                    <label class="form-label" for="basic-default-company">Prénom</label>
+                    <input type="text" class="form-control" id="nom" placeholder="" formControlName="prenom">
+                    <div class="col-md" *ngIf="prenom.touched && prenom.invalid">
+                        <small *ngIf="  prenom.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <label class="form-label" for="basic-default-company">Ville</label>
+                    <input type="text" class="form-control" id="nom" placeholder="" formControlName="ville">
+                    <div class="col-md" *ngIf="ville.touched && ville.invalid">
+                        <small *ngIf="  ville.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Quartier</label>
+                    <input type="text" class="form-control" id="nom" placeholder="" formControlName="quartier">
+                    <div class="col-md" *ngIf="quartier.touched && quartier.invalid">
+                        <small *ngIf="  quartier.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+
+
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Numéro cni</label>
+                    <input type="text" class="form-control" id="nom" placeholder="" formControlName="numeroCni">
+                    <div class="col-md" *ngIf="numeroCni.touched && numeroCni.invalid">
+                        <small *ngIf="  numeroCni.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Profession</label>
+                    <input type="text" class="form-control" id="nom" placeholder="" formControlName="profesion">
+                    <div class="col-md" *ngIf="profesion.touched && profesion.invalid">
+                        <small *ngIf="  profesion.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Téléphone</label>
+                    <input type="number" class="form-control" id="nom" placeholder="" formControlName="telephone">
+                    <div class="col-md" *ngIf="telephone.touched && telephone.invalid">
+                        <small *ngIf="  telephone.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Email</label>
+                    <input type="email" class="form-control" id="nom" placeholder="" formControlName="email">
+                </div>
+
+                <div class="col">
+                    <label class="form-label" for="basic-default-company">Date de naissance</label>
+                    <input type="date" class="form-control" id="nom" placeholder="" formControlName="date_naiss">
+                    <div class="col-md" *ngIf="date_naiss.touched && date_naiss.invalid">
+                        <small *ngIf="  date_naiss.errors?.['required']" style="color:red ;">Le champ est requis !</small>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button" [disabled]="addPatientForm.status != 'VALID'" (click)="updatePatientData()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+
+                </div>
+
+            </div>
+
+
+        </form>
+    </ng-template>
+</p-dialog>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
