@@ -19,6 +19,7 @@ import { ChefequipeComponent } from "./chefequipe/chefequipe.component";
 import { PatientComponent } from "./patient/patient.component";
 import { EtablissementComponent } from "./etablissement/etablissement.component";
 import { ConsultationComponent } from "src/app/pages/admin/consultation/consultation.component";
+import { DetailsComponent } from "./details/details.component";
 
 
 const routes: Routes = [
@@ -32,6 +33,7 @@ const routes: Routes = [
       {path:'consultation',component: ConsultationComponent,canActivate:[AuthGuard]},
       {path:'etablissement',component: EtablissementComponent,canActivate:[AuthGuard]},
       {path: 'profile',component: ProfileComponent,canActivate:[AuthGuard]},
+      {path: 'details',component: DetailsComponent,canActivate:[AuthGuard]},
       {path:'equipe',component: EquipeComponent,canActivate:[AuthGuard]},
       {path: 'gestion-equipe',component: GestionequipeComponent,canActivate:[AuthGuard]},
       {path: 'agent',component: AgentComponent,canActivate:[AuthGuard]},

@@ -1,3 +1,5 @@
+import { formatDate } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -27,19 +29,30 @@ export class ConsultationComponent implements OnInit{
  unactivatebtn: boolean = false;
  detailbtn: boolean = false;
  displayBasic: boolean = false;
+ detalDialog: boolean = false;
+ pdfDialog:boolean = false;
  updatebtn: boolean = false;
  deletebtn: boolean = false;
+ showpdf:boolean=false;
  nom = new FormControl('', [Validators.required]);
  descirption = new FormControl('', [Validators.required]);
  type = new FormControl('', [Validators.required]);
  date = new FormControl('',[Validators.required]);
  antecedents: any[]=[];
+ pdfSrc:any;
+ httpData: any;
+ pdfURL: any;
  exportColumns: any[] = [];
  patient : any[]=[];
  loading = false;
   sexes: any[]=[];
   addUpdateForm: boolean=false;
   consultations: any[]=[];
+  patientID: any;
+  consultationOne: any;
+  age: number | undefined;
+  anteced: any;
+  fichiers: any;
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -53,11 +66,12 @@ this.manageUnactivateBtn();
 this.manageDeleteBtn();
   this.manageUpdateBtn();
   this.manageDetailsBtn();
+  this.manageShowPdf();
 
 
 }
 
-constructor(private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
+constructor(private ht:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
 
 }
 onRowUnselect(dat: any) {
@@ -80,9 +94,15 @@ hideDialog(){
   this.display = false;
   this.addConsultationForm.reset();
   this.addUpdateForm = false;
+  this.detalDialog = false;
+  this.consultationOne = [];
+  this.pdfDialog = false;
 
 }
   ngOnInit(): void {
+
+
+
 
     this.addConsultationForm= new FormGroup({
       'nom':  new FormControl('', [Validators.required]),
@@ -108,7 +128,7 @@ this.getConsultation();
        { field: 'maladiesChronique', header: 'Maladies chroniques', type: 'string', width: 200, isFroz: false },
        { field: 'nomPatient', header: 'Nom du patient', type: 'string', width: 200, isFroz: false },
        {field: 'debut', header: 'De de début de la maladie', type: 'jour', width: 200, isFroz: false},
-        { field: 'createBy', header: 'Ajouter par', type: 'string', width: 200, isFroz: false },
+        { field: 'username', header: 'Ajouter par', type: 'string', width: 200, isFroz: false },
         {field: 'createAt', header: 'Créer le', type: 'jour', width: 200, isFroz: false},
 
 
@@ -173,6 +193,16 @@ this.getConsultation();
 
   }
 
+
+  manageShowPdf() {
+    if(this.selectElement.length == 0 || this.selectElement.length > 1){
+   this.showpdf = false;
+ } else {
+   this.showpdf = true;
+ }
+
+}
+
   getPatient(){
     this.http.getElement(API_URI + url.patient).subscribe({
       next: data => {
@@ -197,6 +227,19 @@ this.getConsultation();
         }
       }
     })
+    }
+
+    previewPdf(){
+
+      let slug = this.selectElement[0].slug;
+
+    this.ht.get(API_URI+ url.consul_report + slug , { responseType: "blob" }).subscribe(data => {
+      this.httpData = data;
+      var file = new Blob([data], { type: "application/pdf" });
+      this.pdfSrc = URL.createObjectURL(file);
+      console.log("data => ", this.httpData);
+      console.log(" file url => ", this.pdfSrc);
+    });
     }
 
     getConsultation(){
@@ -224,6 +267,207 @@ this.getConsultation();
         }
       })
       }
+
+      getAntecedent(){
+
+        let id = this.selectElement[0].id;
+
+        this.http.getElement(API_URI + url.antecedent + '/' + id).subscribe({
+          next: data => {
+            if (data) {
+
+              this.anteced = data.content;
+              console.log("Mes antecedent ", this.anteced);
+              /*this.patient.forEach(elt=>{
+                 this.patien.set(elt.id,elt.nom);
+
+                 console.log("Mes patient ", this.patien);
+              })*/
+
+              let madate = this.anteced.date;
+
+              let newDate = new Date(madate);
+
+
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Reésultat',
+
+                detail: data.message,
+                life: 3000
+              });
+            }
+          }
+        })
+        }
+
+
+        getfichierpatient() {
+
+          let id= this.selectElement[0].id;
+
+          console.log('mon id', id);
+
+          this.http.getElement(API_URI + url.fichier_patient + id).subscribe({
+
+            next: data => {
+              if (data) {
+                console.log("Mes fichies ", data);
+
+                this.fichiers = data;
+
+              } else {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Reésultat',
+                  detail: data.message,
+                  life: 3000
+                });
+              }
+            }
+
+          })
+
+        }
+
+
+        deleteFichier(id:number){
+
+                confirm("Voulez vous supprimer le fichier ?");
+          this.http.deleteElement(API_URI + url.delete_file + id).subscribe(
+            data =>{
+              this.getfichierpatient();
+
+              this.messageService.add({
+                severity: 'success',
+                summary: '',
+                detail: 'fichier supprimer avec succés !',
+                life: 3000
+              });
+            this.getPatient();
+
+        }, error => {
+           this.messageService.add({
+                severity:'error',
+                summary: error.error.message,
+                detail: error.error.details,
+                life: 3000
+           });
+
+        }
+
+          );
+
+          }
+
+
+
+        downloadFichierPatient(name:string){
+
+          this.ht.get(API_URI + url.fichier_download + name,{ responseType: "blob" }).subscribe({
+
+            next: data => {
+              if (data) {
+                console.log(" data ", data);
+                var result = name.split(".").pop();
+
+                if(result=="xlsx"){
+
+                const filename =  name + "_" + ".xlsx";
+                var a = document.createElement("a");
+                a.href = URL.createObjectURL(data);
+                     a.setAttribute("download", filename);
+                a.click();
+
+
+                }else if(result=="docx"){
+                  const filename =  name + "_" + ".docx";
+
+                  var a = document.createElement("a");
+                  a.href = URL.createObjectURL(data);
+                       a.setAttribute("download", filename);
+                  a.click();
+
+                }else{
+                  console.log("rien");
+                }
+
+
+
+
+
+              }
+            }
+
+          })
+
+        }
+
+
+      getConsultationById() {
+
+        let slug = this.selectElement[0].slug;
+
+        console.log('mon slug', slug);
+
+        this.http.getElement(API_URI + url.consultation + '/' + slug).subscribe({
+
+          next: data => {
+            if (data) {
+              console.log("Mon patient ", data);
+              let d = new Date();
+
+
+
+              this.detalDialog = true;
+              this.consultationOne = data;
+              let dt = this.consultationOne.dateNaiss;
+              let newDate = new Date(dt);
+              this.age = d.getFullYear() - newDate.getFullYear();
+              console.log("age", this.age);
+
+              console.log("patient one",this.consultationOne);
+              this.getAntecedent();
+              this.getfichierpatient();
+
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Reésultat',
+                detail: data.message,
+                life: 3000
+              });
+            }
+          }
+
+        })
+
+      }
+
+      getPdf(){
+
+        this.pdfDialog = true;
+
+        this.previewPdf();
+
+      }
+
+      downloadReport(){
+        let patient = this.selectElement[0].nomPatient;
+        let slug = this.selectElement[0].slug;
+        let date = new Date();
+        this.ht.get(API_URI+ url.consul_report + slug, { responseType: "blob" }).subscribe(data => {
+          const filename =  patient + "_" + date.getFullYear() +"_" + ".pdf";
+              var a = document.createElement("a");
+        a.href = URL.createObjectURL(data);
+             a.setAttribute("download", filename);
+        a.click();
+        this.pdfDialog = false;
+      });
+
+      }
+
   addAntecedent(nom: any, descirption: any, type: any, date:any) {
     const antecedent: any = {};
     antecedent.nom= nom.value;
@@ -276,6 +520,11 @@ this.getConsultation();
   }
 
   updateConsultationView(){
+
+  }
+
+  detailConsultationView(){
+    this.detalDialog = true;
 
   }
 

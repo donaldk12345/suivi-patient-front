@@ -1,9 +1,11 @@
 <div class="container mt-3 pb-4">
     <div class="col-md">
         <div class="col-md mt-2 mt-2 p-2">
-            <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer consultation </button>
-            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateConsultationView()"> <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
-            <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Supprimer </button>
+            <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="las la-plus" style="color: #fff;" ></i>&nbsp;Créer consultation </button>
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateConsultationView()"> <i class="las la-edit" style="color: #fff;"></i>&nbsp;Modifier </button> <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn"
+                (click)="getConsultationById()"> <i class="las la-save" style="color: #333;"></i>&nbsp;Details</button>
+            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn" (click)="getPdf()"> <i class="las la-print" style="color: #333;"></i>&nbsp;Télécharger</button>
+            <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="las la-trash" style="color: #fff; size:20px;"></i>&nbsp;Supprimer </button>
         </div>
         <div class="card p-3">
             <h4 style="color:#303548; font-weight: 800;" class="text-center">Liste des consultations</h4>
@@ -14,7 +16,7 @@
 
 </div>
 
-<p-dialog header="Ajouter une consultation" [(visible)]="display" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
+<p-dialog header="Ajouter une consultation" [(visible)]="display" [style]="{width: '750px'}" styleClass="p-fluid" [modal]="true">
     <ng-template pTemplate="content">
         <form [formGroup]="addConsultationForm">
             <div class="mb-3">
@@ -113,7 +115,7 @@
             -->
             </div>
             <div class="mb-3">
-                <div class="mt-2 bg-light p-2 ">
+                <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
                     <h4 class="text-center text-secondary">Maladies antécedentes</h4>
                     <div class="col">
                         <input type="text" placeholder="nom de la maladie antécedente " class="form-control" pInputText [formControl]="nom" required />
@@ -172,5 +174,171 @@
         <span>
           <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="hideDialog()" class="p-button-danger"></button>
       </span>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Détails de la consultation" [(visible)]="detalDialog" [style]="{width: '1280px'}" styleClass="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+
+        <div class="section row title-section">
+            <div class="col-md-8">
+
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">{{ consultationOne?.nomPatient}}</li>
+                </ol>
+
+            </div>
+
+        </div>
+        <div class="section patient-details-section">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mini-card text-center">
+                                            <div class="card-header"><img class="rounded-circle" src="../../../assets/SiteAssets/images/user.jpg" loading="lazy" /></div>
+                                            <div class="card-body">
+                                                <h4>{{ consultationOne?.nomPatient}}</h4><small class="text-muted">{{ consultationOne?.email}}</small>
+                                                <h5>age</h5>
+                                                <p>{{ age}}</p>
+                                            </div>
+                                            <div class="card-footer"><button class="btn btn-dark-red-f"><i class="las la-sms"></i>Envoyer un message</button></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 patients-details-card-wrapper">
+                                        <div class="mini-card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group"><label>sexe</label><input class="form-control" readonly="readonly" value="{{consultationOne?.sexe}}" /></div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group"><label>d. de naissance</label><input class="form-control" readonly="readonly" value="{{consultationOne?.dateNaiss}}" /></div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group"><label>n. téléphone</label><input class="form-control" readonly="readonly" value="{{consultationOne?.telephone}}" /></div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group"><label>addresse</label><input class="form-control" readonly="readonly" value="{{consultationOne?.quartier}}" /></div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group"><label>Ville</label><input class="form-control" readonly="readonly" value="{{consultationOne?.ville}}" /></div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group"><label>s. matrimoniale</label><input class="form-control" readonly="readonly" value="active" /></div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group"><label>date de la consultation</label><input class="form-control" readonly="readonly" value="{{consultationOne?.createAt| date:'yyyy-MM-dd'}}" /></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item" role="presentation"><a class="nav-link active" id="upcoming-appointments-tab" data-toggle="tab" href="#upcoming-appointments" role="tab" aria-controls="upcoming-appointments" aria-selected="true">maladies antécédentes</a></li>
+                                        <li class="nav-item" role="presentation"><a class="nav-link" id="past-appointments-tab" data-toggle="tab" href="#past-appointments" role="tab" aria-controls="past-appointments" aria-selected="false">Hopitaux visité</a></li>
+                                        <li class="nav-item" role="presentation"><a class="nav-link" id="medical-records-tab" data-toggle="tab" href="#medical-records" role="tab" aria-controls="medical-records" aria-selected="false">medicaments prisent</a></li>
+                                    </ul>
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="upcoming-appointments" role="tabpanel" aria-labelledby="upcoming-appointments-tab">
+
+                                            <div class="media mt-1" *ngFor="let at of anteced">
+                                                <div class="align-self-center">
+
+                                                    <p><i class="las la-clock"></i>&nbsp;{{at.date | date:'yyyy-MM-dd'}}</p>
+                                                </div>
+                                                <div class="media-body">
+                                                    <div class="row"><label class="label-green-bl " style="height: 100px!important;"> {{at.nomAntecedent}} </label>
+                                                        <p>Description : &nbsp;{{at.description}}</p>
+
+                                                        <p>Type de maladie : &nbsp;{{at.type}}</p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="tab-pane fade" id="past-appointments" role="tabpanel" aria-labelledby="past-appointments-tab">...</div>
+                                        <div class="tab-pane fade" id="medical-records" role="tabpanel" aria-labelledby="medical-records-tab">...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card notes-card">
+                        <div class="card-header">
+                            <h5>notes</h5>
+                        </div>
+                        <div class="card-body"><textarea class="form-control" placeholder="you can write patient notes over here" rows="6"></textarea><button class="btn btn-dark-red-f float-right btn-sm"><i class="las la-save"></i>Enregistrer</button></div>
+                        <div class="card-footer">
+                            <div class="float-left">
+                                <p><i class="las la-user"></i>dr. jekyll</p>
+                            </div>
+                            <div class="float-right">
+                                <p>04, may, 2020</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card files-card">
+                        <div class="card-header">
+                            <h5>Fichiers patients</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group list-group-flush"><a class="list-group-item" *ngFor="let file of fichiers"><i class="las la-file-excel"></i> {{file.name}} <div class="float-right"><small class="text-muted">123kb</small><div class="action-buttons no-display"><button  (click)="deleteFichier(file.id)"   class="btn btn-sm btn-dark-red-f"><i class="las la-trash"></i></button><button (click)="downloadFichierPatient(file.name)" class="btn btn-sm btn-dark-red-f"><i class="las la-download"> </i></button></div></div></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <span>
+
+    </span>
+        <span>
+        <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="hideDialog()" class="p-button-danger"></button>
+    </span>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Report" [(visible)]="pdfDialog" [style]="{ width: '1050px', height: '700px' }" styleClass="p-fluid" [modal]="true" [baseZIndex]="10000">
+    <ng-template pTemplate="content">
+        <pdf-viewer [src]="pdfSrc" [render-text]="true" [original-size]="false" [autoresize]="false" style="width: 1000px; height: 700px"></pdf-viewer>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <span>
+    <button
+      pButton
+      pRipple
+      label="Télécharger"
+      icon="pi pi-check"
+      (click)="downloadReport()"
+    ></button>
+  </span>
+        <span>
+    <button
+      pButton
+      pRipple
+      label="Annuler"
+      icon="pi pi-times"
+      (click)="hideDialog()"
+      class="p-button-danger"
+    ></button>
+  </span>
     </ng-template>
 </p-dialog>

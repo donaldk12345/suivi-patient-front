@@ -44,6 +44,8 @@ import { PatientComponent } from './patient/patient.component';
 import { ComposantModule } from "../../composant/composant.module";
 import { EtablissementComponent } from './etablissement/etablissement.component';
 import { ConsultationComponent } from "./consultation/consultation.component";
+import { DetailsComponent } from './details/details.component';
+import { PdfViewerModule } from "ng2-pdf-viewer";
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 
@@ -66,7 +68,8 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
         DonneeagentComponent,
         ChefequipeComponent,
         PatientComponent,
-        EtablissementComponent
+        EtablissementComponent,
+        DetailsComponent
     ],
     providers: [MessageService, ConfirmationService],
     bootstrap: [AdminComponent],
@@ -98,7 +101,8 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
         CanvasJSAngularChartsModule,
         TabViewModule,
         NgApexchartsModule,
-        ComposantModule
+        ComposantModule,
+        PdfViewerModule
     ]
 })
 export class AdminModule {}
