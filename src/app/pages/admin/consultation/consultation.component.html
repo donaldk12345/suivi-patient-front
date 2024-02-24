@@ -5,6 +5,7 @@
             <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateConsultationView()"> <i class="las la-edit" style="color: #fff;"></i>&nbsp;Modifier </button> <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn"
                 (click)="getConsultationById()"> <i class="las la-save" style="color: #333;"></i>&nbsp;Details</button>
             <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn" (click)="getPdf()"> <i class="las la-print" style="color: #333;"></i>&nbsp;Télécharger</button>
+            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!uploadbtn" (click)="uploadDialog()"> <i class="las la-upload" style="color: #333;"></i>&nbsp;Import</button>
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="las la-trash" style="color: #fff; size:20px;"></i>&nbsp;Supprimer </button>
         </div>
         <div class="card p-3">
@@ -296,7 +297,7 @@
                             <h5>Fichiers patients</h5>
                         </div>
                         <div class="card-body">
-                            <div class="list-group list-group-flush"><a class="list-group-item" *ngFor="let file of fichiers"><i class="las la-file-excel"></i> {{file.name}} <div class="float-right"><small class="text-muted">123kb</small><div class="action-buttons no-display"><button  (click)="deleteFichier(file.id)"   class="btn btn-sm btn-dark-red-f"><i class="las la-trash"></i></button><button (click)="downloadFichierPatient(file.name)" class="btn btn-sm btn-dark-red-f"><i class="las la-download"> </i></button></div></div></a>
+                            <div class="list-group list-group-flush"><a class="list-group-item" *ngFor="let file of fichiers"><i class="las la-file-excel"></i> {{file.name}} <div class="float-right"><small class="text-muted">{{file.fileSize}}&nbsp;kb</small><div class="action-buttons no-display"><button  (click)="deleteFichier(file.id)"   class="btn btn-sm btn-dark-red-f"><i class="las la-trash"></i></button><button (click)="downloadFichierPatient(file.name)" class="btn btn-sm btn-dark-red-f"><i class="las la-download"> </i></button></div></div></a>
                             </div>
                         </div>
                     </div>
@@ -340,5 +341,31 @@
       class="p-button-danger"
     ></button>
   </span>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Import fiche patient" [(visible)]="displayImport" [style]="{width: '550px'}" styleClass="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+        <form>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">Fichier</label>
+                <input type="file" (change)="onUpload($event)" multiple="false">
+            </div>
+
+
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button" (click)="uploadFilePatient()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Importer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+
+                </div>
+
+            </div>
+
+
+        </form>
     </ng-template>
 </p-dialog>

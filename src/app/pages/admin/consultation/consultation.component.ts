@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { AgentService } from 'src/app/services/dataimport/agent.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
@@ -21,9 +22,12 @@ export class ConsultationComponent implements OnInit{
  display: boolean = false;
  selectElement: any;
  maSelection: any[] = [];
+ file!: File;
+ displayImport:boolean = false;
  cols: any[] = [];
  patien = new Map();
  modifierbtn: boolean =false;
+ uploadbtn: boolean =false;
  activatebtn: boolean = false;
  addConsultationForm : FormGroup = Object.create(null);
  unactivatebtn: boolean = false;
@@ -67,11 +71,12 @@ this.manageDeleteBtn();
   this.manageUpdateBtn();
   this.manageDetailsBtn();
   this.manageShowPdf();
+  this.manageUploadBtn();
 
 
 }
 
-constructor(private ht:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
+constructor(private service:AgentService,private ht:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
 
 }
 onRowUnselect(dat: any) {
@@ -89,14 +94,19 @@ showDialog() {
 updateDialog() {
   this.addUpdateForm = true;
 }
+
+uploadDialog() {
+  this.displayImport = true;
+}
 hideDialog(){
 
   this.display = false;
   this.addConsultationForm.reset();
   this.addUpdateForm = false;
   this.detalDialog = false;
+  this.displayImport = false
   this.consultationOne = [];
-  this.pdfDialog = false;
+  this.displayImport= false;
 
 }
   ngOnInit(): void {
@@ -183,6 +193,17 @@ this.getConsultation();
         this.updatebtn = true;
       }
      }
+
+         /**
+     * Gérer le bouton Modifier
+     */
+         manageUploadBtn(){
+          if(this.selectElement.length == 0 || this.selectElement.length > 1){
+            this.uploadbtn = false;
+          } else {
+            this.uploadbtn = true;
+          }
+         }
 
   manageDetailsBtn() {
          if(this.selectElement.length == 0 || this.selectElement.length > 1){
@@ -360,6 +381,47 @@ this.getConsultation();
           );
 
           }
+
+
+
+  onUpload(event: any){
+    this.file = event.target.files.item(0);
+    console.log(event.target.files[0])
+
+  }
+
+  uploadFilePatient(){
+    let id= this.selectElement[0].id;
+
+    this.service.uploadFileData(this.file,id).subscribe({
+
+      next: data =>{
+
+        console.log("file data",data);
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'success',
+          detail:"Fichier impoter avec succés",
+          life: 3000
+        });
+        this.displayImport = false;
+        this.getfichierpatient();
+
+      },
+      error: error => {
+        console.log('error!', error.details);
+
+        this.messageService.add({
+          severity: 'error',
+          summary: error,
+          life: 3000
+        });
+    }
+    })
+
+  }
+
 
 
 

@@ -14,9 +14,12 @@ export class AgentService {
 
    }
 
-   uploadAgentData(file: File): Observable<AgentData> {
+   uploadFileData(file: File,consultationId:any): Observable<AgentData> {
+
+
     const formData: FormData = new FormData();
     formData.append('file', file);
-    return this.http.post<AgentData>(API_URI + url.agent_import, formData);
+    formData.append('consultationId',consultationId)
+    return this.http.post<AgentData>(API_URI + url.file_patient_import, formData);
   }
 }

@@ -61,7 +61,7 @@ export class AgentComponent  implements OnInit{
     this.selectElement = dat;
     this.selectDisable();
     this.agentContent();
-   
+
   }
 
 
@@ -74,12 +74,12 @@ export class AgentComponent  implements OnInit{
             return 'success';
     }
 }
-  
-  
+
+
   getData(dat : any) : void {
-  
+
     console.log('Ma selection', dat);
-  
+
   }
   showDialog(){
 
@@ -95,7 +95,7 @@ export class AgentComponent  implements OnInit{
     this.searchForm.reset();
     this.searchDialog = false;
     this.addArgentForm.reset();
-  
+
   }
 
   agentSearch(){
@@ -120,7 +120,7 @@ export class AgentComponent  implements OnInit{
 
  /* {
     headers: {
-   
+
       'Content-Type': 'multipart/form-data',
       'X-Requested-With': 'XMLHttpRequest'
     }
@@ -130,16 +130,16 @@ export class AgentComponent  implements OnInit{
 
    /* const formParams: FormData = new FormData();
     formParams.append('file', this.fileForm.value.file);
-    
+
     console.log("file", formParams);*/
 
 
-    this.agentService.uploadAgentData(this.file).subscribe({
+   /* this.agentService.uploadAgentData(this.file,"").subscribe({
 
       next: data =>{
         this.fileDetails = data;
         console.log("file data",data);
-  
+
         this.messageService.add({
           severity: 'success',
           summary: 'success',
@@ -148,11 +148,11 @@ export class AgentComponent  implements OnInit{
         });
         this.hideDialog();
         this.getAgent();
-  
+
       },
       error: error => {
         console.log('error!', error.details);
-  
+
         this.messageService.add({
           severity: 'error',
           summary: error,
@@ -160,6 +160,7 @@ export class AgentComponent  implements OnInit{
         });
     }
     })
+    */
 
   }
 
@@ -182,7 +183,7 @@ export class AgentComponent  implements OnInit{
         }
       }
     })
-  
+
   }
 
 
@@ -192,30 +193,30 @@ export class AgentComponent  implements OnInit{
       equipeId: this.setAgentForm.value.equipeId,
       agentId: this.selectElement.data.id
     };
-  
+
     this.http.postElement(API_URI + url.agent_setEquipe,associerRequest).subscribe({
-  
+
       next: data =>{
-  
+
         console.log("data",data);
-  
+
         this.messageService.add({
           severity: 'success',
           summary: 'success',
           detail:"Agent associer avec succés",
           life: 3000
         });
-  
+
         this.getAgent();
         this.setAgentForm.reset();
         this.hideDialog();
         this.agentContent();
-       
-  
+
+
       },
       error: error => {
         console.log('error!', error.details);
-  
+
         this.messageService.add({
           severity: 'error',
           summary: error,
@@ -224,7 +225,7 @@ export class AgentComponent  implements OnInit{
         });
     }
     })
-  
+
   }
 
   getEquipes(){
@@ -245,17 +246,17 @@ export class AgentComponent  implements OnInit{
         }
       }
     })
-  
+
   }
   selectDisable():boolean{
-         
+
     if(this.selectElement.data.id>=1){
       return this.disabled = !this.disabled;
     }
     else{
      return this.disabled = true;
     }
-   
+
   }
 
   agentContent():boolean{
@@ -283,7 +284,7 @@ export class AgentComponent  implements OnInit{
           this.hideDialog();
           this.isRefresh = true;
           this.loading = false;
-  
+
         } else {
           this.messageService.add({
             severity: 'error',
@@ -298,36 +299,36 @@ export class AgentComponent  implements OnInit{
   }
 
    addAgent(){
-    
+
     let addAgentRequest= {
       nom: this.addArgentForm.value.nom,
       code: this.addArgentForm.value.code,
       equipeId: this.addArgentForm.value.equipeId,
     };
-  
+
     this.http.postElement(API_URI + url.agent_add,addAgentRequest).subscribe({
-  
+
       next: data =>{
-  
+
         console.log("data",data);
-  
+
         this.messageService.add({
           severity: 'success',
           summary: 'success',
           detail:"Agent ajouter avec succés",
           life: 3000
         });
-  
+
         this.getAgent();
         this.setAgentForm.reset();
         this.hideDialog();
         this.addArgentForm.reset();
-       
-  
+
+
       },
       error: error => {
         console.log('error!', error.details);
-  
+
         this.messageService.add({
           severity: 'error',
           summary: error,

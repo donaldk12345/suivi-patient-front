@@ -15,7 +15,7 @@ export const url = {
   logo : 'logo/name',
   profile: 'user/profile/add',
   antecedent: 'consultation/antecedent',
-  agent_import: 'agent/import',
+  file_patient_import: 'consultation/fichier',
   agent_setEquipe: 'agent/associer',
   agent_search: 'agent/search',
   agent_list: 'agent/list',
