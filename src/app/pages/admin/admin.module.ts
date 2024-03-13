@@ -15,6 +15,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { PasswordModule } from 'primeng/password';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TableModule } from 'primeng/table';
 import {HttpClientModule} from '@angular/common/http';
 import {PaginatorModule} from 'primeng/paginator';
@@ -85,6 +86,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
         TagModule,
         BreadcrumbModule,
         ButtonModule,
+        AutoCompleteModule,
         CheckboxModule,
         MessagesModule,
         ToastModule,

@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -9,6 +9,10 @@ import { ResponseService } from 'src/app/services/response.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
 const API_URI= `${environment.BASE_URL}`
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
 @Component({
   selector: 'app-consultation',
   templateUrl: './consultation.component.html',
@@ -24,12 +28,15 @@ export class ConsultationComponent implements OnInit{
  maSelection: any[] = [];
  file!: File;
  displayImport:boolean = false;
+ displayFilter = false;
  cols: any[] = [];
  patien = new Map();
  modifierbtn: boolean =false;
+ isRefresh:boolean=false
  uploadbtn: boolean =false;
  activatebtn: boolean = false;
  addConsultationForm : FormGroup = Object.create(null);
+ filterForm : FormGroup = Object.create(null);
  unactivatebtn: boolean = false;
  detailbtn: boolean = false;
  displayBasic: boolean = false;
@@ -46,6 +53,7 @@ export class ConsultationComponent implements OnInit{
  pdfSrc:any;
  httpData: any;
  pdfURL: any;
+ suggestions:any[] | undefined;
  exportColumns: any[] = [];
  patient : any[]=[];
  loading = false;
@@ -57,6 +65,7 @@ export class ConsultationComponent implements OnInit{
   age: number | undefined;
   anteced: any;
   fichiers: any;
+  suggestionsd: any;
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -98,6 +107,11 @@ updateDialog() {
 uploadDialog() {
   this.displayImport = true;
 }
+
+filterDialog() {
+  this.displayFilter = true;
+  this.isRefresh = true;
+}
 hideDialog(){
 
   this.display = false;
@@ -107,6 +121,9 @@ hideDialog(){
   this.displayImport = false
   this.consultationOne = [];
   this.displayImport= false;
+  this.displayFilter = false;
+  this.pdfDialog=false;
+  this.filterForm.reset();
 
 }
   ngOnInit(): void {
@@ -126,6 +143,11 @@ hideDialog(){
       'patientId': new FormControl('', [Validators.required]),
       'antecedent': new FormControl([this.antecedents])
     });
+
+    this.filterForm = new FormGroup({
+      'nom':  new FormControl('',),
+
+    })
 
 this.getPatient();
 this.getConsultation();
@@ -250,6 +272,23 @@ this.getConsultation();
     })
     }
 
+    search(event: AutoCompleteCompleteEvent){
+      
+      let filtered: any[] = [];
+      let query = event.query;
+
+      for (let i = 0; i < (this.patient as any[]).length; i++) {
+          let country = (this.patient as any[])[i];
+          
+              filtered.push(country.nom);
+        
+      }
+      console.log("search",this.patient);
+
+      this.suggestionsd = filtered;
+    
+
+ }
     previewPdf(){
 
       let slug = this.selectElement[0].slug;
@@ -263,13 +302,24 @@ this.getConsultation();
     });
     }
 
+    refresh(){
+       this.isRefresh = false;
+       this.getfilter();
+    }
+
     getConsultation(){
-      this.http.getElement(API_URI + url.consultation).subscribe({
+      
+      let parmasvalue = new HttpParams;
+
+      parmasvalue =parmasvalue.append('nom', this.filterForm.get('nom')?.value);
+
+      this.http.getElementParams(API_URI + url.consultation,{params:parmasvalue}).subscribe({
         next: data => {
           if (data) {
 
             this.consultations = data.content;
             console.log("Mes consultation ", this.consultations);
+           
             /*this.patient.forEach(elt=>{
                this.patien.set(elt.id,elt.nom);
 
@@ -288,6 +338,34 @@ this.getConsultation();
         }
       })
       }
+      getfilter(){
+    
+  
+        this.http.getElement(API_URI + url.consultation).subscribe({
+          next: data => {
+            if (data) {
+  
+              this.consultations = data.content;
+              console.log("Mes consultation ", this.consultations);
+             
+              /*this.patient.forEach(elt=>{
+                 this.patien.set(elt.id,elt.nom);
+  
+                 console.log("Mes patient ", this.patien);
+              })*/
+  
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Reésultat',
+  
+                detail: data.message,
+                life: 3000
+              });
+            }
+          }
+        })
+        }
 
       getAntecedent(){
 
