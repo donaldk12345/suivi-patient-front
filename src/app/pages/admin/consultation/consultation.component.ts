@@ -8,6 +8,7 @@ import { AgentService } from 'src/app/services/dataimport/agent.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
+import * as jsonData from '../../../../assets/pays.json';
 const API_URI= `${environment.BASE_URL}`
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -45,14 +46,27 @@ export class ConsultationComponent implements OnInit{
  updatebtn: boolean = false;
  deletebtn: boolean = false;
  showpdf:boolean=false;
+ mediicamentForm : FormGroup = Object.create(null);
  nom = new FormControl('', [Validators.required]);
  descirption = new FormControl('', [Validators.required]);
  type = new FormControl('', [Validators.required]);
  date = new FormControl('',[Validators.required]);
+ nom_medicament =  new FormControl('',[Validators.required]);
+ date_prise=  new FormControl('',[Validators.required]);
+ nom_hopital=  new FormControl('',[Validators.required]);
+ date_hopital=  new FormControl('',[Validators.required]);
+ addresse=  new FormControl('',[Validators.required]);
+ nom_docteur=  new FormControl('',[Validators.required]);
+ pays=  new FormControl('',[Validators.required]);
+ ville=  new FormControl('',[Validators.required]);
  antecedents: any[]=[];
+ medicaments: any[]=[];
+ hoptitaux:any[]=[];
+ hopitalAutres:any[]=[];
  pdfSrc:any;
  httpData: any;
  pdfURL: any;
+ dateNaisse:any;
  suggestions:any[] | undefined;
  exportColumns: any[] = [];
  patient : any[]=[];
@@ -66,6 +80,10 @@ export class ConsultationComponent implements OnInit{
   anteced: any;
   fichiers: any;
   suggestionsd: any;
+  patientName:any[]=[];
+  paysList: any[]=[];
+  country: any[]=[];
+  countryName: any[]=[];
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -141,7 +159,9 @@ hideDialog(){
       'allergies': new FormControl('', [Validators.required]),
       'maladiesChronique': new FormControl('', [Validators.required]),
       'patientId': new FormControl('', [Validators.required]),
-      'antecedent': new FormControl([this.antecedents])
+      'antecedent': new FormControl([this.antecedents]),
+      'medicament': new FormControl([this.medicaments]),
+      'hopitalAutres': new FormControl([this.hoptitaux])
     });
 
     this.filterForm = new FormGroup({
@@ -149,8 +169,14 @@ hideDialog(){
 
     })
 
+
+
 this.getPatient();
 this.getConsultation();
+this.getPatientFilterName();
+
+this.getPays();
+
     this.cols = [
       {field: 'nom', header: 'Nom', type: 'string', width: 200, isFroz: true},
       {field: 'probleme', header: 'Problème', type: 'string', width: 200, isFroz: false},
@@ -272,13 +298,41 @@ this.getConsultation();
     })
     }
 
+    getPatientFilterName(){
+      this.http.getElement(API_URI + url.patientName).subscribe({
+        next: data => {
+          if (data) {
+  
+            this.patientName = data;
+            console.log("Mes filter ", this.patientName);
+            /*this.patient.forEach(elt=>{
+               this.patien.set(elt.id,elt.nom);
+  
+               console.log("Mes patient ", this.patien);
+            })*/
+  
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Reésultat',
+  
+              detail: data.message,
+              life: 3000
+            });
+          }
+        }
+      })
+      }
+
     search(event: AutoCompleteCompleteEvent){
       
       let filtered: any[] = [];
       let query = event.query;
 
-      for (let i = 0; i < (this.patient as any[]).length; i++) {
-          let country = (this.patient as any[])[i];
+      //this.patientName.filter
+
+      for (let i = 0; i < (this.patientName as any[]).length; i++) {
+          let country = (this.patientName as any[])[i];
           
               filtered.push(country.nom);
         
@@ -564,6 +618,7 @@ this.getConsultation();
               this.consultationOne = data;
               let dt = this.consultationOne.dateNaiss;
               let newDate = new Date(dt);
+             this.dateNaisse = newDate;
               this.age = d.getFullYear() - newDate.getFullYear();
               console.log("age", this.age);
 
@@ -623,6 +678,61 @@ this.getConsultation();
 
   }
 
+  addMedicament(nom_medicament:any,date_prise:any){
+    const medicament:any = {};
+    medicament.nom_medicament = nom_medicament.value;
+    medicament.date_prise = date_prise.value;
+    console.log(medicament);
+    this.medicaments.push(medicament);
+    this.nom_medicament.reset();
+    this.date_prise.reset();
+
+    
+  }
+
+  deleteMedicament(nom_medicament: string) {
+    this.medicaments.forEach((medicament,index) => {
+      if(medicament.nom_medicament == nom_medicament)
+        this.medicaments.splice(index,1);
+    })
+    this.nom_medicament.reset();
+    this.date_prise.reset();
+  
+  }
+
+  addHopital(addresse:any,date_hopital:any,nom_hopital:any,nom_docteur:any,pays:any,ville:any){
+    const hopitalAutres:any = {};
+    hopitalAutres.addresse = addresse.value;
+    hopitalAutres.date_hopital = date_hopital.value;
+    hopitalAutres.nom_hopital = nom_hopital.value;
+    hopitalAutres.nom_docteur = nom_docteur.value;
+    hopitalAutres.pays = pays.value;
+    hopitalAutres.ville = ville.value;
+    console.log(hopitalAutres);
+    this.hoptitaux.push(hopitalAutres);
+    this.addresse.reset();
+    this.date_hopital.reset();
+    this.nom_docteur.reset();
+    this.nom_hopital.reset();
+    this.pays.reset();
+    this.ville.reset();
+
+
+  }
+
+  deletehopital(nom_hopital: string){
+    this.hoptitaux.forEach((hopital,index) => {
+      if(hopital.nom_hopital == nom_hopital)
+        this.hoptitaux.splice(index,1);
+    })
+    this.addresse.reset();
+    this.date_hopital.reset();
+    this.nom_docteur.reset();
+    this.nom_hopital.reset();
+    this.pays.reset();
+    this.ville.reset();
+  }
+
   deleteAntecedent(nom: string) {
     this.antecedents.forEach((antecedent,index) => {
       if(antecedent.nom == nom)
@@ -636,6 +746,7 @@ this.getConsultation();
 
   addConsultation(){
 
+
     let addConsultationRequest= {
       nom: this.addConsultationForm.value.nom,
       probleme: this.addConsultationForm.value.probleme,
@@ -646,7 +757,8 @@ this.getConsultation();
       allergies: this.addConsultationForm.value.allergies,
       maladiesChronique: this.addConsultationForm.value.maladiesChronique,
       patientId: this.addConsultationForm.value.patientId,
-      antecedent: this.antecedents
+      antecedent: this.antecedents,
+      medicament: this.medicaments
 
     };
 
@@ -658,6 +770,773 @@ this.getConsultation();
 
     console.log("Mes données envoyé", addConsultationRequest);
   }
+
+
+  getPays() {
+       /*this.http.getElement('../../../../assets/pays.json').subscribe({
+
+        next: data =>{
+          console.log("pays",data[0].country);
+          this.country = data;
+
+          this.country.forEach(elt=>{
+            //console.log("element",elt.country);
+            this.countryName.push(elt.country);
+            //console.log("country",this.countryName);
+          })
+        }
+       })
+*/
+this.countryName = [
+  {
+    nom: "Afghanistan"
+},
+{
+    nom: "Albania"
+},
+{
+    nom: "Algeria"
+},
+{
+    nom: "American Samoa"
+},
+{
+    nom: "Andorra"
+},
+{
+    nom: "Angola"
+},
+{
+    nom: "Anguilla"
+},
+{
+    nom: "Antarctica"
+},
+{
+    nom: "Antigua and Barbuda"
+},
+{
+    nom: "Argentina"
+},
+{
+    nom: "Armenia"
+},
+{
+    nom: "Aruba"
+},
+{
+    nom: "Australia"
+},
+{
+    nom: "Austria"
+},
+{
+    nom: "Azerbaijan"
+},
+{
+    nom: "Bahamas"
+},
+{
+    nom: "Bahrain"
+},
+{
+    nom: "Bangladesh"
+},
+{
+    nom: "Barbados"
+},
+{
+    nom: "Belarus"
+},
+{
+    nom: "Belgium"
+},
+{
+    nom: "Belize"
+},
+{
+    nom: "Benin"
+},
+{
+    nom: "Bermuda"
+},
+{
+    nom: "Bhutan"
+},
+{
+    nom: "Bolivia"
+},
+{
+    nom: "Bosnia and Herzegovina"
+},
+{
+    nom: "Botswana"
+},
+{
+    nom: "Bouvet Island"
+},
+{
+    nom: "Brazil"
+},
+{
+    nom: "British Indian Ocean Territory"
+},
+{
+    nom: "Brunei"
+},
+{
+    nom: "Bulgaria"
+},
+{
+    nom: "Burkina Faso"
+},
+{
+    nom: "Burundi"
+},
+{
+    nom: "Cambodia"
+},
+{
+    nom: "Cameroon"
+},
+{
+    nom: "Canada"
+},
+{
+    nom: "Cape Verde"
+},
+{
+    nom: "Cayman Islands"
+},
+{
+    nom: "Central African Republic"
+},
+{
+    nom: "Chad"
+},
+{
+    nom: "Chile"
+},
+{
+    nom: "China"
+},
+{
+    nom: "Christmas Island"
+},
+{
+    nom: "Cocos (Keeling) Islands"
+},
+{
+    nom: "Colombia"
+},
+{
+    nom: "Comoros"
+},
+{
+    nom: "Congo"
+},
+{
+    nom: "The Democratic Republic of Congo"
+},
+{
+    nom: "Cook Islands"
+},
+{
+    nom: "Costa Rica"
+},
+{
+    nom: "Ivory Coast"
+},
+{
+    nom: "Croatia"
+},
+{
+    nom: "Cuba"
+},
+{
+    nom: "Cyprus"
+},
+{
+    nom: "Czech Republic"
+},
+{
+    nom: "Denmark"
+},
+{
+    nom: "Djibouti"
+},
+{
+    nom: "Dominica"
+},
+{
+    nom: "Dominican Republic"
+},
+{
+    nom: "East Timor"
+},
+{
+    nom: "Ecuador"
+},
+{
+    nom: "Egypt"
+},
+{
+    nom: "England"
+},
+{
+    nom: "El Salvador"
+},
+{
+    nom: "Equatorial Guinea"
+},
+{
+    nom: "Eritrea"
+},
+{
+    nom: "Estonia"
+},
+{
+    nom: "Ethiopia"
+},
+{
+    nom: "Falkland Islands"
+},
+{
+    nom: "Faroe Islands"
+},
+{
+    nom: "Fiji Islands"
+},
+{
+    nom: "Finland"
+},
+{
+    nom: "France"
+},
+{
+    nom: "French Guiana"
+},
+{
+    nom: "French Polynesia"
+},
+{
+    nom: "French Southern territories"
+},
+{
+    nom: "Gabon"
+},
+{
+    nom: "Gambia"
+},
+{
+    nom: "Georgia"
+},
+{
+    nom: "Germany"
+},
+{
+    nom: "Ghana"
+},
+{
+    nom: "Gibraltar"
+},
+{
+    nom: "Greece"
+},
+{
+    nom: "Greenland"
+},
+{
+    nom: "Grenada"
+},
+{
+    nom: "Guadeloupe"
+},
+{
+    nom: "Guam"
+},
+{
+    nom: "Guatemala"
+},
+{
+    nom: "Guernsey"
+},
+{
+    nom: "Guinea"
+},
+{
+    nom: "Guinea-Bissau"
+},
+{
+    nom: "Guyana"
+},
+{
+    nom: "Haiti"
+},
+{
+    nom: "Heard Island and McDonald Islands"
+},
+{
+    nom: "Holy See (Vatican City State)"
+},
+{
+    nom: "Honduras"
+},
+{
+    nom: "Hong Kong"
+},
+{
+    nom: "Hungary"
+},
+{
+    nom: "Iceland"
+},
+{
+    nom: "India"
+},
+{
+    nom: "Indonesia"
+},
+{
+    nom: "Iran"
+},
+{
+    nom: "Iraq"
+},
+{
+    nom: "Ireland"
+},
+{
+    nom: "Israel"
+},
+{
+    nom: "Isle of Man"
+},
+{
+    nom: "Italy"
+},
+{
+    nom: "Jamaica"
+},
+{
+    nom: "Japan"
+},
+{
+    nom: "Jersey"
+},
+{
+    nom: "Jordan"
+},
+{
+    nom: "Kazakhstan"
+},
+{
+    nom: "Kenya"
+},
+{
+    nom: "Kiribati"
+},
+{
+    nom: "Kuwait"
+},
+{
+    nom: "Kyrgyzstan"
+},
+{
+    nom: "Laos"
+},
+{
+    nom: "Latvia"
+},
+{
+    nom: "Lebanon"
+},
+{
+    nom: "Lesotho"
+},
+{
+    nom: "Liberia"
+},
+{
+    nom: "Libyan Arab Jamahiriya"
+},
+{
+    nom: "Liechtenstein"
+},
+{
+    nom: "Lithuania"
+},
+{
+    nom: "Luxembourg"
+},
+{
+    nom: "Macao"
+},
+{
+    nom: "North Macedonia"
+},
+{
+    nom: "Madagascar"
+},
+{
+    nom: "Malawi"
+},
+{
+    nom: "Malaysia"
+},
+{
+    nom: "Maldives"
+},
+{
+    nom: "Mali"
+},
+{
+    nom: "Malta"
+},
+{
+    nom: "Marshall Islands"
+},
+{
+    nom: "Martinique"
+},
+{
+    nom: "Mauritania"
+},
+{
+    nom: "Mauritius"
+},
+{
+    nom: "Mayotte"
+},
+{
+    nom: "Mexico"
+},
+{
+    nom: "Micronesia, Federated States of"
+},
+{
+    nom: "Moldova"
+},
+{
+    nom: "Monaco"
+},
+{
+    nom: "Mongolia"
+},
+{
+    nom: "Montserrat"
+},
+{
+    nom: "Montenegro"
+},
+{
+    nom: "Morocco"
+},
+{
+    nom: "Mozambique"
+},
+{
+    nom: "Myanmar"
+},
+{
+    nom: "Namibia"
+},
+{
+    nom: "Nauru"
+},
+{
+    nom: "Nepal"
+},
+{
+    nom: "Netherlands"
+},
+{
+    nom: "Netherlands Antilles"
+},
+{
+    nom: "New Caledonia"
+},
+{
+    nom: "New Zealand"
+},
+{
+    nom: "Nicaragua"
+},
+{
+    nom: "Niger"
+},
+{
+    nom: "Nigeria"
+},
+{
+    nom: "Niue"
+},
+{
+    nom: "Norfolk Island"
+},
+{
+    nom: "North Korea"
+},
+{
+    nom: "Northern Ireland"
+},
+{
+    nom: "Northern Mariana Islands"
+},
+{
+    nom: "Norway"
+},
+{
+    nom: "Oman"
+},
+{
+    nom: "Pakistan"
+},
+{
+    nom: "Palau"
+},
+{
+    nom: "Palestine"
+},
+{
+    nom: "Panama"
+},
+{
+    nom: "Papua New Guinea"
+},
+{
+    nom: "Paraguay"
+},
+{
+    nom: "Peru"
+},
+{
+    nom: "Philippines"
+},
+{
+    nom: "Pitcairn"
+},
+{
+    nom: "Poland"
+},
+{
+    nom: "Portugal"
+},
+{
+    nom: "Puerto Rico"
+},
+{
+    nom: "Qatar"
+},
+{
+    nom: "Reunion"
+},
+{
+    nom: "Romania"
+},
+{
+    nom: "Russia"
+},
+{
+    nom: "Rwanda"
+},
+{
+    nom: "Saint Helena"
+},
+{
+    nom: "Saint Kitts and Nevis"
+},
+{
+    nom: "Saint Lucia"
+},
+{
+    nom: "Saint Pierre and Miquelon"
+},
+{
+    nom: "Saint Vincent and the Grenadines"
+},
+{
+    nom: "Samoa"
+},
+{
+    nom: "San Marino"
+},
+{
+    nom: "Sao Tome and Principe"
+},
+{
+    nom: "Saudi Arabia"
+},
+{
+    nom: "Scotland"
+},
+{
+    nom: "Senegal"
+},
+{
+    nom: "Serbia"
+},
+{
+    nom: "Seychelles"
+},
+{
+    nom: "Sierra Leone"
+},
+{
+    nom: "Singapore"
+},
+{
+    nom: "Slovakia"
+},
+{
+    nom: "Slovenia"
+},
+{
+    nom: "Solomon Islands"
+},
+{
+    nom: "Somalia"
+},
+{
+    nom: "South Africa"
+},
+{
+    nom: "South Georgia and the South Sandwich Islands"
+},
+{
+    nom: "South Korea"
+},
+{
+    nom: "South Sudan"
+},
+{
+    nom: "Spain"
+},
+{
+    nom: "Sri Lanka"
+},
+{
+    nom: "Sudan"
+},
+{
+    nom: "Suriname"
+},
+{
+    nom: "Svalbard and Jan Mayen"
+},
+{
+    nom: "Swaziland"
+},
+{
+    nom: "Sweden"
+},
+{
+    nom: "Switzerland"
+},
+{
+    nom: "Syria"
+},
+{
+    nom: "Tajikistan"
+},
+{
+    nom: "Tanzania"
+},
+{
+    nom: "Thailand"
+},
+{
+    nom: "Timor-Leste"
+},
+{
+    nom: "Togo"
+},
+{
+    nom: "Tokelau"
+},
+{
+    nom: "Tonga"
+},
+{
+    nom: "Trinidad and Tobago"
+},
+{
+    nom: "Tunisia"
+},
+{
+    nom: "Turkey"
+},
+{
+    nom: "Turkmenistan"
+},
+{
+    nom: "Turks and Caicos Islands"
+},
+{
+    nom: "Tuvalu"
+},
+{
+    nom: "Uganda"
+},
+{
+    nom: "Ukraine"
+},
+{
+    nom: "United Arab Emirates"
+},
+{
+    nom: "United Kingdom"
+},
+{
+    nom: "United States"
+},
+{
+    nom: "United States Minor Outlying Islands"
+},
+{
+    nom: "Uruguay"
+},
+{
+    nom: "Uzbekistan"
+},
+{
+    nom: "Vanuatu"
+},
+{
+    nom: "Venezuela"
+},
+{
+    nom: "Vietnam"
+},
+{
+    nom: "Virgin Islands, British"
+},
+{
+    nom: "Virgin Islands, U.S."
+},
+{
+    nom: "Wales"
+},
+{
+    nom: "Wallis and Futuna"
+},
+{
+    nom: "Western Sahara"
+},
+{
+    nom: "Yemen"
+},
+{
+    nom: "Zambia"
+},
+{
+    nom: "Zimbabwe"
+}
+ ]
+
+  }
+
+
 
   updateConsultationView(){
 

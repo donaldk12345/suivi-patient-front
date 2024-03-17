@@ -47,6 +47,13 @@ import { EtablissementComponent } from './etablissement/etablissement.component'
 import { ConsultationComponent } from "./consultation/consultation.component";
 import { DetailsComponent } from './details/details.component';
 import { PdfViewerModule } from "ng2-pdf-viewer";
+import { UtilisateurComponent } from './utilisateur/utilisateur.component';
+import { PreinscriptionComponent } from './preinscription/preinscription.component';
+import { CaisseComponent } from './caisse/caisse.component';
+import { MessagingComponent } from './messaging/messaging.component';
+import { ReglageComponent } from './reglage/reglage.component';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { RendezvousComponent } from './rendezvous/rendezvous.component';
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 
@@ -70,7 +77,13 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
         ChefequipeComponent,
         PatientComponent,
         EtablissementComponent,
-        DetailsComponent
+        DetailsComponent,
+        UtilisateurComponent,
+        PreinscriptionComponent,
+        CaisseComponent,
+        MessagingComponent,
+        ReglageComponent,
+        RendezvousComponent
     ],
     providers: [MessageService, ConfirmationService],
     bootstrap: [AdminComponent],
@@ -94,6 +107,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
         ChartModule,
         PasswordModule,
         TableModule,
+        ProgressBarModule,
         FileUploadModule,
         ChartModule,
         ConfirmDialogModule,

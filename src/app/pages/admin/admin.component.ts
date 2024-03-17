@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { MenuItem } from "primeng/api";
+import { LoaderService } from "src/app/services/loader.service";
 import { ResponseService } from "src/app/services/response.service";
 import { TokenService } from "src/app/services/token.service";
 
@@ -22,7 +23,7 @@ export class AdminComponent implements OnInit{
   items: MenuItem[] | undefined;
 
   home: MenuItem | undefined;
-  constructor(private httpService: ResponseService, private router: Router,private tokenService:TokenService) {
+  constructor(private httpService: ResponseService, private router: Router,private tokenService:TokenService,public loaderService:LoaderService) {
 
   
   }
@@ -31,7 +32,7 @@ export class AdminComponent implements OnInit{
 
       this.user = this.tokenService.DecodeToken(JSON.stringify(this.httpService.sessionget('token')));
 
-      console.log("role",this.role= this.user.role[0]);
+     // console.log("role",this.role= this.user.role[0]);
 
   }
 }

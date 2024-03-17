@@ -3,13 +3,16 @@
 </header>
 <main>
     <div class="side-nav">
-        <ul class="list-group list-group-flush"><a class="list-group-item" routerLink="/gestion/dashboard" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Dashboard"><i class="las la-shapes la-lw"></i><span>dashboard</span></a>
-            <a class="list-group-item" routerLink="/gestion/etablissement" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Specialists"><i class="las la-home la-lw"></i><span>Etablissement</span></a>
+        <ul class="list-group list-group-flush"><a class="list-group-item" routerLink="/gestion/dashboard" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Dashboard"><i class="las la-shapes la-lw"></i><span>Tableau de bord</span></a>
+            <a class="list-group-item" routerLink="/gestion/etablissement" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Specialists"><i class="las la-stethoscope la-lw"></i><span>Etablissement</span></a>
             <a class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="Patients" routerLink="/gestion/patient" routerLinkActive="active-link"><i class="las la-user-injured la-lw"></i><span>patients</span></a>
             <a class="list-group-item" routerLink="/gestion/consultation" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Specialists"><i class="las la-clinic-medical la-lw"></i><span>Consultation</span></a>
-            <a class="list-group-item" href="procurement.html" data-toggle="tooltip" data-placement="bottom" title="Procurement"><i class="las la-shopping-cart la-lw"></i><span>procurement</span></a><a class="list-group-item" href="notifications.html"
-                data-toggle="tooltip" data-placement="bottom" title="Notifications"><i class="las la-sms la-lw"></i><span>notifications</span></a>
-            <a class="list-group-item" href="settings.html" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="las la-cogs la-lw"></i><span>settings</span></a>
+            <a class="list-group-item" routerLink="/gestion/prescription" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="las la-capsules la-lw"></i><span>Préscriptions</span></a>
+            <a class="list-group-item" routerLink="/gestion/rendez-vous" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="las la-calendar-check la-lw"></i><span>Rendez vous</span></a>
+            <a class="list-group-item" routerLink="/gestion/caisse" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Procurement"><i class="las la-receipt la-lw"></i><span>Caisse</span></a>
+            <a class="list-group-item"  routerLink="/gestion/messenging" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Notifications"><i class="las la-sms la-lw"></i><span>Messenging</span></a>
+            <a class="list-group-item" routerLink="/gestion/utlisateur" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="las la-users la-lw"></i><span>Utilisateurs</span></a>
+            <a class="list-group-item" routerLink="/gestion/reglage" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="las la-cogs la-lw"></i><span>Réglages</span></a>
             <hr class="divider" />
             <div class="aob-items">
                 <div class="card">
@@ -25,6 +28,7 @@
         </ul>
     </div>
     <div class="main-content">
+
         <div class="container-fluid">
             <router-outlet>
             </router-outlet>

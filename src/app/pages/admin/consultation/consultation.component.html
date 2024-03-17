@@ -4,7 +4,7 @@
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="las la-plus" style="color: #fff;" ></i>&nbsp;Créer</button>
             <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateConsultationView()"> <i class="las la-edit" style="color: #fff;"></i>&nbsp;Modifier </button> <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn"
                 (click)="getConsultationById()"> <i class="las la-save" style="color: #333;"></i>&nbsp;Details</button>
-            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn" (click)="getPdf()"> <i class="las la-print" style="color: #333;"></i>&nbsp;Télécharger</button>
+            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn" (click)="getPdf()"> <i class="las la-print" style="color: #333; size: 20px;"></i>&nbsp;Télécharger</button>
             <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!uploadbtn" (click)="uploadDialog()"> <i class="las la-upload" style="color: #333;"></i>&nbsp;Import</button>
             <button id="btn3" class="icom3 mt-2 " type="button"  (click)="filterDialog()"> <i class="las la-search" style="color: #333;"></i>&nbsp;Filtrer</button>
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="las la-trash" style="color: #fff; size:20px;"></i>&nbsp;Supprimer </button>
@@ -168,6 +168,109 @@
                 </p-table>
             </div>
 
+            <div class="mb-3">
+                <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
+                    <h4 class="text-center text-secondary">Médicaments prise</h4>
+                    <div class="col">
+                        <input type="text" placeholder="nom du médicament " class="form-control" pInputText [formControl]="nom_medicament" required />
+                    </div><br>
+                    <div class="col">
+                        <input type="date" placeholder=" date de la prise" class="form-control" pInputText [formControl]="date_prise" required />
+
+                    </div><br>
+                    <div class="col">
+                        <button type="button" [disabled]="nom_medicament.status != 'VALID' || date_prise.status != 'VALID' " pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addMedicament(nom_medicament,date_prise)"></button>
+                    </div>
+
+                </div>
+
+                <p-table [value]="medicaments" [scrollable]="true" scrollHeight="200px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nom médicament</th>
+                            <th>Date prise</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-medicament>
+                        <tr>
+                            <td>
+                                {{medicament.nom_medicament}}
+                            </td>
+                            <td>
+                                {{medicament.date_prise | date}}
+                            </td>
+                            <td>
+                                <button pButton pRipple type="button" (click)="deleteMedicament(medicament.nom_medicament)" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <div class="mb-3">
+                <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
+                    <h4 class="text-center text-secondary">Hopitaux visité</h4>
+                    <div class="col">
+                        <input type="text" placeholder=" nom hopital " class="form-control" pInputText [formControl]="nom_hopital" required />
+                    </div><br>
+                    <div class="col">
+                        
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="countryName" optionLabel="nom" appendTo="body" optionValue="nom" [formControl]="pays"  placeholder="Chosir le pays " class="col-md"></p-dropdown>
+
+                    </div><br>
+                    <div class="col">
+                        <input type="text" placeholder=" ville " class="form-control" pInputText [formControl]="ville" required />
+
+                    </div><br>
+                    <div class="col">
+                        <input type="text" placeholder=" addresse " class="form-control" pInputText [formControl]="addresse" required />
+
+                    </div><br>
+                    <div class="col">
+                        <input type="text" placeholder=" nom du  docteur " class="form-control" pInputText [formControl]="nom_docteur" required />
+
+                    </div><br>
+                    <div class="col">
+                        <input type="date" placeholder=" date " class="form-control" pInputText [formControl]="date_hopital" required />
+
+                    </div><br>
+                    <div class="col">
+                        <button type="button" [disabled]="nom_hopital.status != 'VALID' || nom_docteur.status != 'VALID' || pays.status != 'VALID' || ville.status != 'VALID' || addresse.status != 'VALID' || date_hopital.status != 'VALID'" pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addHopital(addresse,date_hopital,nom_hopital,nom_docteur,pays,ville)"></button>
+                    </div>
+
+                </div>
+
+                <p-table [value]="hoptitaux" [scrollable]="true" scrollHeight="200px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nom hopital</th>
+                            <th> Docteur</th>
+                            <th>Ville</th>
+                            <th>Date prise</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-hopital>
+                        <tr>
+                            <td>
+                                {{hopital.nom_hopital}}
+                            </td>
+                            <td>
+                                {{hopital.nom_docteur}}
+                            </td>
+                            <td>
+                                {{hopital.ville}}
+                            </td>
+                            <td>
+                                {{hopital.date_hopital | date}}
+                            </td>
+                            <td>
+                                <button pButton pRipple type="button" (click)="deletehopital(hopital.nom_hopital)" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
 
 
         </form>
@@ -221,7 +324,7 @@
                                                         <div class="form-group"><label>sexe</label><input class="form-control" readonly="readonly" value="{{consultationOne?.sexe}}" /></div>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <div class="form-group"><label>d. de naissance</label><input class="form-control" readonly="readonly" value="{{consultationOne?.dateNaiss}}" /></div>
+                                                        <div class="form-group"><label>d. de naissance</label><input class="form-control" readonly="readonly" value="{{consultationOne?.dateNaiss| date:'yyyy-MM-dd'}}" /></div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group"><label>n. téléphone</label><input class="form-control" readonly="readonly" value="{{consultationOne?.telephone}}" /></div>
@@ -380,13 +483,14 @@
 
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Nom</label>
-              <!--   <input type="text" class="form-control" id="username" placeholder="Veillez saisir le prenom" formControlName="nom">-->
-              <p-autoComplete formControlName="nom" [suggestions]="suggestionsd" (completeMethod)="search($event)"></p-autoComplete>
-                <!--<div class="col-md" *ngIf="nom.touched && nom.invalid">
-                  <small *ngIf=" nom.errors?.['required']" style="color:red ;">Le nom ne peut-etre null !</small>
+                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="patientName" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="nom" placeholder="Saisir le nom " class="col-md"></p-dropdown>
+                <!--
 
-              </div> -->
+                   <div class="col-md" *ngIf="sexe.touched && sexe.invalid">
+                  <small *ngIf=" sexe.errors?.['required']" style="color:red ;">Le sexe ne peut-etre null !</small>
 
+              </div>
+            -->
             </div>
 
 

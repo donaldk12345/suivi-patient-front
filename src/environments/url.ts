@@ -7,6 +7,7 @@ export const url = {
   list_users: 'user/list',
   me: 'user/me',
   patient : 'patient',
+  patientName: 'patient/list',
   consultation: 'consultation',
   fichier_patient: 'consultation/fichiers/',
   fichier_download: 'consultation/fichier/',

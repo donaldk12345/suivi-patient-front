@@ -20,6 +20,12 @@ import { PatientComponent } from "./patient/patient.component";
 import { EtablissementComponent } from "./etablissement/etablissement.component";
 import { ConsultationComponent } from "src/app/pages/admin/consultation/consultation.component";
 import { DetailsComponent } from "./details/details.component";
+import { UtilisateurComponent } from "./utilisateur/utilisateur.component";
+import { MessagingComponent } from "./messaging/messaging.component";
+import { PreinscriptionComponent } from "./preinscription/preinscription.component";
+import { CaisseComponent } from "./caisse/caisse.component";
+import { ReglageComponent } from "./reglage/reglage.component";
+import { RendezvousComponent } from "./rendezvous/rendezvous.component";
 
 
 const routes: Routes = [
@@ -37,6 +43,12 @@ const routes: Routes = [
       {path:'equipe',component: EquipeComponent,canActivate:[AuthGuard]},
       {path: 'gestion-equipe',component: GestionequipeComponent,canActivate:[AuthGuard]},
       {path: 'agent',component: AgentComponent,canActivate:[AuthGuard]},
+      {path: 'utlisateur',component: UtilisateurComponent,canActivate:[AuthGuard]},
+      {path: 'messenging',component: MessagingComponent,canActivate:[AuthGuard]},
+      {path: 'prescription',component: PreinscriptionComponent,canActivate:[AuthGuard]},
+      {path: 'caisse',component: CaisseComponent,canActivate:[AuthGuard]},
+      {path: 'reglage',component: ReglageComponent,canActivate:[AuthGuard]},
+      {path: 'rendez-vous',component: RendezvousComponent,canActivate:[AuthGuard]},
       {path: 'donnee-agent', component: DonneeagentComponent,canActivate:[AuthGuard]},
       {path: 'mon-equipe',component: ChefequipeComponent,canActivate: [AuthGuard]},
       {path: 'bar-chart',component: BarChartComponent},
