@@ -51,18 +51,25 @@ export class ConsultationComponent implements OnInit{
  descirption = new FormControl('', [Validators.required]);
  type = new FormControl('', [Validators.required]);
  date = new FormControl('',[Validators.required]);
- nom_medicament =  new FormControl('',[Validators.required]);
- date_prise=  new FormControl('',[Validators.required]);
- nom_hopital=  new FormControl('',[Validators.required]);
- date_hopital=  new FormControl('',[Validators.required]);
+ nomMedicament =  new FormControl('',[Validators.required]);
+ dateMedica=  new FormControl('',[Validators.required]);
+ nomHopital=  new FormControl('',[Validators.required]);
+ dateHopital=  new FormControl('',[Validators.required]);
  addresse=  new FormControl('',[Validators.required]);
- nom_docteur=  new FormControl('',[Validators.required]);
+ nomDocteur=  new FormControl('',[Validators.required]);
  pays=  new FormControl('',[Validators.required]);
  ville=  new FormControl('',[Validators.required]);
+
+ alimentation=  new FormControl('',[Validators.required]);
+ tabac=  new FormControl('',[Validators.required]);
+ alcool=  new FormControl('',[Validators.required]);
+ sport=  new FormControl('',[Validators.required]);
+ dateHabitude=  new FormControl('',[Validators.required]);
  antecedents: any[]=[];
  medicaments: any[]=[];
  hoptitaux:any[]=[];
  hopitalAutres:any[]=[];
+ habitudes:any[]=[];
  pdfSrc:any;
  httpData: any;
  pdfURL: any;
@@ -84,6 +91,7 @@ export class ConsultationComponent implements OnInit{
   paysList: any[]=[];
   country: any[]=[];
   countryName: any[]=[];
+  boolvalue: any[]=[];
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -161,7 +169,8 @@ hideDialog(){
       'patientId': new FormControl('', [Validators.required]),
       'antecedent': new FormControl([this.antecedents]),
       'medicament': new FormControl([this.medicaments]),
-      'hopitalAutres': new FormControl([this.hoptitaux])
+      'hopitalAutres': new FormControl([this.hoptitaux]),
+      'habitudes': new FormControl([this.habitudes])
     });
 
     this.filterForm = new FormGroup({
@@ -174,6 +183,7 @@ hideDialog(){
 this.getPatient();
 this.getConsultation();
 this.getPatientFilterName();
+this.getbolValue();
 
 this.getPays();
 
@@ -361,7 +371,16 @@ this.getPays();
        this.getfilter();
     }
 
-    getConsultation(){
+    getStatusSeverity(status:boolean) {
+      switch (status) {
+          case false:
+              return 'danger';
+  
+          case  true :
+              return 'success';
+      }
+  }
+    getConsultationFilter(){
       
       let parmasvalue = new HttpParams;
 
@@ -392,6 +411,38 @@ this.getPays();
         }
       })
       }
+
+      getConsultation(){
+      
+        let parmasvalue = new HttpParams;
+  
+        parmasvalue =parmasvalue.append('nom', this.filterForm.get('nom')?.value);
+  
+        this.http.getElement(API_URI + url.consultation).subscribe({
+          next: data => {
+            if (data) {
+  
+              this.consultations = data.content;
+              console.log("Mes consultation ", this.consultations);
+             
+              /*this.patient.forEach(elt=>{
+                 this.patien.set(elt.id,elt.nom);
+  
+                 console.log("Mes patient ", this.patien);
+              })*/
+  
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Reésultat',
+  
+                detail: data.message,
+                life: 3000
+              });
+            }
+          }
+        })
+        }
       getfilter(){
     
   
@@ -678,59 +729,82 @@ this.getPays();
 
   }
 
-  addMedicament(nom_medicament:any,date_prise:any){
+  addMedicament(nomMedicament:any,dateMedica:any){
     const medicament:any = {};
-    medicament.nom_medicament = nom_medicament.value;
-    medicament.date_prise = date_prise.value;
+    medicament.nomMedicament = nomMedicament.value;
+    medicament.dateMedica = dateMedica.value;
     console.log(medicament);
     this.medicaments.push(medicament);
-    this.nom_medicament.reset();
-    this.date_prise.reset();
+    this.nomMedicament.reset();
+    this.dateMedica.reset();
 
     
   }
 
-  deleteMedicament(nom_medicament: string) {
+  deleteMedicament(nomMedicament: string) {
     this.medicaments.forEach((medicament,index) => {
-      if(medicament.nom_medicament == nom_medicament)
+      if(medicament.nomMedicament == nomMedicament)
         this.medicaments.splice(index,1);
     })
-    this.nom_medicament.reset();
-    this.date_prise.reset();
+    this.nomMedicament.reset();
+    this.dateMedica.reset();
   
   }
 
-  addHopital(addresse:any,date_hopital:any,nom_hopital:any,nom_docteur:any,pays:any,ville:any){
+  addHopital(addresse:any,dateHopital:any,nomHopital:any,nomDocteur:any,pays:any,ville:any){
     const hopitalAutres:any = {};
     hopitalAutres.addresse = addresse.value;
-    hopitalAutres.date_hopital = date_hopital.value;
-    hopitalAutres.nom_hopital = nom_hopital.value;
-    hopitalAutres.nom_docteur = nom_docteur.value;
+    hopitalAutres.dateHopital = dateHopital.value;
+    hopitalAutres.nomHopital = nomHopital.value;
+    hopitalAutres.nomDocteur = nomDocteur.value;
     hopitalAutres.pays = pays.value;
     hopitalAutres.ville = ville.value;
     console.log(hopitalAutres);
     this.hoptitaux.push(hopitalAutres);
     this.addresse.reset();
-    this.date_hopital.reset();
-    this.nom_docteur.reset();
-    this.nom_hopital.reset();
+    this.dateHopital.reset();
+    this.nomDocteur.reset();
+    this.nomHopital.reset();
     this.pays.reset();
     this.ville.reset();
 
 
   }
 
-  deletehopital(nom_hopital: string){
+  deletehopital(nomHopital: string){
     this.hoptitaux.forEach((hopital,index) => {
-      if(hopital.nom_hopital == nom_hopital)
+      if(hopital.nomHopital == nomHopital)
         this.hoptitaux.splice(index,1);
     })
     this.addresse.reset();
-    this.date_hopital.reset();
-    this.nom_docteur.reset();
-    this.nom_hopital.reset();
+    this.dateHopital.reset();
+    this.nomDocteur.reset();
+    this.nomHopital.reset();
     this.pays.reset();
     this.ville.reset();
+  }
+
+  addHabitude(alimentation:any,tabac:any,alcool:any,sport:any,dateHabitude:any){
+    const habitude :any = {};
+    habitude.alimentation = alimentation.value;
+    habitude.tabac = tabac.value;
+    habitude.alcool = alcool.value;
+    habitude.sport = sport.value;
+    habitude.dateHabitude = dateHabitude.value;
+    console.log(habitude);
+    this.habitudes.push(habitude);
+    this.alimentation.reset();
+    this.tabac.reset();
+    this.alcool.reset();
+    this.sport.reset();
+    this.dateHabitude.reset();
+  }
+
+  deleteHabitude(alimentation:any){
+    this.habitudes.forEach((habitude,index) => {
+      if(habitude.alimentation == alimentation)
+        this.habitudes.splice(index,1);
+    })
   }
 
   deleteAntecedent(nom: string) {
@@ -758,7 +832,10 @@ this.getPays();
       maladiesChronique: this.addConsultationForm.value.maladiesChronique,
       patientId: this.addConsultationForm.value.patientId,
       antecedent: this.antecedents,
-      medicament: this.medicaments
+      medicament: this.medicaments,
+      hopitalAutres: this.hoptitaux,
+      habitudes: this.habitudes
+
 
     };
 
@@ -769,6 +846,15 @@ this.getPays();
 
 
     console.log("Mes données envoyé", addConsultationRequest);
+  }
+
+
+  getbolValue(){
+    this.boolvalue = [
+      { val: 'OUI', 'id': true },
+      { val :  'NON', 'id':false}
+     ]
+
   }
 
 

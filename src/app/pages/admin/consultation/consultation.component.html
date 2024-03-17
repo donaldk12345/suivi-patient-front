@@ -172,14 +172,14 @@
                 <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
                     <h4 class="text-center text-secondary">Médicaments prise</h4>
                     <div class="col">
-                        <input type="text" placeholder="nom du médicament " class="form-control" pInputText [formControl]="nom_medicament" required />
+                        <input type="text" placeholder="nom du médicament " class="form-control" pInputText [formControl]="nomMedicament" required />
                     </div><br>
                     <div class="col">
-                        <input type="date" placeholder=" date de la prise" class="form-control" pInputText [formControl]="date_prise" required />
+                        <input type="date" placeholder=" date de la prise" class="form-control" pInputText [formControl]="dateMedica" required />
 
                     </div><br>
                     <div class="col">
-                        <button type="button" [disabled]="nom_medicament.status != 'VALID' || date_prise.status != 'VALID' " pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addMedicament(nom_medicament,date_prise)"></button>
+                        <button type="button" [disabled]="nomMedicament.status != 'VALID' || dateMedica.status != 'VALID' " pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addMedicament(nomMedicament,dateMedica)"></button>
                     </div>
 
                 </div>
@@ -194,13 +194,13 @@
                     <ng-template pTemplate="body" let-medicament>
                         <tr>
                             <td>
-                                {{medicament.nom_medicament}}
+                                {{medicament.nomMedicament}}
                             </td>
                             <td>
-                                {{medicament.date_prise | date}}
+                                {{medicament.dateMedica | date}}
                             </td>
                             <td>
-                                <button pButton pRipple type="button" (click)="deleteMedicament(medicament.nom_medicament)" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text"></button>
+                                <button pButton pRipple type="button" (click)="deleteMedicament(medicament.nomMedicament)" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text"></button>
                             </td>
                         </tr>
                     </ng-template>
@@ -211,7 +211,7 @@
                 <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
                     <h4 class="text-center text-secondary">Hopitaux visité</h4>
                     <div class="col">
-                        <input type="text" placeholder=" nom hopital " class="form-control" pInputText [formControl]="nom_hopital" required />
+                        <input type="text" placeholder=" nom hopital " class="form-control" pInputText [formControl]="nomHopital" required />
                     </div><br>
                     <div class="col">
                         
@@ -227,15 +227,15 @@
 
                     </div><br>
                     <div class="col">
-                        <input type="text" placeholder=" nom du  docteur " class="form-control" pInputText [formControl]="nom_docteur" required />
+                        <input type="text" placeholder=" nom du  docteur " class="form-control" pInputText [formControl]="nomDocteur" required />
 
                     </div><br>
                     <div class="col">
-                        <input type="date" placeholder=" date " class="form-control" pInputText [formControl]="date_hopital" required />
+                        <input type="date" placeholder=" date " class="form-control" pInputText [formControl]="dateHopital" required />
 
                     </div><br>
                     <div class="col">
-                        <button type="button" [disabled]="nom_hopital.status != 'VALID' || nom_docteur.status != 'VALID' || pays.status != 'VALID' || ville.status != 'VALID' || addresse.status != 'VALID' || date_hopital.status != 'VALID'" pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addHopital(addresse,date_hopital,nom_hopital,nom_docteur,pays,ville)"></button>
+                        <button type="button" [disabled]="nomHopital.status != 'VALID' || nomDocteur.status != 'VALID' || pays.status != 'VALID' || ville.status != 'VALID' || addresse.status != 'VALID' || dateHopital.status != 'VALID'" pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addHopital(addresse,dateHopital,nomHopital,nomDocteur,pays,ville)"></button>
                     </div>
 
                 </div>
@@ -261,10 +261,76 @@
                                 {{hopital.ville}}
                             </td>
                             <td>
-                                {{hopital.date_hopital | date}}
+                                {{hopital.dateHopital | date}}
                             </td>
                             <td>
                                 <button pButton pRipple type="button" (click)="deletehopital(hopital.nom_hopital)" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <div class="mb-3">
+                <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
+                    <h4 class="text-center text-secondary">Habitudes</h4>
+                    <div class="col">
+                        <input type="text" placeholder=" node alimentaire " class="form-control" pInputText [formControl]="alimentation" required />
+                    </div><br>
+                    <div class="col">
+                        <label class="form-label" for="basic-default-fullname">Tabac</label>
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="tabac" placeholder="vous fumez ? " class="col-md"></p-dropdown>
+                       
+                    </div>
+                    <br>
+                    <div class="col">
+                        <label class="form-label" for="basic-default-fullname">Alcool</label>
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="alcool" placeholder="vous buvez de l'alcool ? " class="col-md"></p-dropdown>
+                       
+
+                    </div><br>
+                    <div class="col">
+                        <label class="form-label" for="basic-default-fullname">Sport</label>
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="sport" placeholder="vous faites du sport ? " class="col-md"></p-dropdown>
+                       
+
+                    </div><br>
+                    <div class="col">
+                        <input type="date" placeholder=" date " class="form-control" pInputText [formControl]="dateHabitude" required />
+
+                    </div><br>
+                    <div class="col">
+                        <button type="button" [disabled]="alimentation.status != 'VALID' || tabac.status != 'VALID' || alcool.status != 'VALID' || sport.status != 'VALID' || dateHabitude.status != 'VALID'" pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addHabitude(alimentation,tabac,alcool,sport,dateHabitude)"></button>
+                    </div>
+
+                </div>
+
+                <p-table [value]="habitudes" [scrollable]="true" scrollHeight="200px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Sport</th>
+                            <th> Tabac</th>
+                            <th>Alcool</th>
+                            <th>Date </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-habitude>
+                        <tr>
+                            <td>
+                                <p-tag [value]="habitude.sport" [severity]="getStatusSeverity(habitude.sport)"></p-tag>
+                            </td>
+                            <td>
+                            
+                                <p-tag [value]="habitude.tabac" [severity]="getStatusSeverity(habitude.tabac)"></p-tag>
+                            </td>
+                            <td>
+                                <p-tag [value]="habitude.alcool" [severity]="getStatusSeverity(habitude.alcool)"></p-tag>
+                            </td>
+                            <td>
+                                {{habitude.date_habitude | date}}
+                            </td>
+                            <td>
+                                <button pButton pRipple type="button" (click)="deleteHabitude(habitude.alimentation)" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text"></button>
                             </td>
                         </tr>
                     </ng-template>
@@ -496,7 +562,7 @@
 
             <div class="row col-md m-auto">
                 <div class="col">
-                    <button class="ico mt-2" type="button" (click)="getConsultation()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Rechercher</button>
+                    <button class="ico mt-2" type="button" (click)="getConsultationFilter()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Rechercher</button>
                 </div>
                 <div class="col">
                     <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
