@@ -4,7 +4,7 @@
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="las la-plus" style="color: #fff;" ></i>&nbsp;Créer</button>
             <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateConsultationView()"> <i class="las la-edit" style="color: #fff;"></i>&nbsp;Modifier </button> <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn"
                 (click)="getConsultationById()"> <i class="las la-save" style="color: #333;"></i>&nbsp;Details</button>
-            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn" (click)="getPdf()"> <i class="las la-print" style="color: #333; size: 20px;"></i>&nbsp;Télécharger</button>
+            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn" (click)="getPdf()"> <i class="las la-print" style="color: #333; size: 20px;"></i>&nbsp;Visualiser</button>
             <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!uploadbtn" (click)="uploadDialog()"> <i class="las la-upload" style="color: #333;"></i>&nbsp;Import</button>
             <button id="btn3" class="icom3 mt-2 " type="button"  (click)="filterDialog()"> <i class="las la-search" style="color: #333;"></i>&nbsp;Filtrer</button>
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="las la-trash" style="color: #fff; size:20px;"></i>&nbsp;Supprimer </button>
@@ -442,8 +442,42 @@
                                             </div>
 
                                         </div>
-                                        <div class="tab-pane fade" id="past-appointments" role="tabpanel" aria-labelledby="past-appointments-tab">...</div>
-                                        <div class="tab-pane fade" id="medical-records" role="tabpanel" aria-labelledby="medical-records-tab">...</div>
+                                        <div class="tab-pane fade" id="past-appointments" role="tabpanel" aria-labelledby="past-appointments-tab">
+                                            <div class="media mt-1" *ngFor="let at of hopital">
+                                                <div class="align-self-center">
+
+                                                    <p><i class="las la-clock"></i>&nbsp;{{at.date | date:'yyyy-MM-dd'}}</p>
+                                                </div>
+                                                <div class="media-body">
+                                                    <div class="row">
+                                                        <label class="label-green-bl " style="height: 100px!important;"> {{at.pays}} </label>
+                                                        <p>Ville : &nbsp;{{at.ville}}</p>
+                                                        <p>Addresse : &nbsp;{{at.addresse}}</p>
+                                                        <p>Hopital : &nbsp;{{at.nomHopital}}</p>
+
+                                                        <p>Nom du docteur : &nbsp;{{at.nomDocteur}}</p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="medical-records" role="tabpanel" aria-labelledby="medical-records-tab">
+
+                                            <div class="media mt-1" *ngFor="let at of medicament">
+                                                <div class="align-self-center">
+
+                                                    <p><i class="las la-clock"></i>&nbsp;{{at.date | date:'yyyy-MM-dd'}}</p>
+                                                </div>
+                                                <div class="media-body">
+                                                    <div class="row">
+                                                        <label class="label-green-bl " style="height: 100px!important;">  </label>
+                                                
+                                                        <p>Nom du médicament: &nbsp;{{at.nomMedicament}}</p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

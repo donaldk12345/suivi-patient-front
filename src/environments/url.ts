@@ -13,6 +13,8 @@ export const url = {
   fichier_download: 'consultation/fichier/',
   delete_file: 'consultation/fichier/delete/',
   consul_report: 'consultation/report/',
+  hopital_lst: 'consultation/hopital/',
+  medicament_list: 'consultation/medicament/',
   logo : 'logo/name',
   profile: 'user/profile/add',
   antecedent: 'consultation/antecedent',

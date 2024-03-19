@@ -92,6 +92,8 @@ export class ConsultationComponent implements OnInit{
   country: any[]=[];
   countryName: any[]=[];
   boolvalue: any[]=[];
+  hopital: any;
+  medicament: any;
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -506,6 +508,71 @@ this.getPays();
         })
         }
 
+        getHopital(){
+
+          let id = this.selectElement[0].id;
+  
+          this.http.getElement(API_URI + url.hopital_lst + id).subscribe({
+            next: data => {
+              if (data) {
+  
+                this.hopital = data.content;
+                console.log("Mes hoptaux ", this.anteced);
+                /*this.patient.forEach(elt=>{
+                   this.patien.set(elt.id,elt.nom);
+  
+                   console.log("Mes patient ", this.patien);
+                })*/
+  
+             
+  
+  
+              } else {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Reésultat',
+  
+                  detail: data.message,
+                  life: 3000
+                });
+              }
+            }
+          })
+          }
+
+          getMedicament(){
+
+            let id = this.selectElement[0].id;
+    
+            this.http.getElement(API_URI + url.medicament_list + id).subscribe({
+              next: data => {
+                if (data) {
+    
+                  this.medicament = data.content;
+                  console.log("Mes medicament ", this.medicament);
+                  /*this.patient.forEach(elt=>{
+                     this.patien.set(elt.id,elt.nom);
+    
+                     console.log("Mes patient ", this.patien);
+                  })*/
+    
+               
+    
+    
+                } else {
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Reésultat',
+    
+                    detail: data.message,
+                    life: 3000
+                  });
+                }
+              }
+            })
+            }
+  
+
 
         getfichierpatient() {
 
@@ -676,6 +743,8 @@ this.getPays();
               console.log("patient one",this.consultationOne);
               this.getAntecedent();
               this.getfichierpatient();
+              this.getHopital();
+              this.getMedicament();
 
             } else {
               this.messageService.add({
