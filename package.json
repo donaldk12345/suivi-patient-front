@@ -40,6 +40,8 @@
     "ng2-search-filter": "^0.5.1",
     "ngx-extended-pdf-viewer": "^16.0.0-alpha.1",
     "pdfjs": "^2.4.7",
+    "highcharts": ">=6.0.0",
+    "highcharts-angular": "^3.0.0",
     "primeicons": "^4.1.0",
     "primeng": "^12.0.1",
     "rxjs": "~7.5.0",

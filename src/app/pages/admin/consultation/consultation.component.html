@@ -422,6 +422,7 @@
                                         <li class="nav-item" role="presentation"><a class="nav-link active" id="upcoming-appointments-tab" data-toggle="tab" href="#upcoming-appointments" role="tab" aria-controls="upcoming-appointments" aria-selected="true">maladies antécédentes</a></li>
                                         <li class="nav-item" role="presentation"><a class="nav-link" id="past-appointments-tab" data-toggle="tab" href="#past-appointments" role="tab" aria-controls="past-appointments" aria-selected="false">Hopitaux visité</a></li>
                                         <li class="nav-item" role="presentation"><a class="nav-link" id="medical-records-tab" data-toggle="tab" href="#medical-records" role="tab" aria-controls="medical-records" aria-selected="false">medicaments prisent</a></li>
+                                        <li class="nav-item" role="presentation"><a class="nav-link" id="medical-habitude-tab" data-toggle="tab" href="#medical-habitudes" role="tab" aria-controls="medical-habitudes" aria-selected="false">Habitudes</a></li>
                                     </ul>
                                     <div class="tab-content" id="myTabContent">
                                         <div class="tab-pane fade show active" id="upcoming-appointments" role="tabpanel" aria-labelledby="upcoming-appointments-tab">
@@ -470,9 +471,28 @@
                                                 </div>
                                                 <div class="media-body">
                                                     <div class="row">
-                                                        <label class="label-green-bl " style="height: 100px!important;">  </label>
+                                                        <label class="label-green-bl " style="height: 100px!important;"> Nom du médicament: &nbsp;{{at.nomMedicament}} </label>
                                                 
-                                                        <p>Nom du médicament: &nbsp;{{at.nomMedicament}}</p>
+                                                        <p></p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="medical-habitudes" role="tabpanel" aria-labelledby="medical-habitude-tab">
+
+                                            <div class="media mt-1" *ngFor="let at of habitude">
+                                                <div class="align-self-center">
+
+                                                    <p><i class="las la-clock"></i>&nbsp;{{at.date | date:'yyyy-MM-dd'}}</p>
+                                                </div>
+                                                <div class="media-body">
+                                                    <div class="row">
+                                                        <label class="label-green-bl " style="height: 100px!important;"> Alimentantion: &nbsp;{{at.alimentation}} </label>
+                                                
+                                                        <p>Est alcoolique ?  <p-tag [value]="at.alcool" [severity]="getStatusSeverity(at.alcool)"></p-tag> </p>
+                                                        <p>Est fumeur ?  <p-tag [value]="at.tabac" [severity]="getStatusSeverity(at.tabac)"></p-tag> </p>
+                                                        <p>Fait du sport ?  <p-tag [value]="at.sport" [severity]="getStatusSeverity(at.sport)"></p-tag> </p>
                                                     </div>
 
                                                 </div>

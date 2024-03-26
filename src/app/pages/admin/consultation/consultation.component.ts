@@ -94,6 +94,7 @@ export class ConsultationComponent implements OnInit{
   boolvalue: any[]=[];
   hopital: any;
   medicament: any;
+  habitude: any;
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -571,6 +572,40 @@ this.getPays();
               }
             })
             }
+
+
+        
+            getHabitudes(){
+
+              let id = this.selectElement[0].id;
+      
+              this.http.getElement(API_URI + url.habitudes + id).subscribe({
+                next: data => {
+                  if (data) {
+      
+                    this.habitude = data.content;
+                    console.log("Mes habitudes ", this.habitude);
+                    /*this.patient.forEach(elt=>{
+                       this.patien.set(elt.id,elt.nom);
+      
+                       console.log("Mes patient ", this.patien);
+                    })*/
+      
+                 
+      
+      
+                  } else {
+                    this.messageService.add({
+                      severity: 'error',
+                      summary: 'Reésultat',
+      
+                      detail: data.message,
+                      life: 3000
+                    });
+                  }
+                }
+              })
+              }
   
 
 
@@ -745,6 +780,7 @@ this.getPays();
               this.getfichierpatient();
               this.getHopital();
               this.getMedicament();
+              this.getHabitudes();
 
             } else {
               this.messageService.add({
