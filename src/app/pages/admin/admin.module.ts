@@ -53,6 +53,7 @@ import { CaisseComponent } from './caisse/caisse.component';
 import { MessagingComponent } from './messaging/messaging.component';
 import { ReglageComponent } from './reglage/reglage.component';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { RendezvousComponent } from './rendezvous/rendezvous.component';
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
@@ -90,6 +91,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     imports: [
         CommonModule,
         RouterModule,
+        FullCalendarModule,
         AdminRoutingModule,
         HttpClientModule,
         FormsModule,
