@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -329,12 +330,15 @@ getData(dat : any) : void {
 
 
     userPreview(){
+      let dt = formatDate(this.selectElement[0]?.expiredDate, 'yyyy-MM-dd','en_US');
 
       this.registerForm.patchValue({
 
         'role' : this.selectElement[0].role,
         'username' : this.selectElement[0].username,
         'email' : this.selectElement[0].email,
+        'expired': this.selectElement[0].expired,
+        'expiredDate':dt
 
       })
       this.updateDisplay = true;
@@ -406,7 +410,9 @@ getData(dat : any) : void {
       let updateUerRequest= {
         role :this.registerForm.value.role,
         password: this.registerForm.value.password,
-        email: this.registerForm.value.email
+        email: this.registerForm.value.email,
+        expired: this.registerForm.value.expired,
+        expiredDate: this.registerForm.value.expiredDate
       };
 
       console.log("request",updateUerRequest);

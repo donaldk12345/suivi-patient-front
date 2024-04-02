@@ -142,10 +142,15 @@
                 ></p-dropdown>
               </div>
 
-              <div class="mb-3">
+              <div class="mb-2">
                 <label class="form-label" for="basic-default-fullname">Expire</label>
-                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" formArrayName="expired" placeholder="vous fumez ? " class="col-md"></p-dropdown>
+                <p-dropdown   (onChange)="onChange($event)" inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="expired" placeholder="Le compte expire ? " class="col-md"></p-dropdown>
               </div>
+              <div class="mb-3" *ngIf="element">
+                <label class="form-label" for="basic-default-company">Date expiration </label>
+                <input type="datetime-local" class="form-control" id="date" placeholder="Veillez choisir la date" formControlName="expiredDate">
+                 
+            </div>
         
             <div class="row col-md m-auto">
                 <div class="col">
