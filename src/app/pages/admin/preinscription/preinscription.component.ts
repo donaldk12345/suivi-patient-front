@@ -75,6 +75,7 @@ export class PreinscriptionComponent implements OnInit{
   hopital: any;
   medicament: any;
   habitude: any;
+  prescriptions: any[]=[];
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -136,6 +137,27 @@ hideDialog(){
 }
 
   ngOnInit(): void {
+
+    this.cols = [
+      {field: 'title', header: 'Nom prescription', type: 'string', width: 200, isFroz: true},
+      {field: 'raison', header: 'Raison', type: 'string', width: 200, isFroz: false},
+      {field: 'nomPatient', header: 'Nom patient', type: 'string', width: 200, isFroz: false},
+      {field: 'prenomPatient', header: 'Prénom', type: 'string', width: 200, isFroz: false},
+       { field: 'quartier', header: 'Quartier', type: 'string', width: 200, isFroz: false },
+      { field: 'ville', header: 'Ville', type: 'string', width: 200, isFroz: false },
+       { field: 'telephone', header: 'Téléphone', type: 'string', width: 200, isFroz: false },
+       { field: 'profession', header: 'Profession', type: 'string', width: 200, isFroz: false },
+       { field: 'sexPatient', header: 'Sexe', type: 'string', width: 200, isFroz: false },
+       { field: 'datePrescription', header: 'Date prescription', type: 'jour', width: 200, isFroz: false },
+        { field: 'username', header: 'Ajouter par', type: 'string', width: 200, isFroz: false },
+        {field: 'dateValidite', header: 'Date validité', type: 'date', width: 200, isFroz: false},
+
+
+
+
+    ];
+    this.exportColumns = this.cols.map(col => ({title: col.header, dataKey: col.field}));
+   
     
     this.addPrescriptionForm= new FormGroup({
       'title':  new FormControl('', [Validators.required]),
@@ -146,6 +168,7 @@ hideDialog(){
       'medicament': new FormControl([this.medicaments]),
       
     });
+    this.getPrescription();
 
     
   }
@@ -290,13 +313,13 @@ getPatient(){
 
     };
 
-    this.charge =this.http.postElement(API_URI + url.consultation, addConsultationRequest);
+    console.log("Mes données envoyé", addConsultationRequest);
+    this.charge =this.http.postElement(API_URI + url.prescription, addConsultationRequest);
     this.chargement(this.charge);
       this.addPrescriptionForm.reset();
       this.hideDialog();
 
 
-    console.log("Mes données envoyé", addConsultationRequest);
 
   }
 
@@ -328,7 +351,24 @@ getPatient(){
     );
    }
   getPrescription() {
-    throw new Error('Method not implemented.');
+    this.http.getElement(API_URI + url.prescription).subscribe({
+      next: data => {
+        if (data) {
+          console.log("Mes prescriptions ", data.content);
+          this.prescriptions = data.content;
+          this.loading = false;
+
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Reésultat',
+
+            detail: data.message,
+            life: 3000
+          });
+        }
+      }
+    })
   }
 
   getPdf() {
