@@ -1,3 +1,5 @@
+import { formatDate } from '@angular/common';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -28,8 +30,10 @@ export class PreinscriptionComponent implements OnInit{
  modifierbtn: boolean =false;
  isRefresh:boolean=false
  uploadbtn: boolean =false;
+ genratebtn: boolean =false;
  activatebtn: boolean = false;
  addPrescriptionForm : FormGroup = Object.create(null);
+ updatePrescriptionForm : FormGroup = Object.create(null);
  unactivatebtn: boolean = false;
  detailbtn: boolean = false;
  displayBasic: boolean = false;
@@ -47,6 +51,7 @@ export class PreinscriptionComponent implements OnInit{
  indicationMedicament=  new FormControl('',[Validators.required]);
  antecedents: any[]=[];
  medicaments: any[]=[];
+ mdsa: any[]=[];
  hoptitaux:any[]=[];
  hopitalAutres:any[]=[];
  habitudes:any[]=[];
@@ -76,6 +81,7 @@ export class PreinscriptionComponent implements OnInit{
   medicament: any;
   habitude: any;
   prescriptions: any[]=[];
+  mds: any;
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -90,11 +96,12 @@ this.manageDeleteBtn();
   this.manageUpdateBtn();
   this.manageDetailsBtn();
   this.manageUploadBtn();
+  this.manageGeneratePdfBtn();
 
 
 }
 
-constructor(private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
+constructor(private ht:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
 
 }
 onRowUnselect(dat: any) {
@@ -112,6 +119,7 @@ showDialog() {
 
 updateDialog() {
   this.addUpdateForm = true;
+
 }
 
 uploadDialog() {
@@ -145,6 +153,7 @@ hideDialog(){
       {field: 'prenomPatient', header: 'Prénom', type: 'string', width: 200, isFroz: false},
        { field: 'quartier', header: 'Quartier', type: 'string', width: 200, isFroz: false },
       { field: 'ville', header: 'Ville', type: 'string', width: 200, isFroz: false },
+      { field: 'code', header: 'Code', type: 'string', width: 200, isFroz: false },
        { field: 'telephone', header: 'Téléphone', type: 'string', width: 200, isFroz: false },
        { field: 'profession', header: 'Profession', type: 'string', width: 200, isFroz: false },
        { field: 'sexPatient', header: 'Sexe', type: 'string', width: 200, isFroz: false },
@@ -168,6 +177,8 @@ hideDialog(){
       'medicament': new FormControl([this.medicaments]),
       
     });
+
+    
     this.getPrescription();
 
     
@@ -219,6 +230,15 @@ hideDialog(){
         this.updatebtn = true;
       }
      }
+
+     manageGeneratePdfBtn(){
+      if(this.selectElement.length == 0 || this.selectElement.length > 1){
+        this.genratebtn = false;
+      } else {
+        this.genratebtn = true;
+      }
+     }
+
 
          /**
      * Gérer le bouton Modifier
@@ -371,9 +391,102 @@ getPatient(){
     })
   }
 
-  getPdf() {
+  getMedicamentprescris() {
+    this.http.getElement(API_URI + url.prescription_md + this.selectElement[0].id ).subscribe({
+      next: data => {
+        if (data) {
+          console.log("Mes mds ", data);
+          this.mds = data;
+
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Reésultat',
+
+            detail: data.message,
+            life: 3000
+          });
+        }
+      }
+    })
+  }
+
+  getGenerateReportPdf() {
+    let parmasvalue = new HttpParams;
+    parmasvalue =parmasvalue.append('prescriptionId',this.selectElement[0].id);
+
+    this.http.getElementParams(API_URI + url.report_generated,{params:parmasvalue}).subscribe({
+      next: data => {
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Opérations succéss'
+          })
+      },
+      error: error => {
+        console.log('error!', error);
+
+        this.messageService.add({
+          severity: 'error',
+          summary: "Erreur",
+          detail: "Le fichier a déjà été générer",
+          life: 3000
+        });
+    }
+    })
+  }
+
+
+  
+  
+  
+
+  updatePreview(){
+    this.getPatient();
+    this.getMedicamentprescris();
+    let dt = formatDate(this.selectElement[0]?.dateValidite, 'yyyy-MM-dd','en_US');
+    this.addPrescriptionForm.patchValue({
+  'title': this.selectElement[0].title,
+  'raison': this.selectElement[0].raison,
+  'codeConsulation': this.selectElement[0].code,
+  'patientId': this.selectElement[0].patientId,
+ 'validite': dt
+
+
+})
+this.mdsa.push(this.mds);
+console.log("push",this.mdsa);
+
+this.addUpdateForm = true;
+  }
+
+  getPdf(){
+
+    this.pdfDialog = true;
+
+    this.previewPdf();
+
+  }
+
+  previewPdf(){
+
+    let id = this.selectElement[0].id;
+
+  this.ht.get(API_URI+ url.prescription_report + id , { responseType: "blob" }).subscribe(data => {
+    this.httpData = data;
+    var file = new Blob([data], { type: "application/pdf" });
+    this.pdfSrc = URL.createObjectURL(file);
+    console.log("data => ", this.httpData);
+    console.log(" file url => ", this.pdfSrc);
+  });
+  }
+
+  downloadReport() {
     throw new Error('Method not implemented.');
     }
+    
+
     confirmDelete() {
     throw new Error('Method not implemented.');
     }

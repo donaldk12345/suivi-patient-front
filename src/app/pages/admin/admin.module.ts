@@ -55,6 +55,7 @@ import { ReglageComponent } from './reglage/reglage.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { RendezvousComponent } from './rendezvous/rendezvous.component';
+import { ReportComponent } from './report/report.component';
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 
@@ -84,7 +85,8 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
         CaisseComponent,
         MessagingComponent,
         ReglageComponent,
-        RendezvousComponent
+        RendezvousComponent,
+        ReportComponent
     ],
     providers: [MessageService, ConfirmationService],
     bootstrap: [AdminComponent],

@@ -26,6 +26,7 @@ import { PreinscriptionComponent } from "./preinscription/preinscription.compone
 import { CaisseComponent } from "./caisse/caisse.component";
 import { ReglageComponent } from "./reglage/reglage.component";
 import { RendezvousComponent } from "./rendezvous/rendezvous.component";
+import { ReportComponent } from "./report/report.component";
 
 
 const routes: Routes = [
@@ -46,6 +47,7 @@ const routes: Routes = [
       {path: 'utlisateur',component: UtilisateurComponent,canActivate:[AuthGuard]},
       {path: 'messenging',component: MessagingComponent,canActivate:[AuthGuard]},
       {path: 'prescription',component: PreinscriptionComponent,canActivate:[AuthGuard]},
+      {path: 'report',component: ReportComponent,canActivate:[AuthGuard]},
       {path: 'caisse',component: CaisseComponent,canActivate:[AuthGuard]},
       {path: 'reglage',component: ReglageComponent,canActivate:[AuthGuard]},
       {path: 'rendez-vous',component: RendezvousComponent,canActivate:[AuthGuard]},

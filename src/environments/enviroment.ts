@@ -4,8 +4,8 @@
 
 export const environment = {
     production: false,
-   // BASE_URL: 'http://localhost:8000/api/'
-   BASE_URL: 'http://192.168.42.236:8080/patient-management/api/'
+   BASE_URL: 'http://localhost:8000/api/'
+   //BASE_URL: 'http://192.168.42.236:8080/patient-management/api/'
   };
 
   /*

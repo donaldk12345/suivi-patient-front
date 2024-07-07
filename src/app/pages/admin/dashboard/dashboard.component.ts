@@ -40,8 +40,6 @@ export class DashboardComponent implements OnInit{
 
     this.user = this.tokenService.DecodeToken(JSON.stringify(this.http.sessionget('token')));
 
-     console.log("role",this.role= this.user.role[0]);
-
     this.loadData();
     this.totalItems();
 

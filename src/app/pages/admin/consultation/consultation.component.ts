@@ -95,6 +95,7 @@ export class ConsultationComponent implements OnInit{
   hopital: any;
   medicament: any;
   habitude: any;
+  genratebtn: boolean =false;
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -110,6 +111,7 @@ this.manageDeleteBtn();
   this.manageDetailsBtn();
   this.manageShowPdf();
   this.manageUploadBtn();
+  this.manageGeneratePdfBtn();
 
 
 }
@@ -265,6 +267,15 @@ this.getPays();
             this.uploadbtn = true;
           }
          }
+
+         
+     manageGeneratePdfBtn(){
+      if(this.selectElement.length == 0 || this.selectElement.length > 1){
+        this.genratebtn = false;
+      } else {
+        this.genratebtn = true;
+      }
+     }
 
   manageDetailsBtn() {
          if(this.selectElement.length == 0 || this.selectElement.length > 1){
@@ -671,7 +682,23 @@ this.getPays();
 
   onUpload(event: any){
     this.file = event.target.files.item(0);
-    console.log(event.target.files[0])
+    console.log("event file",event.target.files[0])
+    console.log("name file",event.target.files[0].name)
+    var result = event.target.files[0].name.split(".").pop();
+    console.log("result",result)
+
+    if((result !="docx") && (result != "xlsx")){
+
+      this.messageService.add({
+        severity: 'error',
+        summary: "le format choisir n'est pas autoriser !",
+        life: 3000
+      });
+      this.displayImport = false;
+
+    }
+    
+
 
   }
 
@@ -705,6 +732,33 @@ this.getPays();
     }
     })
 
+  }
+
+
+  getGenerateReportPdf() {
+    let parmasvalue = new HttpParams;
+    parmasvalue =parmasvalue.append('consultationId',this.selectElement[0].id).append('slug',this.selectElement[0].slug);
+
+    this.http.getElementParams(API_URI + url.report_consultation,{params:parmasvalue}).subscribe({
+      next: data => {
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Opérations succéss'
+          })
+      },
+      error: error => {
+        console.log('error!', error);
+
+        this.messageService.add({
+          severity: 'error',
+          summary: "Erreur",
+          detail: "Le fichier a déjà été générer",
+          life: 3000
+        });
+    }
+    })
   }
 
 

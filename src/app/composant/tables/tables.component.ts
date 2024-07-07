@@ -17,7 +17,7 @@ export class TablesComponent implements OnInit, OnChanges{
    balanceFrozen: boolean = false;
   // loading :boolean = true
   constructor() {
-    console.log("sssssssss",this.data);
+
 
     this.selectedProducts = this.data
     if(this.selectedProducts && this.selectedProducts.length >0){
@@ -33,13 +33,11 @@ export class TablesComponent implements OnInit, OnChanges{
     console.log("Mon tableau date", this.data);
     console.log("Mon tableau couml", this.colum); */
 
-    console.log("Mon dis data ", this.data);
 
   }
 
   ngOnChanges() :void {
-    console.log("Mon tableau date chancge", this.data);
-    console.log("Mon tableau couml chancge", this.colum);
+
     if(this.data){}
     if(this.data && this.data.length!=TablesComponent.valuetab){
 
