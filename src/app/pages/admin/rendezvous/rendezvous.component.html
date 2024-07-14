@@ -33,12 +33,6 @@
                  
             </div>
 
-            <div class="mb-3">
-                <label class="form-label" for="basic-default-company">Couleur</label>
-                <input type="color" class="form-control" id="color" placeholder="Veillez choisir une couleur" formControlName="color">
-                 
-            </div>
-
             <div class="mb-2">
                 <label class="form-label" for="basic-default-fullname">Est patient</label>
                 <p-dropdown   (onChange)="onChange($event)" inputId="dropdown1" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="isPatient" placeholder="Est Patient ? " class="col-md"></p-dropdown>

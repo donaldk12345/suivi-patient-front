@@ -132,7 +132,6 @@ throw new Error('Method not implemented.');
        'profesion': new FormControl(''),
        'date_naiss': new FormControl(''),
        'sexe': new FormControl(''),
-       'color': new FormControl(''),
        'isPatient': new FormControl('')
      });
  
@@ -329,12 +328,17 @@ throw new Error('Method not implemented.');
         showCandar(){
           this.calendarDialog = true;
         }
+
+        getRandomColor() {
+          var color = Math.floor(0x1000000 * Math.random()).toString(16);
+          return '#' + ('000000' + color).slice(-6);
+        }
  
        addRendezvous(){
          let addRequest= {
            title :this.addShedulerForm.value.title,
            date: this.addShedulerForm.value.date,
-           color :this.addShedulerForm.value.color,
+           color :this.getRandomColor(),
            villePatienConsl: this.addShedulerForm.value.villePatienConsl,
            numeroPatienConsl :this.addShedulerForm.value.numeroPatienConsl,
            patientId: this.addShedulerForm.value.patientId,

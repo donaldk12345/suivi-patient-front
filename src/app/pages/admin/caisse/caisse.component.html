@@ -1,1 +1,158 @@
-<p>caisse works!</p>
+<div class="container mt-3 pb-4">
+    <div class="col-md">
+        <div class="col-md mt-2 mt-2 p-2">
+            <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer une facture </button>
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateDialog()" > <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Paiement</button>
+            <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Annuler</button>
+          
+        </div>
+        <div class="card p-3">
+            <h4 style="color:#303548; font-weight: 800;" class="text-center">Facturations</h4>
+            <app-tables [data]="caisses" [colum]="cols" (datas)="getData($event)" (datas)="onRowSelect($event)" [loading]="loading" class="mt-3"></app-tables>
+
+        </div>
+    </div>
+
+</div>
+
+<p-dialog header="Ajouter une facturation" [(visible)]="display" [style]="{width: '650px'}" styleClass="p-fluid"
+[modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addCaisseForm">
+
+        
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Titre facturation</label>
+                <input type="text" class="form-control" id="title" placeholder="Veillez saisir le titre" formControlName="titre">
+                
+            </div>
+       
+            <div class="mb-3" >
+                <label class="form-label" for="basic-default-fullname">Patient</label>
+                <p-dropdown inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="patient" optionLabel="nom" appendTo="body" optionValue="id" formControlName="patientId" placeholder="Choisir le patient " class="col-md"></p-dropdown>
+            </div>
+
+                      <div class="mb-3">
+                <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
+                    <h4 class="text-center text-secondary">Services effectués</h4>
+                    <div class="col">
+                        <input type="text" placeholder="service rendu " class="form-control" pInputText [formControl]="raiosn" required />
+                    </div><br>
+                    <div class="col">
+                        <input type="number" placeholder="prix" class="form-control" pInputText [formControl]="prix" required />
+                    </div><br>
+                    <div class="col">
+                        <input type="date" placeholder=" date de la maladie" class="form-control" pInputText [formControl]="dateRasion" required />
+
+                    </div><br>
+                    <div class="col">
+                        <button type="button" [disabled]="raiosn.status != 'VALID' || dateRasion.status != 'VALID' || prix.status != 'VALID' " pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addRaisson(raiosn,prix,dateRasion)"></button>
+                    </div>
+
+                </div>
+
+                <p-table [value]="raisons" [scrollable]="true" scrollHeight="200px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Raison</th>
+                            <th>Prix </th>
+                            <th>Date</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-r>
+                        <tr>
+                            <td>
+                                {{r.raiosn}}
+                            </td>
+                            <td>
+                                {{r.prix}}
+                            </td>
+                            <td>
+                                {{r.dateRasion | date}}
+                            </td>
+                            <td>
+                                <button pButton pRipple type="button" (click)="deleteRaison(r.raiosn)" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+         
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button"   (click)="addCaisse()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Faire le paiement" [(visible)]="displayUpdate" [style]="{width: '650px'}" styleClass="p-fluid"
+[modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="updateCaisseForm">
+
+            <div class="mb-2">
+                <label class="form-label" for="basic-default-fullname">Mode de paiement</label>
+                <p-dropdown   (onChange)="onChange($event)" inputId="dropdown1" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="val" formControlName="mode" placeholder="Choisir me mode " class="col-md"></p-dropdown>
+              </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Montant</label>
+                <input type="number" class="form-control" id="title" placeholder="Veillez saisir le montant versé" (input)="onSearchChange($event)" formControlName="montant">
+                
+            </div>
+     
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">Reste</label>
+                <input type="number" class="form-control" id="datetime-local" placeholder="Veillez saisir le reste" formControlName="reste">
+                 
+            </div>
+
+     
+              <div class="mb-3" *ngIf="getReste()">
+                <label class="form-label" for="basic-default-fullname">Date reste</label>
+                <input type="date" class="form-control" id="datetime-local" placeholder="Veillez saisir la date" formControlName="date">
+        
+            </div>
+            <div class="mb-3" *ngIf="element=='OM'">
+                <label class="form-label" for="basic-default-fullname">Numéro</label>
+                <input type="text" class="form-control" id="email" placeholder="Veillez saisir le numéro mobile money" formControlName="numero">
+                
+            </div>
+         
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button"   (click)="updateCaisse()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
+    </ng-template>
+</p-dialog>
+
+<!--<p-dialog header="Calendrier des rendez-vous" [(visible)]="calendarDialog" [style]="{width: '1280px'}" styleClass="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <span>
+
+    </span>
+        <span>
+        <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="hideDialog()" class="p-button-danger"></button>
+    </span>
+    </ng-template>
+</p-dialog>-->
