@@ -3,6 +3,7 @@
         <div class="col-md mt-2 mt-2 p-2">
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer Rendez-vous </button>
             <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="userPreview()" > <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
+            <button id="" class="icomd mt-2 " type="button" (click)="showCalendarDialog()" > <i class="fas fa-calendar" style="color: #fff;"></i>&nbsp;Calendrier</button>
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Annuler</button>
           
         </div>
@@ -125,9 +126,13 @@
     </ng-template>
 </p-dialog>
 
-<!--<p-dialog header="Calendrier des rendez-vous" [(visible)]="calendarDialog" [style]="{width: '1280px'}" styleClass="p-fluid" [modal]="true">
+<p-dialog header="Calendrier des rendez-vous" [(visible)]="calendarDialog" [style]="{width: '1280px'}" styleClass="p-fluid" [modal]="true">
     <ng-template pTemplate="content">
-
+        <div class="container mx-auto mt-5 pb-4">
+            <div class="wrapper bg-white rounded shadow w-full ">
+                <full-calendar [options]="calendarOptions" ></full-calendar>
+            </div>
+          </div>
     </ng-template>
     <ng-template pTemplate="footer">
         <span>
@@ -137,9 +142,4 @@
         <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="hideDialog()" class="p-button-danger"></button>
     </span>
     </ng-template>
-</p-dialog>-->
-<div class="container mx-auto mt-5 pb-4">
-    <div class="wrapper bg-white rounded shadow w-full ">
-        <full-calendar [options]="calendarOptions" ></full-calendar>
-    </div>
-  </div>
+</p-dialog>

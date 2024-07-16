@@ -80,6 +80,11 @@ throw new Error('Method not implemented.');
  updateDialog() {
 
  }
+
+ showCalendarDialog(){
+  this.getCalendar();
+  this.calendarDialog = true;
+ }
  hideDialog(){
  
    this.display = false;
