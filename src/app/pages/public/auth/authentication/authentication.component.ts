@@ -1,21 +1,23 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
+import { ResponseService } from 'src/app/services/response.service';
+import { TokenService } from 'src/app/services/token.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
-import { ResponseService } from '../services/response.service';
-import { BehaviorSubject, Observable, timeout } from 'rxjs';
-import { MessageService } from 'primeng/api';
-import { TokenService } from '../services/token.service';
+
 const API_URI= `${environment.BASE_URL}`
 @Component({
-  selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  providers: [MessageService]
+  selector: 'app-authentication',
+  templateUrl: './authentication.component.html',
+  styleUrls: ['./authentication.component.css'],
+  providers:[MessageService]
 })
-export class LoginComponent implements OnInit{
+export class AuthenticationComponent implements OnInit{
+
   loginForm: FormGroup = Object.create(null);
   errorMessage: string = "";
   charge: Observable<any> = new Observable<any>();
@@ -23,8 +25,14 @@ export class LoginComponent implements OnInit{
   role:any;
   isLoading = false;
   constructor(private http: ResponseService, private formBuilder: FormBuilder,private messageService: MessageService,
-     private router: Router,private httpService:ResponseService,private tokenService: TokenService) {
+     private router: Router,private httpService:ResponseService,private tokenService: TokenService,public translate: TranslateService) {
     this.user = JSON.parse(this.httpService.getUser());
+    translate.addLangs(['en', 'fr']);
+    translate.setDefaultLang('en');
+    this.translate.use(localStorage.getItem('lang') || 'en');
+
+
+
   }
 
   ngOnInit(): void {
@@ -81,7 +89,14 @@ export class LoginComponent implements OnInit{
 
   }
 
+  changeLang(lang:any){
 
+    const selectLang = lang.target.value;
+    localStorage.setItem('lang',selectLang);
+    this.translate.use(selectLang);
+    console.log("event",selectLang);
+
+  }
 
   get username(){
      return this.loginForm.controls['username'];

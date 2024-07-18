@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ResponseService } from './services/response.service';
-import { Emitters } from './emitters/emitters';
 import { Router } from '@angular/router';
 import { TokenService } from './services/token.service';
 

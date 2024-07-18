@@ -12,18 +12,26 @@ import { PasswordModule } from 'primeng/password';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TableModule } from 'primeng/table';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import {PaginatorModule} from 'primeng/paginator';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AdminModule } from './pages/admin/admin.module';
 import { authInterceptorProviders } from './services/interceptor.service';
 import { ComposantModule } from "./composant/composant.module";
+import { PublicComponent } from './pages/public/public.component';
+import { PublicModule } from './pages/public/public.module';
+import { RouterModule } from '@angular/router';
 
-
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+  }
+  
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent
+        LoginComponent,
+        PublicComponent
     ],
     providers: [authInterceptorProviders],
     bootstrap: [AppComponent],
@@ -32,7 +40,9 @@ import { ComposantModule } from "./composant/composant.module";
         AppRoutingModule,
         AdminModule,
         HttpClientModule,
+        PublicModule,
         FormsModule,
+        RouterModule,
         ReactiveFormsModule,
         ConfirmPopupModule,
         ButtonModule,
@@ -40,12 +50,17 @@ import { ComposantModule } from "./composant/composant.module";
         ToastModule,
         DialogModule,
         PasswordModule,
-        TableModule,
         ConfirmDialogModule,
-        TableModule,
         BrowserAnimationsModule,
         PaginatorModule,
-        ComposantModule
+        ComposantModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
     ]
 })
 export class AppModule { }
