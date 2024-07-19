@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { ApiUrlService } from 'src/app/services/api-url.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { TokenService } from 'src/app/services/token.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
 
-const API_URI= `${environment.BASE_URL}`
+
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
@@ -24,7 +25,7 @@ export class AuthenticationComponent implements OnInit{
   user: any;
   role:any;
   isLoading = false;
-  constructor(private http: ResponseService, private formBuilder: FormBuilder,private messageService: MessageService,
+  constructor(private api:ApiUrlService,private http: ResponseService, private formBuilder: FormBuilder,private messageService: MessageService,
      private router: Router,private httpService:ResponseService,private tokenService: TokenService,public translate: TranslateService) {
     this.user = JSON.parse(this.httpService.getUser());
     translate.addLangs(['en', 'fr']);
@@ -59,11 +60,11 @@ export class AuthenticationComponent implements OnInit{
 
   loginUser(){
     let loginRequest= {
-      username :this.loginForm.value.email,
+      username :this.loginForm.value.username,
       password: this.loginForm.value.password
     };
     this.isLoading = true;
-    return this.http.postElement(API_URI + url.login, loginRequest).subscribe(data => {
+    return this.http.postElement(this.api.API_URI + url.login, loginRequest).subscribe(data => {
 
       console.log(data);
 

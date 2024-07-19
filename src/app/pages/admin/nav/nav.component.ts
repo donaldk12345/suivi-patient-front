@@ -4,10 +4,10 @@ import { FormBuilder } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ApiUrlService } from 'src/app/services/api-url.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
-const API_URI= `${environment.BASE_URL}`
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -22,7 +22,7 @@ export class NavComponent implements OnInit{
   image!: Blob;
   imageURL:SafeUrl | undefined
 
-  constructor(private sanitizer: DomSanitizer,private h:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService,private router:Router){
+  constructor(private api:ApiUrlService,private sanitizer: DomSanitizer,private h:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService,private router:Router){
 
   }
 
@@ -46,7 +46,7 @@ export class NavComponent implements OnInit{
   }
 
   me(){
-    this.http.getElement(API_URI + url.me).subscribe({
+    this.http.getElement(this.api.API_URI + url.me).subscribe({
       next: data => {
         if (data) {
 
@@ -65,7 +65,7 @@ export class NavComponent implements OnInit{
   }
 
   getLogo(){
-    return this.h.get(API_URI + url.logo,{ responseType: 'blob' }).subscribe(data=>{
+    return this.h.get(this.api.API_URI + url.logo,{ responseType: 'blob' }).subscribe(data=>{
 
 
       this.logo = data;

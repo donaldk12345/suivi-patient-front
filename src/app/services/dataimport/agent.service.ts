@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 import { AgentData } from 'src/app/models/agent-data.model';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
-const API_URI= `${environment.BASE_URL}`
+import { ApiUrlService } from '../api-url.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AgentService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private api:ApiUrlService) {
 
    }
 
@@ -20,6 +20,6 @@ export class AgentService {
     const formData: FormData = new FormData();
     formData.append('file', file);
     formData.append('consultationId',consultationId)
-    return this.http.post<AgentData>(API_URI + url.file_patient_import, formData);
+    return this.http.post<AgentData>(this.api.API_URI + url.file_patient_import, formData);
   }
 }

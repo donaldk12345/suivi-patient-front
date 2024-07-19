@@ -5,7 +5,6 @@ import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
-const API_URI= `${environment.BASE_URL}/api/`;
 @Injectable({
   providedIn: 'root'
 })

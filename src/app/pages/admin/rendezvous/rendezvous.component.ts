@@ -10,7 +10,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
 import { dA } from '@fullcalendar/core/internal-common';
-const API_URI= `${environment.BASE_URL}`
+import { ApiUrlService } from 'src/app/services/api-url.service';
+
 @Component({
   selector: 'app-rendezvous',
   templateUrl: './rendezvous.component.html',
@@ -61,7 +62,7 @@ throw new Error('Method not implemented.');
  
  }
  
- constructor(private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
+ constructor(private api:ApiUrlService,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
  
  }
  onRowUnselect(dat: any) {
@@ -169,7 +170,7 @@ throw new Error('Method not implemented.');
 
    getCalendar(){
     setTimeout(() => {
-      return this.http.getElement(API_URI + url.rendezvous)
+      return this.http.getElement(this.api.API_URI + url.rendezvous)
         .subscribe(data => {
           this.Events.push("calendar",data);
 
@@ -273,7 +274,7 @@ throw new Error('Method not implemented.');
      }
 
      getPatient(){
-      this.http.getElement(API_URI + url.patient).subscribe({
+      this.http.getElement(this.api.API_URI + url.patient).subscribe({
         next: data => {
           if (data) {
             console.log("Mes patient ", data.content);
@@ -304,7 +305,7 @@ throw new Error('Method not implemented.');
     }
  
      getRendezvous(){
-       this.http.getElement(API_URI + url.rendezvous).subscribe({
+       this.http.getElement(this.api.API_URI + url.rendezvous).subscribe({
          next: data => {
            if (data) {
              console.log("Mes rendez vous ", data.content);
@@ -361,7 +362,7 @@ throw new Error('Method not implemented.');
 
          //console.log("request",addRequest);
  
-        this.charge =this.http.postElement(API_URI + url.rendezvous, addRequest);
+        this.charge =this.http.postElement(this.api.API_URI + url.rendezvous, addRequest);
          this.chargement(this.charge);
            this.addShedulerForm.reset();
            this.hideDialog();
@@ -385,7 +386,7 @@ throw new Error('Method not implemented.');
  
  
  
-           this.http.putElement(API_URI + url.patient, addRequest).subscribe({
+           this.http.putElement(this.api.API_URI + url.patient, addRequest).subscribe({
  
              next: data =>{
  
@@ -443,7 +444,7 @@ throw new Error('Method not implemented.');
  
  
        let id = this.selectElement[0].id;
-       this.http.deleteElement(API_URI + url.patient + '/' + id).subscribe(
+       this.http.deleteElement(this.api.API_URI + url.patient + '/' + id).subscribe(
          data =>{
  
            this.messageService.add({

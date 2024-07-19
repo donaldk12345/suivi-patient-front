@@ -7,8 +7,8 @@ import { ResponseService } from 'src/app/services/response.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
 import { TokenService } from 'src/app/services/token.service';
+import { ApiUrlService } from 'src/app/services/api-url.service';
 Chart.register(...registerables);
-const API_URI= `${environment.BASE_URL}`
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit{
   user: any;
   role: any;
 
-  constructor(private http: ResponseService, private router: Router,private messageService: MessageService,private tokenService: TokenService) {
+  constructor(private api:ApiUrlService,private http: ResponseService, private router: Router,private messageService: MessageService,private tokenService: TokenService) {
 
 
   }
@@ -173,7 +173,7 @@ Randoom(taille: number): number {
 
 
   totalItems(){
-    this.http.getElement(API_URI + url.dashboardItems).subscribe({
+    this.http.getElement(this.api + url.dashboardItems).subscribe({
       next: data => {
         if (data) {
        

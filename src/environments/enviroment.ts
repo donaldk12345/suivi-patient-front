@@ -4,7 +4,8 @@
 
 export const environment = {
     production: false,
-   BASE_URL: 'http://localhost:8000/api/'
+    DEV_BASE_URL: 'http://localhost:8000/api/',
+    PROD_BASE_URL: 'http://cloud-gt1j76nl.hosteur.net:8080/insurance-management/api/'
    //BASE_URL: 'http://192.168.42.236:8080/patient-management/api/'
   };
 

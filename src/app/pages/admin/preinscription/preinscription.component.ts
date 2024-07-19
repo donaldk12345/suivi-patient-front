@@ -4,10 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { ApiUrlService } from 'src/app/services/api-url.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
-const API_URI= `${environment.BASE_URL}`
 @Component({
   selector: 'app-preinscription',
   templateUrl: './preinscription.component.html',
@@ -101,7 +101,7 @@ this.manageDeleteBtn();
 
 }
 
-constructor(private ht:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
+constructor(private api:ApiUrlService,private ht:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
 
 }
 onRowUnselect(dat: any) {
@@ -271,7 +271,7 @@ hideDialog(){
 }
 
 getPatient(){
-  this.http.getElement(API_URI + url.patient).subscribe({
+  this.http.getElement(this.api.API_URI + url.patient).subscribe({
     next: data => {
       if (data) {
 
@@ -334,7 +334,7 @@ getPatient(){
     };
 
     console.log("Mes données envoyé", addConsultationRequest);
-    this.charge =this.http.postElement(API_URI + url.prescription, addConsultationRequest);
+    this.charge =this.http.postElement(this.api.API_URI + url.prescription, addConsultationRequest);
     this.chargement(this.charge);
       this.addPrescriptionForm.reset();
       this.hideDialog();
@@ -371,7 +371,7 @@ getPatient(){
     );
    }
   getPrescription() {
-    this.http.getElement(API_URI + url.prescription).subscribe({
+    this.http.getElement(this.api.API_URI + url.prescription).subscribe({
       next: data => {
         if (data) {
           console.log("Mes prescriptions ", data.content);
@@ -392,7 +392,7 @@ getPatient(){
   }
 
   getMedicamentprescris() {
-    this.http.getElement(API_URI + url.prescription_md + this.selectElement[0].id ).subscribe({
+    this.http.getElement(this.api.API_URI + url.prescription_md + this.selectElement[0].id ).subscribe({
       next: data => {
         if (data) {
           console.log("Mes mds ", data);
@@ -415,7 +415,7 @@ getPatient(){
     let parmasvalue = new HttpParams;
     parmasvalue =parmasvalue.append('prescriptionId',this.selectElement[0].id);
 
-    this.http.getElementParams(API_URI + url.report_generated,{params:parmasvalue}).subscribe({
+    this.http.getElementParams(this.api.API_URI + url.report_generated,{params:parmasvalue}).subscribe({
       next: data => {
 
           this.messageService.add({
@@ -473,7 +473,7 @@ this.addUpdateForm = true;
 
     let id = this.selectElement[0].id;
 
-  this.ht.get(API_URI+ url.prescription_report + id , { responseType: "blob" }).subscribe(data => {
+  this.ht.get(this.api.API_URI+ url.prescription_report + id , { responseType: "blob" }).subscribe(data => {
     this.httpData = data;
     var file = new Blob([data], { type: "application/pdf" });
     this.pdfSrc = URL.createObjectURL(file);

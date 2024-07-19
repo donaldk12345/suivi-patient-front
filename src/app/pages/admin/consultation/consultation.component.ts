@@ -9,7 +9,7 @@ import { ResponseService } from 'src/app/services/response.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
 import * as jsonData from '../../../../assets/pays.json';
-const API_URI= `${environment.BASE_URL}`
+import { ApiUrlService } from 'src/app/services/api-url.service';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -116,7 +116,7 @@ this.manageDeleteBtn();
 
 }
 
-constructor(private service:AgentService,private ht:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
+constructor(private api:ApiUrlService,private service:AgentService,private ht:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
 
 }
 onRowUnselect(dat: any) {
@@ -297,7 +297,7 @@ this.getPays();
 }
 
   getPatient(){
-    this.http.getElement(API_URI + url.patient).subscribe({
+    this.http.getElement(this.api.API_URI + url.patient).subscribe({
       next: data => {
         if (data) {
 
@@ -323,7 +323,7 @@ this.getPays();
     }
 
     getPatientFilterName(){
-      this.http.getElement(API_URI + url.patientName).subscribe({
+      this.http.getElement(this.api.API_URI + url.patientName).subscribe({
         next: data => {
           if (data) {
   
@@ -371,7 +371,7 @@ this.getPays();
 
       let slug = this.selectElement[0].slug;
 
-    this.ht.get(API_URI+ url.consul_report + slug , { responseType: "blob" }).subscribe(data => {
+    this.ht.get(this.api.API_URI+ url.consul_report + slug , { responseType: "blob" }).subscribe(data => {
       this.httpData = data;
       var file = new Blob([data], { type: "application/pdf" });
       this.pdfSrc = URL.createObjectURL(file);
@@ -400,7 +400,7 @@ this.getPays();
 
       parmasvalue =parmasvalue.append('nom', this.filterForm.get('nom')?.value);
 
-      this.http.getElementParams(API_URI + url.consultation,{params:parmasvalue}).subscribe({
+      this.http.getElementParams(this.api.API_URI + url.consultation,{params:parmasvalue}).subscribe({
         next: data => {
           if (data) {
 
@@ -432,7 +432,7 @@ this.getPays();
   
         parmasvalue =parmasvalue.append('nom', this.filterForm.get('nom')?.value);
   
-        this.http.getElement(API_URI + url.consultation).subscribe({
+        this.http.getElement(this.api.API_URI + url.consultation).subscribe({
           next: data => {
             if (data) {
   
@@ -460,7 +460,7 @@ this.getPays();
       getfilter(){
     
   
-        this.http.getElement(API_URI + url.consultation).subscribe({
+        this.http.getElement(this.api.API_URI + url.consultation).subscribe({
           next: data => {
             if (data) {
   
@@ -490,7 +490,7 @@ this.getPays();
 
         let id = this.selectElement[0].id;
 
-        this.http.getElement(API_URI + url.antecedent + '/' + id).subscribe({
+        this.http.getElement(this.api.API_URI + url.antecedent + '/' + id).subscribe({
           next: data => {
             if (data) {
 
@@ -524,7 +524,7 @@ this.getPays();
 
           let id = this.selectElement[0].id;
   
-          this.http.getElement(API_URI + url.hopital_lst + id).subscribe({
+          this.http.getElement(this.api.API_URI + url.hopital_lst + id).subscribe({
             next: data => {
               if (data) {
   
@@ -556,7 +556,7 @@ this.getPays();
 
             let id = this.selectElement[0].id;
     
-            this.http.getElement(API_URI + url.medicament_list + id).subscribe({
+            this.http.getElement(this.api.API_URI + url.medicament_list + id).subscribe({
               next: data => {
                 if (data) {
     
@@ -590,7 +590,7 @@ this.getPays();
 
               let id = this.selectElement[0].id;
       
-              this.http.getElement(API_URI + url.habitudes + id).subscribe({
+              this.http.getElement(this.api.API_URI + url.habitudes + id).subscribe({
                 next: data => {
                   if (data) {
       
@@ -626,7 +626,7 @@ this.getPays();
 
           console.log('mon id', id);
 
-          this.http.getElement(API_URI + url.fichier_patient + id).subscribe({
+          this.http.getElement(this.api.API_URI + url.fichier_patient + id).subscribe({
 
             next: data => {
               if (data) {
@@ -652,7 +652,7 @@ this.getPays();
         deleteFichier(id:number){
 
                 confirm("Voulez vous supprimer le fichier ?");
-          this.http.deleteElement(API_URI + url.delete_file + id).subscribe(
+          this.http.deleteElement(this.api.API_URI + url.delete_file + id).subscribe(
             data =>{
               this.getfichierpatient();
 
@@ -739,7 +739,7 @@ this.getPays();
     let parmasvalue = new HttpParams;
     parmasvalue =parmasvalue.append('consultationId',this.selectElement[0].id).append('slug',this.selectElement[0].slug);
 
-    this.http.getElementParams(API_URI + url.report_consultation,{params:parmasvalue}).subscribe({
+    this.http.getElementParams(this.api.API_URI + url.report_consultation,{params:parmasvalue}).subscribe({
       next: data => {
 
           this.messageService.add({
@@ -766,7 +766,7 @@ this.getPays();
 
         downloadFichierPatient(name:string){
 
-          this.ht.get(API_URI + url.fichier_download + name,{ responseType: "blob" }).subscribe({
+          this.ht.get(this.api.API_URI + url.fichier_download + name,{ responseType: "blob" }).subscribe({
 
             next: data => {
               if (data) {
@@ -812,7 +812,7 @@ this.getPays();
 
         console.log('mon slug', slug);
 
-        this.http.getElement(API_URI + url.consultation + '/' + slug).subscribe({
+        this.http.getElement(this.api.API_URI + url.consultation + '/' + slug).subscribe({
 
           next: data => {
             if (data) {
@@ -862,7 +862,7 @@ this.getPays();
         let patient = this.selectElement[0].nomPatient;
         let slug = this.selectElement[0].slug;
         let date = new Date();
-        this.ht.get(API_URI+ url.consul_report + slug, { responseType: "blob" }).subscribe(data => {
+        this.ht.get(this.api.API_URI+ url.consul_report + slug, { responseType: "blob" }).subscribe(data => {
           const filename =  patient + "_" + date.getFullYear() +"_" + ".pdf";
               var a = document.createElement("a");
         a.href = URL.createObjectURL(data);
@@ -998,7 +998,7 @@ this.getPays();
 
     };
 
-    this.charge =this.http.postElement(API_URI + url.consultation, addConsultationRequest);
+    this.charge =this.http.postElement(this.api.API_URI + url.consultation, addConsultationRequest);
     this.chargement(this.charge);
       this.addConsultationForm.reset();
       this.hideDialog();

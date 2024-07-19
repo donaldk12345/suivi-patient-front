@@ -1,6 +1,6 @@
 export const url = {
 
-    login: 'authentication/login',
+    login: 'auth/sign-in',
     create_user: 'authentication/register',
     delete_user: 'user/',
     change_password: 'user/password/update',

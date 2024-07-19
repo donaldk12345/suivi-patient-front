@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { ApiUrlService } from 'src/app/services/api-url.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
-const API_URI= `${environment.BASE_URL}`
 @Component({
   selector: 'app-caisse',
   templateUrl: './caisse.component.html',
@@ -69,7 +69,7 @@ throw new Error('Method not implemented.');
  
  }
  
- constructor(private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
+ constructor(private api:ApiUrlService,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
  
  }
  onRowUnselect(dat: any) {
@@ -244,7 +244,7 @@ throw new Error('Method not implemented.');
      }
 
      getPatient(){
-      this.http.getElement(API_URI + url.patient).subscribe({
+      this.http.getElement(this.api.API_URI + url.patient).subscribe({
         next: data => {
           if (data) {
             console.log("Mes patient ", data.content);
@@ -300,7 +300,7 @@ throw new Error('Method not implemented.');
     }
  
      getCaisse(){
-       this.http.getElement(API_URI + url.caisseList).subscribe({
+       this.http.getElement(this.api.API_URI + url.caisseList).subscribe({
          next: data => {
            if (data) {
              console.log("Mes data ", data.content);
@@ -370,7 +370,7 @@ throw new Error('Method not implemented.');
 
          //console.log("request",addRequest);
  
-        this.charge =this.http.postElement(API_URI + url.addCaisse, addRequest);
+        this.charge =this.http.postElement(this.api.API_URI + url.addCaisse, addRequest);
          this.chargement(this.charge);
            this.addCaisseForm.reset();
            this.hideDialog();
@@ -395,7 +395,7 @@ throw new Error('Method not implemented.');
  
  
  
-           this.http.putElement(API_URI + url.patient, addRequest).subscribe({
+           this.http.putElement(this.api.API_URI + url.patient, addRequest).subscribe({
  
              next: data =>{
  
@@ -441,7 +441,7 @@ throw new Error('Method not implemented.');
         };
 
          
-        this.charge =this.http.putElement(API_URI + url.updaeCaisse + this.selectElement[0].id, addRequest);
+        this.charge =this.http.putElement(this.api.API_URI + url.updaeCaisse + this.selectElement[0].id, addRequest);
          this.chargement(this.charge);
            this.updateCaisseForm.reset();
            this.hideDialog();
@@ -473,7 +473,7 @@ throw new Error('Method not implemented.');
  
  
        let id = this.selectElement[0].id;
-       this.http.deleteElement(API_URI + url.patient + '/' + id).subscribe(
+       this.http.deleteElement(this.api.API_URI + url.patient + '/' + id).subscribe(
          data =>{
  
            this.messageService.add({

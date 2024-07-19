@@ -5,13 +5,16 @@ import { ResponseService } from 'src/app/services/response.service';
 import { dA } from '@fullcalendar/core/internal-common';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
-const API_URI= `${environment.BASE_URL}`
+import { ApiUrlService } from 'src/app/services/api-url.service';
+
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit{
+
+
 sendEmail() {
 throw new Error('Method not implemented.');
 }
@@ -55,7 +58,7 @@ this.maSelection = dat;
 
 }
 
-constructor(private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
+constructor(private api:ApiUrlService,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
 
 }
 onRowUnselect(dat: any) {
@@ -86,7 +89,7 @@ manageDownloadBtn(){
 
  
  getReport(){
-  this.http.getElement(API_URI + url.report_prescription_list).subscribe({
+  this.http.getElement(this.api.API_URI + url.report_prescription_list).subscribe({
     next: data => {
       if (data) {
         console.log("Mes report ", data.content);
@@ -108,7 +111,7 @@ manageDownloadBtn(){
 
 downloadReport() {
 
-  this.http.getElement(API_URI + url.report_download + this.selectElement[0].id).subscribe({
+  this.http.getElement(this.api.API_URI + url.report_download + this.selectElement[0].id).subscribe({
     next: data => {
       if (data) {
 

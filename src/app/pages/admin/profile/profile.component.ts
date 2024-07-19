@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { ApiUrlService } from 'src/app/services/api-url.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { TokenService } from 'src/app/services/token.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
 
-const API_URI= `${environment.BASE_URL}`
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -19,7 +20,7 @@ export class ProfileComponent implements OnInit{
   disabled:boolean = false;
   profileForm: FormGroup = Object.create(null);
   updatePasswordForm: FormGroup= Object.create(null);
-  constructor(private http: ResponseService,private messageService: MessageService, private tokenService:TokenService) {
+  constructor(private api:ApiUrlService,private http: ResponseService,private messageService: MessageService, private tokenService:TokenService) {
 
   }
 
@@ -57,7 +58,7 @@ export class ProfileComponent implements OnInit{
       quartier: this.profileForm.value.quartier
     };
 
-    this.http.postElement(API_URI + url.profile,addProfileRequest).subscribe({
+    this.http.postElement(this.api.API_URI + url.profile,addProfileRequest).subscribe({
 
       next: data =>{
 
@@ -87,7 +88,7 @@ export class ProfileComponent implements OnInit{
   }
 
   getProfile(){
-   return  this.http.getElement(API_URI + url.myprofile).subscribe({
+   return  this.http.getElement(this.api.API_URI + url.myprofile).subscribe({
       next: data => {
         if (data) {
           console.log("profile", data);
@@ -125,7 +126,7 @@ export class ProfileComponent implements OnInit{
       newPassword: this.updatePasswordForm.value.newPassword
     };
 
-    this.http.postElement(API_URI + url.change_password,addpasswordRequest).subscribe({
+    this.http.postElement(this.api.API_URI + url.change_password,addpasswordRequest).subscribe({
 
       next: data =>{
 

@@ -2,11 +2,12 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ApiUrlService } from 'src/app/services/api-url.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { TokenService } from 'src/app/services/token.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
-const API_URI= `${environment.BASE_URL}`
+
 @Component({
   selector: 'app-utilisateur',
   templateUrl: './utilisateur.component.html',
@@ -44,7 +45,7 @@ export class UtilisateurComponent implements OnInit{
   boolvalue: any[]=[];
   element: any;
 
-  constructor(private confirmationService: ConfirmationService,private http: ResponseService,private messageService: MessageService, private tokenService:TokenService) {
+  constructor(private api:ApiUrlService,private confirmationService: ConfirmationService,private http: ResponseService,private messageService: MessageService, private tokenService:TokenService) {
 
   }
 
@@ -238,7 +239,7 @@ getData(dat : any) : void {
         }
 
         getEtablissemnt(){
-          this.http.getElement(API_URI + url.etablissement).subscribe({
+          this.http.getElement(this.api.API_URI + url.etablissement).subscribe({
             next: data => {
               if (data) {
                       this.etablissement = data;
@@ -260,7 +261,7 @@ getData(dat : any) : void {
     
 
     getUsers(){
-    this.http.getElement(API_URI + url.list_users).subscribe({
+    this.http.getElement(this.api.API_URI + url.list_users).subscribe({
       next: data => {
         if (data) {
           console.log("Mes users ", data);
@@ -295,7 +296,7 @@ getData(dat : any) : void {
         expiredDate: this.registerForm.value.expiredDate
       };
 
-      this.http.postElement(API_URI + url.create_user,addUserRequest).subscribe({
+      this.http.postElement(this.api.API_URI + url.create_user,addUserRequest).subscribe({
 
         next: data =>{
 
@@ -369,7 +370,7 @@ getData(dat : any) : void {
   deleteUser() {
     let id = this.selectElement[0].id;
 
-    this.http.deleteElement(API_URI + url.delete_user + id).subscribe({
+    this.http.deleteElement(this.api.API_URI + url.delete_user + id).subscribe({
 
       next: data =>{
 
@@ -416,7 +417,7 @@ getData(dat : any) : void {
       };
 
       console.log("request",updateUerRequest);
-      this.http.putElement(API_URI + url.user_update + id,updateUerRequest).subscribe({
+      this.http.putElement(this.api.API_URI + url.user_update + id,updateUerRequest).subscribe({
 
         next: data =>{
 

@@ -3,10 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { ApiUrlService } from 'src/app/services/api-url.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
-const API_URI= `${environment.BASE_URL}`
+
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
@@ -50,7 +51,7 @@ this.manageDeleteBtn();
 
 }
 
-constructor(private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
+constructor(private api:ApiUrlService,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService){
 
 }
 onRowUnselect(dat: any) {
@@ -198,7 +199,7 @@ hideDialog(){
     }
 
     getPatient(){
-      this.http.getElement(API_URI + url.patient).subscribe({
+      this.http.getElement(this.api.API_URI + url.patient).subscribe({
         next: data => {
           if (data) {
             console.log("Mes patient ", data.content);
@@ -233,7 +234,7 @@ hideDialog(){
 
         };
 
-        this.charge =this.http.postElement(API_URI + url.patient, addRequest);
+        this.charge =this.http.postElement(this.api.API_URI + url.patient, addRequest);
         this.chargement(this.charge);
           this.addPatientForm.reset();
           this.hideDialog();
@@ -258,7 +259,7 @@ hideDialog(){
 
 
 
-          this.http.putElement(API_URI + url.patient, addRequest).subscribe({
+          this.http.putElement(this.api.API_URI + url.patient, addRequest).subscribe({
 
             next: data =>{
 
@@ -316,7 +317,7 @@ hideDialog(){
 
 
       let id = this.selectElement[0].id;
-      this.http.deleteElement(API_URI + url.patient + '/' + id).subscribe(
+      this.http.deleteElement(this.api.API_URI + url.patient + '/' + id).subscribe(
         data =>{
 
           this.messageService.add({

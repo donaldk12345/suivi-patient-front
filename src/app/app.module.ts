@@ -10,7 +10,6 @@ import {DialogModule} from 'primeng/dialog';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { PasswordModule } from 'primeng/password';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -22,6 +21,7 @@ import { ComposantModule } from "./composant/composant.module";
 import { PublicComponent } from './pages/public/public.component';
 import { PublicModule } from './pages/public/public.module';
 import { RouterModule } from '@angular/router';
+import { TableModule } from 'primeng/table';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -30,7 +30,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent,
         PublicComponent
     ],
     providers: [authInterceptorProviders],
@@ -47,6 +46,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ConfirmPopupModule,
         ButtonModule,
         MessagesModule,
+        TableModule,
         ToastModule,
         DialogModule,
         PasswordModule,
