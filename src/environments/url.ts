@@ -7,7 +7,7 @@ export const url = {
     user_update: 'user/update/',
     logout: 'auth/logout',
   list_users: 'user/list',
-  me: 'user/me',
+  me: 'auth/me',
   patient : 'patient',
   patientName: 'patient/list',
   rendezvous: 'rendezvous',
