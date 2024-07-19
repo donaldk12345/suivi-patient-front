@@ -1,0 +1,39 @@
+{
+    "login": {
+        "username": "Enter your user name",
+        "password": "Enter your password ",
+        "email": "Enter your e-mail "
+      },
+      "password": {
+        "null": "Password is invalid !",
+        "length": "The password must be at least 4 characters long!"
+      },
+  
+      "confirm_password": {
+        "null": "Password is invalid !",
+        "length": "The password must be at least 4 characters long!"
+      },
+        
+    "username": {
+        "null": "Your name cannot be null !",
+        "length": " !"
+      },
+      "email": {
+        "null": "Your email cannot be null !",
+        "valid": "The email address is invalid!"
+      },
+      "account": "Account",
+      "souvenir": "Remember me",
+      "setting": "Settings",
+      "connexion": "Signin",
+      "logout" : "Logout",
+      "dashboard": "Dashboard",
+      "revenir": "Return to my account",
+      "Nom": "Username",
+       "MotdePasseOublier": "Forgotten password",
+      "AppTitle": "Patient management",
+      "Password": "Password",
+      "Forgot": "Forgotten password ?",
+      "EnvoieLien":"Send link",
+      "welcome": "Welcome"
+}

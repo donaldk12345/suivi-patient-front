@@ -21,7 +21,7 @@ import { ComposantModule } from "./composant/composant.module";
 import { PublicComponent } from './pages/public/public.component';
 import { PublicModule } from './pages/public/public.module';
 import { RouterModule } from '@angular/router';
-import { TableModule } from 'primeng/table';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -46,7 +46,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         ConfirmPopupModule,
         ButtonModule,
         MessagesModule,
-        TableModule,
         ToastModule,
         DialogModule,
         PasswordModule,

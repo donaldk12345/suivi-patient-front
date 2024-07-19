@@ -10,6 +10,7 @@ import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.compone
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -17,7 +18,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AuthenticationComponent,
-    ForgetpasswordComponent
+    ForgetpasswordComponent,
+    ResetpasswordComponent
   ],
   imports: [
     CommonModule,

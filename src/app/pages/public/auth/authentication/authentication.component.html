@@ -15,7 +15,7 @@
                         </a>
                     </div>
                     <h4 class="mb-2 text-center" style="color: #000000b5;
-                    font-weight: 700;">Suivi des patients</h4>
+                    font-weight: 700;">{{ 'AppTitle' | translate}}</h4>
                     <div class="col-md m-auto text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-translate" viewBox="0 0 16 16">
                             <path d="M4.545 6.714 4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286zm1.634-.736L5.5 3.956h-.049l-.679 2.022z"/>
@@ -29,34 +29,34 @@
                     <form [formGroup]="loginForm" class="mb-3">
 
                         <div class="mb-3">
-                            <label for="username" class="form-label">username </label>
-                            <input type="username" class="form-control" id="username" name="username" required="" placeholder="Entrez votre nom" autofocus formControlName="username" />
+                            <label for="username" class="form-label">{{ 'Nom' | translate}}</label>
+                            <input type="username" class="form-control" id="username" name="username" required="" placeholder="{{ 'login.username' | translate}}" autofocus formControlName="username" />
                             <div class="col-md" *ngIf="username.touched && username.invalid">
-                                <small *ngIf="  username.errors?.['required']" style="color:red ;">Votre nom ne peut-etre null !</small>
+                                <small *ngIf="  username.errors?.['required']" style="color:red ;">{{ 'username.null' | translate}}</small>
                             </div>
                         </div>
                         <div class="mb-3 form-password-toggle">
                             <div class="d-flex justify-content-between">
-                                <label class="form-label" for="password">Mot de passe</label>
+                                <label class="form-label" for="password">{{ 'Password' | translate}}</label>
                                 <a href="" routerLink="/forgot-password">
-                                  <small style="color: #26a69a;">Mot de passe oublier?</small>
+                                  <small style="color: #26a69a;">{{ 'Forgot' | translate}}</small>
                                 </a>
                               </div>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password" class="form-control" name="" required="" placeholder="Entrez votre mot de passe" aria-describedby="password" formControlName="password" />
+                                <input type="password" id="password" class="form-control" name="" required="" placeholder="{{ 'login.password' | translate}}" aria-describedby="password" formControlName="password" />
 
 
                             </div>
                             <div class="col-md" *ngIf="password.touched && password.invalid">
-                                <small *ngIf="  password.errors?.['required']" style="color:red ;">Le mot de passe n'est pas valide !</small>
-                                <small *ngIf="  password.errors?.['minlength']" style="color:red ;">Le mot de passe doit faire minimum 4 caractères !</small>
+                                <small *ngIf="  password.errors?.['required']" style="color:red ;">{{ 'password.null' | translate }}</small>
+                                <small *ngIf="  password.errors?.['minlength']" style="color:red ;">{{ 'password.length' | translate }}</small>
 
                             </div>
                         </div>
                         <div class="mb-3">
                             <button class="connec d-grid w-100" type="submit" (click)="this.loginUser()" [disabled]="loginForm.status != 'VALID' ||   isLoading">
                               <i class="las" [ngClass]="{'las-spin la-spinner': isLoading, 'la-check': !isLoading}"></i>
-                              Connexion</button>
+                              {{ 'connexion' | translate}}</button>
                         </div>
                     </form>
                 </div>
