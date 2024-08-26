@@ -95,16 +95,16 @@ hideDialog(){
     this.cols = [
       {field: 'nom', header: 'Nom', type: 'string', width: 200, isFroz: true},
       {field: 'prenom', header: 'Prénom', type: 'string', width: 200, isFroz: false},
-       { field: 'quartier', header: 'Quartier', type: 'string', width: 200, isFroz: false },
+       { field: 'quariter', header: 'Quartier', type: 'string', width: 200, isFroz: false },
       { field: 'ville', header: 'Ville', type: 'string', width: 200, isFroz: false },
        { field: 'telephone', header: 'Téléphone', type: 'string', width: 200, isFroz: false },
        { field: 'email', header: 'Email', type: 'string', width: 200, isFroz: false },
-       { field: 'profesion', header: 'Profession', type: 'string', width: 200, isFroz: false },
+       { field: 'profession', header: 'Profession', type: 'string', width: 200, isFroz: false },
        { field: 'numeroCni', header: 'CNI', type: 'string', width: 200, isFroz: false },
        { field: 'sexe', header: 'Sexe', type: 'string', width: 200, isFroz: false },
-       { field: 'date_naiss', header: 'Date de naissance', type: 'jour', width: 200, isFroz: false },
-        { field: 'createBy', header: 'Ajouter par', type: 'string', width: 200, isFroz: false },
-        {field: 'createdAt', header: 'Créer le', type: 'jour', width: 200, isFroz: false},
+       { field: 'dateNaissance', header: 'Date de naissance', type: 'jour', width: 200, isFroz: false },
+        { field: 'username', header: 'Ajouter par', type: 'string', width: 200, isFroz: false },
+        {field: 'createAt', header: 'Créer le', type: 'jour', width: 200, isFroz: false},
 
 
 

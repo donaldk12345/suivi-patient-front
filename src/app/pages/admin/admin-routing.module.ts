@@ -21,6 +21,7 @@ import { CaisseComponent } from "./caisse/caisse.component";
 import { ReglageComponent } from "./reglage/reglage.component";
 import { RendezvousComponent } from "./rendezvous/rendezvous.component";
 import { ReportComponent } from "./report/report.component";
+import { EtablissementsComponent } from "./etablissements/etablissements.component";
 
 
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
       {path: 'caisse',component: CaisseComponent,canActivate:[AuthGuard]},
       {path: 'reglage',component: ReglageComponent,canActivate:[AuthGuard]},
       {path: 'rendez-vous',component: RendezvousComponent,canActivate:[AuthGuard]},
+      {path: 'etablissements',component: EtablissementsComponent,canActivate:[AuthGuard]},
       {path: 'bar-chart',component: BarChartComponent},
       {path: 'pie-chart',component: PieChartComponent},
       {path: 'line-chart',component: LineChartComponent}

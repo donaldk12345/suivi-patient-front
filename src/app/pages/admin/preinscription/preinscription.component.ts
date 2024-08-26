@@ -172,7 +172,6 @@ hideDialog(){
       'title':  new FormControl('', [Validators.required]),
       'validite': new FormControl('', [Validators.required]),
       'raison': new FormControl('', [Validators.required]),
-      'codeConsulation': new FormControl('', [Validators.required]),
       'patientId': new FormControl('', [Validators.required]),
       'medicament': new FormControl([this.medicaments]),
       
@@ -325,7 +324,6 @@ getPatient(){
       title: this.addPrescriptionForm.value.title,
       validite: this.addPrescriptionForm.value.validite,
       raison: this.addPrescriptionForm.value.raison,
-      codeConsulation: this.addPrescriptionForm.value.codeConsulation,
       patientId: this.addPrescriptionForm.value.patientId,
       medicament: this.medicaments,
 
