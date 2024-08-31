@@ -1,4 +1,5 @@
 import { formatDate } from '@angular/common';
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -31,6 +32,7 @@ throw new Error('Method not implemented.');
   calendarDialog: boolean = false;
   selectElement: any;
   maSelection: any[] = [];
+  genratebtn: boolean =false;
   cols: any[] = [];
   modifierbtn: boolean =false;
   activatebtn: boolean = false;
@@ -65,6 +67,7 @@ throw new Error('Method not implemented.');
  this.manageDeleteBtn();
    this.manageUpdateBtn();
    this.manageDetailsBtn();
+   this.manageGeneratePdfBtn();
  
  
  }
@@ -241,6 +244,14 @@ throw new Error('Method not implemented.');
            this.detailbtn = true;
          }
  
+     }
+
+     manageGeneratePdfBtn(){
+      if(this.selectElement.length == 0 || this.selectElement.length > 1){
+        this.genratebtn = false;
+      } else {
+        this.genratebtn = true;
+      }
      }
 
      getPatient(){
@@ -499,6 +510,32 @@ throw new Error('Method not implemented.');
        }
  
  
+       getCaisseGenerateReportPdf() {
+        let parmasvalue = new HttpParams;
+        parmasvalue =parmasvalue.append('caisseId',this.selectElement[0].id);
+    
+        this.http.getElementParams(this.api.API_URI + url.caisse_report_generate,{params:parmasvalue}).subscribe({
+          next: data => {
+    
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Opérations succéss'
+              })
+          },
+          error: error => {
+            console.log('error!', error);
+    
+            this.messageService.add({
+              severity: 'error',
+              summary: "Erreur",
+              detail: "Le fichier a déjà été générer",
+              life: 3000
+            });
+        }
+        })
+      }
+    
  
  
     confirmDelete() {

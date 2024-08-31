@@ -16,6 +16,7 @@ export const url = {
   report_prescription_list: 'prescription/report/list',
   report_download: 'prescription/report/',
   report_generated: 'prescription/report',
+  caisse_report_generate: 'caisse/report',
   report_consultation: 'consultation/report',
   fichier_patient: 'consultation/fichiers/',
   fichier_download: 'consultation/fichier/',

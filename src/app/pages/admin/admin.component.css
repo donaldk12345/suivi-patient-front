@@ -2,3 +2,7 @@
     background: linear-gradient(90deg, #26a69a, #26a69a)!important;
     color: white!important;
 }
+
+body {
+    background-color: #dededd78!important;
+}

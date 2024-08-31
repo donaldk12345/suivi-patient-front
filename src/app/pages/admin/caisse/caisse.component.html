@@ -4,7 +4,7 @@
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer une facture </button>
             <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateDialog()" > <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Paiement</button>
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Annuler</button>
-          
+            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!genratebtn" (click)="getCaisseGenerateReportPdf()"> <i class="las la-file-pdf" style="color: #333; size: 20px;"></i>&nbsp;Générer le pdf</button>
         </div>
         <div class="card p-3">
             <h4 style="color:#303548; font-weight: 800;" class="text-center">Facturations</h4>
