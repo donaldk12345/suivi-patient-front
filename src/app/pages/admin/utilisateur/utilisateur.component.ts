@@ -60,6 +60,7 @@ export class UtilisateurComponent implements OnInit{
        'email' : new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
        'password': new FormControl('', [Validators.required, Validators.minLength(4)]),
        'role': new FormControl([],[Validators.required]),
+       'etablissement_id': new FormControl(''),
        'expired': new FormControl('',Validators.required),
        'expiredDate': new FormControl('')
      });
@@ -242,7 +243,7 @@ getData(dat : any) : void {
           this.http.getElement(this.api.API_URI + url.etablissement).subscribe({
             next: data => {
               if (data) {
-                      this.etablissement = data;
+                      this.etablissement = data.content;
                       this.etabId = this.etablissement.id;
                 console.log("Mon etablissement ", this.etablissement);
           
@@ -291,7 +292,7 @@ getData(dat : any) : void {
         password: this.registerForm.value.password,
         role: this.registerForm.value.role,
         email: this.registerForm.value.email,
-        etablissement_id:this.etabId,
+        etablissement_id:this.registerForm.value.etablissement_id,
         expired: this.registerForm.value.expired,
         expiredDate: this.registerForm.value.expiredDate
       };

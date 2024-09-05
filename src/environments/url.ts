@@ -1,7 +1,7 @@
 export const url = {
 
     login: 'auth/sign-in',
-    create_user: 'authentication/register',
+    create_user: 'auth/sign-up',
     delete_user: 'user/',
     change_password: 'user/password/update',
     user_update: 'user/update/',
@@ -34,7 +34,7 @@ export const url = {
   profile: 'user/profile/add',
   antecedent: 'consultation/antecedent',
   file_patient_import: 'consultation/fichier',
-  etablissement: 'etablissement',
+  etablissement: 'etablissement/list',
   agent_setEquipe: 'agent/associer',
   agent_search: 'agent/search',
   agent_list: 'agent/list',

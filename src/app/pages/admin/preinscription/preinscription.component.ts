@@ -170,6 +170,7 @@ hideDialog(){
     
     this.addPrescriptionForm= new FormGroup({
       'title':  new FormControl('', [Validators.required]),
+      'code':  new FormControl('', [Validators.required]),
       'validite': new FormControl('', [Validators.required]),
       'raison': new FormControl('', [Validators.required]),
       'patientId': new FormControl('', [Validators.required]),
@@ -324,6 +325,7 @@ getPatient(){
       title: this.addPrescriptionForm.value.title,
       validite: this.addPrescriptionForm.value.validite,
       raison: this.addPrescriptionForm.value.raison,
+      code: this.addPrescriptionForm.value.code,
       patientId: this.addPrescriptionForm.value.patientId,
       medicament: this.medicaments,
 

@@ -82,6 +82,23 @@
                 <input type="datetime-local" class="form-control" id="date" placeholder="Veillez choisir la date" formControlName="expiredDate">
                  
             </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Etablissement</label>
+                <p-dropdown
+                  inputId="dropdown2"
+                  [autoDisplayFirst]="false"
+                  [filter]="true"
+                  filterBy="nomEtablissement"
+                  [options]="etablissement"
+                  optionLabel="nomEtablissement"
+                  appendTo="body"
+                  optionValue="id"
+                  formControlName="etablissement_id"
+                  placeholder="Choisir l'etablissement"
+                  class="col-md"
+                ></p-dropdown>
+              </div>
               
             <div class="row col-md m-auto">
                 <div class="col">
