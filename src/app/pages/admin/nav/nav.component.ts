@@ -30,7 +30,7 @@ export class NavComponent implements OnInit{
 
     this.isUser();
     this.me();
-    this.getLogo();
+    //this.getLogo();
     //console.log('user', this.user);
 
   }
