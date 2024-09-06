@@ -1,8 +1,15 @@
 <div class="container mt-3 pb-4">
     <div class="col-md">
         <div class="col-md mt-2 mt-2 p-2">
-            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!downloadbtn" (click)="downloadReport()" > <i class="las la-file-pdf" style="color: #fff;"></i>&nbsp;Télécharger</button>
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!downloadbtn" (click)="downloadFile()" > <i class="las la-file-pdf" style="color: #fff;"></i>&nbsp;Télécharger</button>
+            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!previewbtn" (click)="getPdf()" > <i class="las la-file-pdf" style="color: #111;"></i>&nbsp;Privisualiser</button>
             <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!mailbtn" (click)="sendEmail()"> <i class="las la-envelope" style="color: #333; size: 20px;"></i>&nbsp;Envoyer par mail</button>
+            <button id="btn3" class="icom3 mt-2 " type="button" (click)="showFilterDialog()"> <i class="las la-search"  style="color: #111;"></i>&nbsp;Filtrer</button>
+            <!--  <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" > <i class="fas fa-link" style="color: #111;"></i>&nbsp;Lien de téléchargement</button>--> 
+              <button  id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Supprimer </button>
+              <button *ngIf="isrefresh" type="button" class="btn btn-default btn-sm" (click)="refresh()">
+                  <span> <i class="fas fa-refresh" style="font-size: 15px; margin-top: 6px;"></i></span> Refresh
+                </button>
           
         </div>
         <div class="card p-3">
@@ -13,3 +20,62 @@
     </div>
 
 </div>
+
+<p-dialog header="Visualisation" [(visible)]="pdfDialog" [style]="{ width: '1050px', height: '700px' }" styleClass="p-fluid" [modal]="true" [baseZIndex]="10000">
+    <ng-template pTemplate="content">
+         <div class="text-center" *ngIf="isView">
+            <div class="spinner-grow " style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+         </div>
+        <pdf-viewer [src]="pdfSrc" [render-text]="true" [original-size]="false" [autoresize]="false" style="width: 1000px; height: 700px"></pdf-viewer>
+        
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <div class="row ">
+            <div class="">
+                <button class="ico mt-2" type="button"  (click)="downloadFile()"> <i class="fas fa-download" style="color: #111;">&nbsp;</i>&nbsp;Télécharger&nbsp;</button>
+            </div>
+            <div class="">
+                <button class="icob mt-2" type="button" (click)=" hidePdf()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Quitter</button>
+                
+            </div>
+
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Filtrer" [(visible)]="displayFilter" [style]="{width: '650px'}" styleClass="p-fluid"
+[modal]="true">
+
+    <ng-template pTemplate="content">
+        <form [formGroup]="filterForm">
+            <br>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Code</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir le nom du fichier " formControlName="code">
+             
+            </div>
+       
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Répertoire</label>
+                <p-dropdown  inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="types" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="reportType" placeholder="Veillez choisir le repertoire" class="col-md"></p-dropdown>
+              </div><br>
+ 
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button"  (click)="getReportFilterList()"> <i class="fas fa-search" style="color: #111;">&nbsp;</i>&nbsp;Rechercher&nbsp;</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
+    </ng-template>
+</p-dialog>

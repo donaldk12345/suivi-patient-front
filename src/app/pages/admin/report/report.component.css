@@ -98,3 +98,9 @@ button#btn3:disabled {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2);
     transform: translate3d(0, -2px, 0);
 }
+
+.btn-default{
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
