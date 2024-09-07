@@ -43,7 +43,13 @@
                 <a class="nav-link profile-dropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle" src="../../../assets/SiteAssets/images/user.jpg" /><span class="d">{{ user?.username }}</span></a>
 
                 <div class="dropdown">
-                    <div class="dropdown-menu shadow-lg profile-dropdown-menu" aria-labelledby="profile-dropdown"><a class="dropdown-item" routerLink="/gestion/profile" style="text-decoration: none;"><i class="las la-user mr-2"></i>profile</a><a class="dropdown-item" (click)="logOut()" style="text-decoration: none;"><i class="las la-cog mr-2"></i>Déconnexion</a></div>
+                    <div class="dropdown-menu shadow-lg profile-dropdown-menu" aria-labelledby="profile-dropdown">
+                        <a class="dropdown-item" routerLink="/gestion/profile" style="text-decoration: none;"><i class="las la-user mr-2"></i>profile</a>
+                        <a class="dropdown-item" (click)="logOut()" style="text-decoration: none;"><i class="las la-sign-out-alt mr-2"></i>Déconnexion</a>
+                        <a class="dropdown-item" routerLink="/gestion/reglage"  style="text-decoration: none;"><i class="las la-cog mr-2"></i>Réglages</a>
+                    
+                    </div>
+
                 </div>
             </li>
         </ul>

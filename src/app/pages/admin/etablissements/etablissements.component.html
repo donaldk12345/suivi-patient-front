@@ -1,0 +1,209 @@
+<div class="container mt-3 pb-4">
+    <div class="col-md">
+        <div class="col-md mt-2 mt-2 p-2">
+            <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer </button>
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateEtablissementView()"> <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
+            <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Supprimer </button>
+        </div>
+        <div class="card p-3">
+            <h4 style="color:#303548; font-weight: 800;" class="text-center">Liste des établissements</h4>
+            <app-tables [data]="etablissement" [colum]="cols" (datas)="getData($event)" (datas)="onRowSelect($event)" [loading]="loading" class="mt-3"></app-tables>
+
+        </div>
+    </div>
+
+</div>
+
+<p-dialog header="{{ 'Ajouter etablissement' | translate}}" [(visible)]="display" [style]="{width: '650px'}" styleClass="p-fluid"
+[modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addEtablissementForm">
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'Nom' | translate}}</label>
+                <input type="text" class="form-control" id="username" placeholder="{{ 'NomInput' | translate}}" formControlName="nomEtablissement">
+                <div class="col-md" *ngIf="nomEtablissement.touched && nomEtablissement.invalid">
+                    <small *ngIf="  nomEtablissement.errors?.['required']" style="color:red ;">{{ 'NomReq' | translate}}</small>
+    
+                </div>
+             
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'Numero' | translate}}</label>
+                <input type="text" class="form-control" id="username" placeholder="{{ 'NumeroInput' | translate}}" formControlName="numero">
+                <div class="col-md" *ngIf="numero.touched && numero.invalid">
+                    <small *ngIf="  numero.errors?.['required']" style="color:red ;">{{ 'NumeroReq' | translate}}</small>
+    
+                </div>
+             
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'Responsable' | translate}}</label>
+                <input type="text" class="form-control" id="username" placeholder="{{ 'ResponsableInput' | translate}}" formControlName="responsable">
+                <div class="col-md" *ngIf="responsable.touched && responsable.invalid">
+                    <small *ngIf="  responsable.errors?.['required']" style="color:red ;">{{ 'ResponsableReq' | translate}}</small>
+    
+                </div>
+             
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'Ville' | translate}}</label>
+                <input type="text" class="form-control" id="username" placeholder="{{ 'VilleInput' | translate}}" formControlName="ville">
+                <div class="col-md" *ngIf="ville.touched && ville.invalid">
+                    <small *ngIf="  ville.errors?.['required']" style="color:red ;">{{ 'VilleReq' | translate}}"</small>
+    
+                </div>
+             
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'EstFonct' | translate}}</label>
+                <p-dropdown  inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" 
+                filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body"
+                 optionValue="ids" formControlName="statut" 
+                 placeholder="Chisir le status " class="col-md-2" ></p-dropdown> 
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'DescriptionEntreprise' | translate}}</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="{{ 'DescriptionEntrepriseInput' | translate}}" formControlName="description" ></textarea>
+                <div class="col-md" *ngIf="description.touched && description.invalid">
+                    <small *ngIf="  description.errors?.['required']" style="color:red ;">{{ 'DescriptionEntrepriseRequire' | translate}}</small>
+                </div>
+            </div>
+                 
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">{{ 'Email' | translate}}</label>
+                <input type="email" class="form-control" id="email" placeholder="{{ 'EmailInput' | translate}}" formControlName="email">
+                 
+                <div class="col-md" *ngIf="email.touched && email.invalid">
+                    <small *ngIf="  email.errors?.['required']" style="color:red ;">{{ 'EmailReq' | translate}}</small>
+                    <small *ngIf="  email.errors?.['pattern']" style="color:red ;">{{ 'EmailValid' | translate}}</small>
+    
+                </div>
+            </div>
+
+             <!--  <div class="col-md" *ngIf="entrepriseId.touched && entrepriseId.invalid">
+                <small *ngIf="  entrepriseId.errors?.['required']" style="color:red ;">L'entreprise est obligatoire !</small>
+            </div>-->
+     
+
+              <div class="mb-3">
+                <label class="form-label" for="basic-default-company">{{ 'CreateDate' | translate}} </label>
+                <input type="date" class="form-control" id="date" placeholder="Veillez choisir la date" formControlName="date">
+                <div class="col-md" *ngIf="date.touched && date.invalid">
+                    <small *ngIf="  date.errors?.['required']" style="color:red ;">{{ 'DateReq' | translate}}</small>
+                </div>
+            </div>
+              
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="icom mt-2" type="button"   (click)="addEtablissement()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;{{ 'Enregistrer' | translate}}</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;{{ 'Annuler' | translate}}</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="{{ 'Modifier etablissement' | translate}}" [(visible)]="addUpdateForm" [style]="{width: '650px'}" styleClass="p-fluid"
+[modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addEtablissementForm">
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'Nom' | translate}}</label>
+                <input type="text" class="form-control" id="username" placeholder="{{ 'NomInput' | translate}}" formControlName="nomEtablissement">
+                <div class="col-md" *ngIf="nomEtablissement.touched && nomEtablissement.invalid">
+                    <small *ngIf="  nomEtablissement.errors?.['required']" style="color:red ;">{{ 'NomReq' | translate}}</small>
+    
+                </div>
+             
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'Numero' | translate}}</label>
+                <input type="text" class="form-control" id="username" placeholder="{{ 'NumeroInput' | translate}}" formControlName="numero">
+                <div class="col-md" *ngIf="numero.touched && numero.invalid">
+                    <small *ngIf="  numero.errors?.['required']" style="color:red ;">{{ 'NumeroReq' | translate}}</small>
+    
+                </div>
+             
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'Responsable' | translate}}</label>
+                <input type="text" class="form-control" id="username" placeholder="{{ 'ResponsableInput' | translate}}" formControlName="responsable">
+                <div class="col-md" *ngIf="responsable.touched && responsable.invalid">
+                    <small *ngIf="  responsable.errors?.['required']" style="color:red ;">{{ 'ResponsableReq' | translate}}</small>
+    
+                </div>
+             
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'Ville' | translate}}</label>
+                <input type="text" class="form-control" id="username" placeholder="{{ 'VilleInput' | translate}}" formControlName="ville">
+                <div class="col-md" *ngIf="ville.touched && ville.invalid">
+                    <small *ngIf="  ville.errors?.['required']" style="color:red ;">{{ 'VilleReq' | translate}}"</small>
+    
+                </div>
+             
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'EstFonct' | translate}}</label>
+                <p-dropdown  inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" 
+                filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body"
+                 optionValue="ids" formControlName="statut" 
+                 placeholder="Chisir le status " class="col-md-2" ></p-dropdown> 
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">{{ 'DescriptionEntreprise' | translate}}</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="{{ 'DescriptionEntrepriseInput' | translate}}" formControlName="description" ></textarea>
+                <div class="col-md" *ngIf="description.touched && description.invalid">
+                    <small *ngIf="  description.errors?.['required']" style="color:red ;">{{ 'DescriptionEntrepriseRequire' | translate}}</small>
+                </div>
+            </div>
+                 
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">{{ 'Email' | translate}}</label>
+                <input type="email" class="form-control" id="email" placeholder="{{ 'EmailInput' | translate}}" formControlName="email">
+                 
+                <div class="col-md" *ngIf="email.touched && email.invalid">
+                    <small *ngIf="  email.errors?.['required']" style="color:red ;">{{ 'EmailReq' | translate}}</small>
+                    <small *ngIf="  email.errors?.['pattern']" style="color:red ;">{{ 'EmailValid' | translate}}</small>
+    
+                </div>
+            </div>
+
+             <!--  <div class="col-md" *ngIf="entrepriseId.touched && entrepriseId.invalid">
+                <small *ngIf="  entrepriseId.errors?.['required']" style="color:red ;">L'entreprise est obligatoire !</small>
+            </div>-->
+     
+
+              <div class="mb-3">
+                <label class="form-label" for="basic-default-company">{{ 'CreateDate' | translate}} </label>
+                <input type="date" class="form-control" id="date" placeholder="Veillez choisir la date" formControlName="date">
+                <div class="col-md" *ngIf="date.touched && date.invalid">
+                    <small *ngIf="  date.errors?.['required']" style="color:red ;">{{ 'DateReq' | translate}}</small>
+                </div>
+            </div>
+              
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="icom mt-2" type="button"   (click)="updatetablissement()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;{{ 'Enregistrer' | translate}}</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;{{ 'Annuler' | translate}}</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
+    </ng-template>
+</p-dialog>

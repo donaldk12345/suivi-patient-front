@@ -112,3 +112,22 @@ body {
     font-weight: 600;
     color: #0062cc;
 }
+
+.icom {
+    margin-right: 15px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 28px 13px 28px;
+    cursor: pointer;
+    background-color: #26a69a;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+    border: none;
+    color: #fff;
+    transition: box-shadow .4s cubic-bezier(.25, .8, .25, 1), transform .4s cubic-bezier(.25, .8, .25, 1);
+    transform: translate3d(0, 0, 0)
+}
+
+button#btn1:disabled {
+    background-color: #26a69983;
+}

@@ -16,7 +16,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TableModule } from 'primeng/table';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {PaginatorModule} from 'primeng/paginator';
 import { BrowserModule } from "@angular/platform-browser";
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -49,9 +49,14 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { RendezvousComponent } from './rendezvous/rendezvous.component';
 import { ReportComponent } from './report/report.component';
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { EtablissementsComponent } from './etablissements/etablissements.component';
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
-
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+  }
 @NgModule({
     declarations: [
         AdminComponent,
@@ -72,7 +77,8 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
         MessagingComponent,
         ReglageComponent,
         RendezvousComponent,
-        ReportComponent
+        ReportComponent,
+        EtablissementsComponent
     ],
     providers: [MessageService, ConfirmationService],
     bootstrap: [AdminComponent],
@@ -108,7 +114,14 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
         TabViewModule,
         NgApexchartsModule,
         ComposantModule,
-        PdfViewerModule
+        PdfViewerModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
     ]
 })
 export class AdminModule {}
