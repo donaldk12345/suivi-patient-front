@@ -26,8 +26,8 @@
     <ng-template pTemplate="content">
         <form [formGroup]="addConsultationForm">
             <div class="mb-3">
-                <label class="form-label" for="basic-default-fullname">Nom</label>
-                <input type="text" class="form-control" id="username" placeholder="Veillez saisir le prenom" formControlName="nom">
+                <label class="form-label" for="basic-default-fullname">Titre consulatation</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir le titre" formControlName="nom">
                 <!--<div class="col-md" *ngIf="nom.touched && nom.invalid">
                   <small *ngIf=" nom.errors?.['required']" style="color:red ;">Le nom ne peut-etre null !</small>
 
@@ -36,7 +36,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Problème</label>
-                <input type="text" class="form-control" id="username" placeholder="Veillez saisir le prenom" formControlName="probleme">
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir le problème" formControlName="probleme">
                 <!--
             <div class="col-md" *ngIf="prenom.touched && prenom.invalid">
                   <small *ngIf=" prenom.errors?.['required']" style="color:red ;">Le prénom ne peut-etre null !</small>
@@ -57,7 +57,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Evolution</label>
-                <input type="text" class="form-control" id="username" placeholder="Veillez saisir le numéro de la cni" formControlName="evolution">
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir une évolution du problème" formControlName="evolution">
                 <!--
 
                <div class="col-md" *ngIf="numero_cni.touched && numero_cni.invalid">
@@ -68,8 +68,8 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="basic-default-fullname">symtomes associer</label>
-                <input type="text" class="form-control" id="username" placeholder="Veillez saisir la profession" formControlName="symptomeAssocier">
+                <label class="form-label" for="basic-default-fullname">Symptômes associés</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir les Symptômes" formControlName="symptomeAssocier">
                 <!--
                  <div class="col-md" *ngIf="profession.touched && profession.invalid">
                   <small *ngIf=" profession.errors?.['required']" style="color:red ;">Le profession ne peut-etre null !</small>
@@ -78,8 +78,8 @@
             -->
             </div>
             <div class="mb-3">
-                <label class="form-label" for="basic-default-fullname">Facteurs </label>
-                <input formControlName="facteurs" class="form-control" type="text" placeholder="Quelques facteurs ">
+                <label class="form-label" for="basic-default-fullname">Facteurs</label>
+                <input formControlName="facteurs" class="form-control" type="text" placeholder="Quelques facteurs influençant le problème ">
                 <!--
                     <div class="col-md" *ngIf="date_naiss.touched && date_naiss.invalid">
                   <small *ngIf=" date_naiss.errors?.['required']" style="color:red ;">La date de naissance ne peut-etre null !</small>
@@ -90,7 +90,39 @@
 
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Allergies</label>
-                <input type="text" class="form-control" id="username" placeholder="Veillez saisir la profession" formControlName="allergies">
+                <input type="text" class="form-control" id="username" placeholder="Veillez répondre par OUI ou NON" formControlName="allergies">
+                <!--
+                 <div class="col-md" *ngIf="telephone.touched && telephone.invalid">
+                  <small *ngIf=" telephone.errors?.['required']" style="color:red ;">Le profession ne peut-etre null !</small>
+
+              </div>
+            -->
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Poids</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir le poids" formControlName="poids">
+                <!--
+                 <div class="col-md" *ngIf="telephone.touched && telephone.invalid">
+                  <small *ngIf=" telephone.errors?.['required']" style="color:red ;">Le profession ne peut-etre null !</small>
+
+              </div>
+            -->
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Taille</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir la taille" formControlName="taille">
+                <!--
+                 <div class="col-md" *ngIf="telephone.touched && telephone.invalid">
+                  <small *ngIf=" telephone.errors?.['required']" style="color:red ;">Le profession ne peut-etre null !</small>
+
+              </div>
+            -->
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Température</label>
+                <input type="text" class="form-control" id="username" placeholder="Veillez saisir la température" formControlName="temperature">
                 <!--
                  <div class="col-md" *ngIf="telephone.touched && telephone.invalid">
                   <small *ngIf=" telephone.errors?.['required']" style="color:red ;">Le profession ne peut-etre null !</small>
@@ -101,13 +133,18 @@
 
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Maladies Chronique</label>
-                <input type="text" class="form-control" id="username" placeholder="Veillez saisir la profession" formControlName="allergies">
+                <input type="text" class="form-control" id="username" placeholder="Veillez répondre par OUI ou NON" formControlName="maladiesChronique">
                 <!--
                   <div class="col-md" *ngIf="sexe.touched && sexe.invalid">
                   <small *ngIf=" sexe.errors?.['required']" style="color:red ;">Le sexe ne peut-etre null !</small>
 
               </div>
             -->
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Groupe Sanguin</label>      
+                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="groupes" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="groupeSanguin"  placeholder="Chosir le groupe " class="col-md"></p-dropdown>
+
             </div>
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Patient</label>
@@ -122,18 +159,18 @@
             </div>
             <div class="mb-3">
                 <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
-                    <h4 class="text-center text-secondary">Maladies antécedentes</h4>
+                    <h4 class="text-center text-secondary">Vos antécédents médicaux</h4>
                     <div class="col">
-                        <input type="text" placeholder="nom de la maladie antécedente " class="form-control" pInputText [formControl]="nom" required />
+                        <input type="text" placeholder="Nom de la maladie " class="form-control" pInputText [formControl]="nom" required />
                     </div><br>
                     <div class="col">
                         <textarea type="textarea" rows="3" placeholder=" description de la maladie" class="form-control" pInputText [formControl]="descirption" required></textarea>
                     </div><br>
                     <div class="col">
-                        <input type="text" placeholder=" type de maladie" class="form-control" pInputText [formControl]="type" required />
+                        <input type="text" placeholder=" Type de maladie" class="form-control" pInputText [formControl]="type" required />
                     </div><br>
                     <div class="col">
-                        <input type="date" placeholder=" date de la maladie" class="form-control" pInputText [formControl]="date" required />
+                        <input type="date" placeholder=" Date de la maladie" class="form-control" pInputText [formControl]="date" required />
 
                     </div><br>
                     <div class="col">
@@ -171,12 +208,12 @@
 
             <div class="mb-3">
                 <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
-                    <h4 class="text-center text-secondary">Médicaments prise</h4>
+                    <h4 class="text-center text-secondary">Médicaments pris </h4>
                     <div class="col">
-                        <input type="text" placeholder="nom du médicament " class="form-control" pInputText [formControl]="nomMedicament" required />
+                        <input type="text" placeholder="Nom du médicament " class="form-control" pInputText [formControl]="nomMedicament" required />
                     </div><br>
                     <div class="col">
-                        <input type="date" placeholder=" date de la prise" class="form-control" pInputText [formControl]="dateMedica" required />
+                        <input type="date" placeholder=" Date de la prise" class="form-control" pInputText [formControl]="dateMedica" required />
 
                     </div><br>
                     <div class="col">
@@ -210,9 +247,9 @@
 
             <div class="mb-3">
                 <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
-                    <h4 class="text-center text-secondary">Hopitaux visité</h4>
+                    <h4 class="text-center text-secondary">Hôpitaux visités </h4>
                     <div class="col">
-                        <input type="text" placeholder=" nom hopital " class="form-control" pInputText [formControl]="nomHopital" required />
+                        <input type="text" placeholder="Nom hôpital " class="form-control" pInputText [formControl]="nomHopital" required />
                     </div><br>
                     <div class="col">
                         
@@ -220,19 +257,19 @@
 
                     </div><br>
                     <div class="col">
-                        <input type="text" placeholder=" ville " class="form-control" pInputText [formControl]="ville" required />
+                        <input type="text" placeholder=" Ville " class="form-control" pInputText [formControl]="ville" required />
 
                     </div><br>
                     <div class="col">
-                        <input type="text" placeholder=" addresse " class="form-control" pInputText [formControl]="addresse" required />
+                        <input type="text" placeholder=" Adresse " class="form-control" pInputText [formControl]="addresse" required />
 
                     </div><br>
                     <div class="col">
-                        <input type="text" placeholder=" nom du  docteur " class="form-control" pInputText [formControl]="nomDocteur" required />
+                        <input type="text" placeholder=" Nom du  docteur " class="form-control" pInputText [formControl]="nomDocteur" required />
 
                     </div><br>
                     <div class="col">
-                        <input type="date" placeholder=" date " class="form-control" pInputText [formControl]="dateHopital" required />
+                        <input type="date" placeholder=" Date " class="form-control" pInputText [formControl]="dateHopital" required />
 
                     </div><br>
                     <div class="col">
@@ -276,27 +313,29 @@
                 <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
                     <h4 class="text-center text-secondary">Habitudes</h4>
                     <div class="col">
+                        <label class="form-label" for="basic-default-fullname"> Votre mode alimentaire ?</label>
                         <input type="text" placeholder=" node alimentaire " class="form-control" pInputText [formControl]="alimentation" required />
                     </div><br>
                     <div class="col">
-                        <label class="form-label" for="basic-default-fullname">Tabac</label>
-                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="tabac" placeholder="vous fumez ? " class="col-md"></p-dropdown>
+                        <label class="form-label" for="basic-default-fullname">Faites-vous usage ou avez-vous déjà fait usage de tabac ?</label>
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="tabac" placeholder="Vous fumez ? " class="col-md"></p-dropdown>
                        
                     </div>
                     <br>
                     <div class="col">
-                        <label class="form-label" for="basic-default-fullname">Alcool</label>
-                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="alcool" placeholder="vous buvez de l'alcool ? " class="col-md"></p-dropdown>
+                        <label class="form-label" for="basic-default-fullname">Consommez-vous de l'alcool ?</label>
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="alcool" placeholder="Vous buvez de l'alcool ? " class="col-md"></p-dropdown>
                        
 
                     </div><br>
                     <div class="col">
                         <label class="form-label" for="basic-default-fullname">Sport</label>
-                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="sport" placeholder="vous faites du sport ? " class="col-md"></p-dropdown>
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="sport" placeholder="Vous faites du sport ? " class="col-md"></p-dropdown>
                        
 
                     </div><br>
                     <div class="col">
+                        <label class="form-label" for="basic-default-fullname">Date</label>
                         <input type="date" placeholder=" date " class="form-control" pInputText [formControl]="dateHabitude" required />
 
                     </div><br>

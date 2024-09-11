@@ -96,6 +96,7 @@ export class ConsultationComponent implements OnInit{
   medicament: any;
   habitude: any;
   genratebtn: boolean =false;
+  groupes:any[]=[];
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -129,6 +130,7 @@ getData(dat : any) : void {
 }
 showDialog() {
   this.display = true;
+  this.getGroupeSanguin();
 }
 
 updateDialog() {
@@ -172,6 +174,10 @@ hideDialog(){
       'allergies': new FormControl('', [Validators.required]),
       'maladiesChronique': new FormControl('', [Validators.required]),
       'patientId': new FormControl('', [Validators.required]),
+      'groupeSanguin': new FormControl(''),
+      'temperature': new FormControl(''),
+      'poids': new FormControl(''),
+      'taille': new FormControl(''),
       'antecedent': new FormControl([this.antecedents]),
       'medicament': new FormControl([this.medicaments]),
       'hopitalAutres': new FormControl([this.hoptitaux]),
@@ -990,6 +996,10 @@ this.getPays();
       allergies: this.addConsultationForm.value.allergies,
       maladiesChronique: this.addConsultationForm.value.maladiesChronique,
       patientId: this.addConsultationForm.value.patientId,
+      groupeSanguin: this.addConsultationForm.value.groupeSanguin,
+      taille: this.addConsultationForm.value.taille,
+      poids: this.addConsultationForm.value.poids,
+      temperature: this.addConsultationForm.value.temperature,
       antecedent: this.antecedents,
       medicament: this.medicaments,
       hopitalAutres: this.hoptitaux,
@@ -1014,6 +1024,18 @@ this.getPays();
       { val :  'NON', 'id':false}
      ]
 
+  }
+
+
+  getGroupeSanguin(){
+    this.groupes =[
+      {nom: 'Groupe A','id':1},
+      {nom: 'Groupe B','id':2},
+      {nom: 'Groupe AB','id':3},
+      {nom: 'Groupe O','id':4},
+      {nom: 'Rh positif (Rh+)','id':5},
+      {nom: 'Rh négatif (Rh-)','id':6},
+    ]
   }
 
 
