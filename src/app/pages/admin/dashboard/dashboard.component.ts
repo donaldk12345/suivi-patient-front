@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit{
   items: any;
   user: any;
   role: any;
+  username: any;
 
   constructor(private api:ApiUrlService,private http: ResponseService, private router: Router,private messageService: MessageService,private tokenService: TokenService) {
 
@@ -42,6 +43,7 @@ export class DashboardComponent implements OnInit{
 
     this.loadData();
     this.totalItems();
+    this.username=this.http.sessionget('username');
 
   }
 
