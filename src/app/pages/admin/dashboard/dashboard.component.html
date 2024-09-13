@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-6 welcome-text-wrapper align-self-center">
                             <h5>hello, {{username}} </h5>
-                            <p>Welcome to your dashboard</p>
+                            <p>Bienvenue sur l'application</p>
                         </div>
                         <div class="col-md-6 welcome-img-wrapper"><img src="../../../../assets/images/stethoscope.gif" /></div>
                     </div>
@@ -24,19 +24,19 @@
                     <div class="row text-center">
                         <div class="col-md-3"><i class="las la-user-injured la-3x align-self-center"></i>
                             <p>total patients</p>
-                            <h4><a href="">2,301</a></h4>
+                            <h4> {{stats?.patients}} </h4>
                         </div>
                         <div class="col-md-3"><i class="las la-user-md la-3x align-self-center"></i>
                             <p>total consulatations</p>
-                            <h4><a href="">401</a></h4>
+                            <h4>{{stats?.consultations}}</h4>
                         </div>
                         <div class="col-md-3"><i class="las la-clinic-medical la-3x align-self-center"></i>
                             <p>total prescriptions</p>
-                            <h4><a href="">21</a></h4>
+                            <h4>{{stats?.prescriptions}}</h4>
                         </div>
                         <div class="col-md-3"><i class="las la-users la-3x align-self-center"></i>
                             <p>total Rendez-vous</p>
-                            <h4><a href="">21</a></h4>
+                            <h4>{{stats?.rendezvous}}</h4>
                         </div>
                     </div>
                 </div>
@@ -95,21 +95,45 @@
         <div class="card-deck">
             <div class="card">
                 <div class="card-header">
-                    <h5>recent activities</h5>
+                    <h6>Nombres de consultation par jour</h6>
                 </div>
-                <div class="card-body"><canvas id="recent-activity-chart"></canvas></div>
+                <div class="card-body">
+                    <div class="text-center" *ngIf="loading1">
+                        <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    <canvas  id="MyChart" >{{ chart }}</canvas>
+                
+                </div>
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h5>total bookings</h5>
+                    <h6>total Consultation </h6>
                 </div>
-                <div class="card-body"><canvas id="bookings-chart"></canvas></div>
+                <div class="card-body">
+                    <div class="text-center" *ngIf="loading2">
+                        <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    <canvas  id="MyChart1" >{{ chart1 }}</canvas>
+                
+                </div>
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h5>diseases summary</h5>
+                    <h6>Rendez-vous par jour</h6>
                 </div>
-                <div class="card-body"><canvas id="diseases-chart"></canvas></div>
+                <div class="card-body">
+
+                    <div class="text-center" *ngIf="loading4">
+                        <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                     <canvas  id="MyChart3" >{{ chart3 }}</canvas>
+                </div>
             </div>
         </div>
         <div class="card-deck">
