@@ -11,11 +11,20 @@
             <div class="card welcome-content-card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6 welcome-text-wrapper align-self-center">
+                        <div class="col-md-4 welcome-text-wrapper align-self-center">
                             <h5>hello, {{username}} </h5>
                             <p>Bienvenue sur l'application</p>
                         </div>
-                        <div class="col-md-6 welcome-img-wrapper"><img src="../../../../assets/images/stethoscope.gif" /></div>
+                        <div  *ngIf="!verify" class="col-md-4 welcome-img-wrapper"><img src="../../../../assets/images/stethoscope.gif" /></div>
+                        <div class="col-md-4" *ngIf="verify">
+                            <span class="fw-bold">{{ 'Filtre' | translate}}</span>   
+                            <select  (change)="changeMode($event)" class="form-select ">
+                                <option  *ngFor="let x of etablissement" [value]="x.id" [selected]="x.id === this.cureent">{{x.nomEtablissement}} </option>
+                            </select>
+                            <button *ngIf="isrefresh" type="button" class="btn btn-default btn-sm" (click)="refresh()">
+                                <span> <i class="fas fa-refresh" style="font-size: 15px; margin-top: 6px;"></i></span> Refresh
+                              </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,7 +109,7 @@
                 <div class="card-body">
                     <div class="text-center" *ngIf="loading1">
                         <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
-                          <span class="visually-hidden">Loading...</span>
+                          <span class="visually-hidden"></span>
                         </div>
                       </div>
                     <canvas  id="MyChart" >{{ chart }}</canvas>
@@ -114,7 +123,7 @@
                 <div class="card-body">
                     <div class="text-center" *ngIf="loading2">
                         <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
-                          <span class="visually-hidden">Loading...</span>
+                          <span class="visually-hidden"></span>
                         </div>
                       </div>
                     <canvas  id="MyChart1" >{{ chart1 }}</canvas>
@@ -129,14 +138,14 @@
 
                     <div class="text-center" *ngIf="loading4">
                         <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
-                          <span class="visually-hidden">Loading...</span>
+                          <span class="visually-hidden"></span>
                         </div>
                       </div>
                      <canvas  id="MyChart3" >{{ chart3 }}</canvas>
                 </div>
             </div>
         </div>
-        <div class="card-deck">
+     <!--    <div class="card-deck">
             <div class="card">
                 <div class="card-header">
                     <h5>top treatments</h5>
@@ -219,135 +228,84 @@
                 </div>
                 <div class="card-footer"><a class="view-more" href="">more<i class="las la-angle-right"></i></a></div>
             </div>
-        </div>
+        </div>-->
         <div class="card-deck">
             <div class="card">
                 <div class="card-header">
-                    <h5>doctors lists</h5>
+                    <h5 style="text-transform: lowercase;">Liste des patients</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless table-hover table-responsive-md">
                         <tbody>
                             <tr>
-                                <td><img class="rounded-circle" src="../../../assets/SiteAssets/images/man.svg" loading="lazy" /></td>
                                 <td>
-                                    <p>john doe</p><small class="text-muted">dentist</small></td>
+                                    <p>Nom</p></td>
                                 <td>
-                                    <p class="text-muted">male</p>
+                                    <p>Prenom</p>
                                 </td>
-                                <td class="text-right">
-                                    <p>+271289178</p>
+                                <td>
+                                    <p>Numéro</p>
                                 </td>
-                                <td class="text-right"><button class="btn btn-dark-red-f btn-sm">appointment</button></td>
-                                <td><button class="btn btn-sm"><i class="las la-ellipsis-h"></i></button></td>
+                                <td class="text-right">Etablissement</td>
                             </tr>
-                            <tr>
-                                <td><img class="rounded-circle" src="../../../assets/SiteAssets/images/man.svg" loading="lazy" /></td>
+                            <tr *ngFor="let p of patient.slice(0, 6);">
                                 <td>
-                                    <p>john doe</p><small class="text-muted">dentist</small></td>
+                                    <p> {{p?.nom}} </p></td>
                                 <td>
-                                    <p class="text-muted">male</p>
+                                    <p> {{p?.prenom}} </p>
                                 </td>
-                                <td class="text-right">
-                                    <p>+271289178</p>
+                                <td >
+                                    <p> {{p?.telephone}} </p>
                                 </td>
-                                <td class="text-right"><button class="btn btn-dark-red-f btn-sm">appointment</button></td>
-                                <td><button class="btn btn-sm"><i class="las la-ellipsis-h"></i></button></td>
+                                <td>
+                                    <p style="text-transform: lowercase;"> {{p?.nomEtablissement}} </p>
+                                </td>
+                        
                             </tr>
-                            <tr>
-                                <td><img class="rounded-circle" src="../../../assets/SiteAssets/images/man.svg" loading="lazy" /></td>
-                                <td>
-                                    <p>john doe</p><small class="text-muted">dentist</small></td>
-                                <td>
-                                    <p class="text-muted">male</p>
-                                </td>
-                                <td class="text-right">
-                                    <p>+271289178</p>
-                                </td>
-                                <td class="text-right"><button class="btn btn-dark-red-f btn-sm">appointment</button></td>
-                                <td><button class="btn btn-sm"><i class="las la-ellipsis-h"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td><img class="rounded-circle" src="../../../assets/SiteAssets/images/man.svg" loading="lazy" /></td>
-                                <td>
-                                    <p>john doe</p><small class="text-muted">dentist</small></td>
-                                <td>
-                                    <p class="text-muted">male</p>
-                                </td>
-                                <td class="text-right">
-                                    <p>+271289178</p>
-                                </td>
-                                <td class="text-right"><button class="btn btn-dark-red-f btn-sm">appointment</button></td>
-                                <td><button class="btn btn-sm"><i class="las la-ellipsis-h"></i></button></td>
-                            </tr>
+                      
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer"><a class="view-more" href="">more<i class="las la-angle-right"></i></a></div>
+                <div class="card-footer"><button  (click)="downloadPatientFile()" class="view-more">Exporter<i class="las la-file-excel"></i></button></div>
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h5>upcoming appointments</h5>
+                    <h5 style="text-transform: lowercase;">Liste des rendez-vous</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless table-hover table-responsive-md">
                         <tbody>
                             <tr>
-                                <td><img class="rounded-circle" src="../../../assets/SiteAssets/images/man.svg" loading="lazy" /></td>
                                 <td>
-                                    <p>john doe</p><small class="text-muted">dentist</small></td>
+                                    <p>Nom</p></td>
                                 <td>
-                                    <p class="text-muted">male</p>
+                                    <p>Profession</p>
                                 </td>
-                                <td class="text-right">
-                                    <p>24y</p>
+                                <td>
+                                    <p>quartier</p>
                                 </td>
-                                <td class="text-right"><button class="btn"><i class="las la-check-circle"></i></button><button class="btn"><i class="las la-times-circle"></i></button></td>
-                                <td><button class="btn btn-sm"><i class="las la-ellipsis-h"></i></button></td>
+                                <td class="text-right">Etablissement</td>
                             </tr>
-                            <tr>
-                                <td><img class="rounded-circle" src="../../../assets/SiteAssets/images/man.svg" loading="lazy" /></td>
+                            
+                            <tr *ngFor="let r of rendesvous.slice(0, 6);">
                                 <td>
-                                    <p>john doe</p><small class="text-muted">dentist</small></td>
+                                    <p> {{r?.nomPatient}} </p></td>
                                 <td>
-                                    <p class="text-muted">male</p>
+                                    <p> {{r?.profession}} </p>
                                 </td>
-                                <td class="text-right">
-                                    <p>24y</p>
+                                <td >
+                                    <p> {{r?.quartier}} </p>
                                 </td>
-                                <td class="text-right"><button class="btn"><i class="las la-check-circle"></i></button><button class="btn"><i class="las la-times-circle"></i></button></td>
-                                <td><button class="btn btn-sm"><i class="las la-ellipsis-h"></i></button></td>
+                                <td>
+                                    <p style="text-transform: lowercase;"> {{r?.nomEtablissement}} </p>
+                                </td>
+                        
                             </tr>
-                            <tr>
-                                <td><img class="rounded-circle" src="../../../assets/SiteAssets/images/man.svg" loading="lazy" /></td>
-                                <td>
-                                    <p>john doe</p><small class="text-muted">dentist</small></td>
-                                <td>
-                                    <p class="text-muted">male</p>
-                                </td>
-                                <td class="text-right">
-                                    <p>24y</p>
-                                </td>
-                                <td class="text-right"><button class="btn"><i class="las la-check-circle"></i></button><button class="btn"><i class="las la-times-circle"></i></button></td>
-                                <td><button class="btn btn-sm"><i class="las la-ellipsis-h"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td><img class="rounded-circle" src="../../../assets/SiteAssets/images/man.svg" loading="lazy" /></td>
-                                <td>
-                                    <p>john doe</p><small class="text-muted">dentist</small></td>
-                                <td>
-                                    <p class="text-muted">male</p>
-                                </td>
-                                <td class="text-right">
-                                    <p>24y</p>
-                                </td>
-                                <td class="text-right"><button class="btn"><i class="las la-check-circle"></i></button><button class="btn"><i class="las la-times-circle"></i></button></td>
-                                <td><button class="btn btn-sm"><i class="las la-ellipsis-h"></i></button></td>
-                            </tr>
+          
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer"><a class="view-more" href="">more<i class="las la-angle-right"></i></a></div>
+                <div class="card-footer"><button  (click)="downloadRendevousFile()" class="view-more">Exporter<i class="las la-file-excel"></i></button></div>
             </div>
         </div>
     </div>
