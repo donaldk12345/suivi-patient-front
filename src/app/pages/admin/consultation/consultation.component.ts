@@ -21,6 +21,7 @@ interface AutoCompleteCompleteEvent {
 })
 export class ConsultationComponent implements OnInit{
 
+
   consultation:any[]=[];
   charge: Observable<any> = new Observable<any>();
  users: any[]=[];
@@ -85,6 +86,7 @@ export class ConsultationComponent implements OnInit{
   consultationOne: any;
   age: number | undefined;
   anteced: any;
+  antecedData:any[]=[];
   fichiers: any;
   suggestionsd: any;
   patientName:any[]=[];
@@ -96,6 +98,7 @@ export class ConsultationComponent implements OnInit{
   medicament: any;
   habitude: any;
   genratebtn: boolean =false;
+  groupes:any[]=[];
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -129,6 +132,7 @@ getData(dat : any) : void {
 }
 showDialog() {
   this.display = true;
+  this.getGroupeSanguin();
 }
 
 updateDialog() {
@@ -172,6 +176,10 @@ hideDialog(){
       'allergies': new FormControl('', [Validators.required]),
       'maladiesChronique': new FormControl('', [Validators.required]),
       'patientId': new FormControl('', [Validators.required]),
+      'groupeSanguin': new FormControl(''),
+      'temperature': new FormControl(''),
+      'poids': new FormControl(''),
+      'taille': new FormControl(''),
       'antecedent': new FormControl([this.antecedents]),
       'medicament': new FormControl([this.medicaments]),
       'hopitalAutres': new FormControl([this.hoptitaux]),
@@ -198,6 +206,10 @@ this.getPays();
        { field: 'quartier', header: 'Quartier', type: 'string', width: 200, isFroz: false },
       { field: 'evolution', header: 'Evolution', type: 'string', width: 200, isFroz: false },
        { field: 'facteurs', header: 'Facteurs', type: 'string', width: 200, isFroz: false },
+       { field: 'groupeSanguin', header: 'Groupe', type: 'string', width: 200, isFroz: false },
+       { field: 'poids', header: 'Poids', type: 'string', width: 200, isFroz: false },
+       { field: 'taille', header: 'Taille', type: 'string', width: 200, isFroz: false },
+       { field: 'temperature', header: 'Température', type: 'string', width: 200, isFroz: false },
        { field: 'maladiesChronique', header: 'Maladies chroniques', type: 'string', width: 200, isFroz: false },
        { field: 'nomPatient', header: 'Nom du patient', type: 'string', width: 200, isFroz: false },
        {field: 'debut', header: 'De de début de la maladie', type: 'jour', width: 200, isFroz: false},
@@ -253,7 +265,7 @@ this.getPays();
       if(this.selectElement.length == 0 || this.selectElement.length > 1){
         this.updatebtn = false;
       } else {
-        this.updatebtn = true;
+        this.updatebtn = false;
       }
      }
 
@@ -495,6 +507,8 @@ this.getPays();
             if (data) {
 
               this.anteced = data.content;
+
+              this.antecedents = data.content;
               console.log("Mes antecedent ", this.anteced);
               /*this.patient.forEach(elt=>{
                  this.patien.set(elt.id,elt.nom);
@@ -529,6 +543,7 @@ this.getPays();
               if (data) {
   
                 this.hopital = data.content;
+                this.hoptitaux = data.content;
                 console.log("Mes hoptaux ", this.anteced);
                 /*this.patient.forEach(elt=>{
                    this.patien.set(elt.id,elt.nom);
@@ -561,6 +576,7 @@ this.getPays();
                 if (data) {
     
                   this.medicament = data.content;
+                  this.medicaments = data.content;
                   console.log("Mes medicament ", this.medicament);
                   /*this.patient.forEach(elt=>{
                      this.patien.set(elt.id,elt.nom);
@@ -595,6 +611,7 @@ this.getPays();
                   if (data) {
       
                     this.habitude = data.content;
+                    this.habitudes = data.content;
                     console.log("Mes habitudes ", this.habitude);
                     /*this.patient.forEach(elt=>{
                        this.patien.set(elt.id,elt.nom);
@@ -806,6 +823,67 @@ this.getPays();
         }
 
 
+        updateconsultationPreview() {
+          let dt = formatDate(this.selectElement[0]?.dateNaiss, 'yyyy-MM-dd','en_US');
+                  this.addConsultationForm.patchValue({
+                'nom':  this.selectElement[0].nom,
+                'probleme': this.selectElement[0].probleme,
+                'startDate': this.selectElement[0].startDate,
+                'evolution': this.selectElement[0].evolution,
+                'symptomeAssocier': this.selectElement[0].symptomeAssocier,
+                'facteurs':this.selectElement[0].facteurs,
+                'allergies': this.selectElement[0].allergies,
+                'maladiesChronique': this.selectElement[0].maladiesChroniques,
+                'patientId': this.selectElement[0].patientId,
+                'groupeSanguin': this.selectElement[0].groupeSanguin,
+                'temperature': this.selectElement[0].temperature,
+                'poids':this.selectElement[0].poids,
+                'taille': this.selectElement[0].taille,
+  
+  
+          })
+  
+          this.addUpdateForm = true;
+          this.getAntecedent();
+          this.getMedicament();
+          this.getHopital();
+          this.getHabitudes();
+  
+  
+        }
+
+
+
+        deleteAntecedentApi(id:number) {
+        
+          this.http.deleteElement(this.api.API_URI + "consultation/antecedent/delete/" + id).subscribe({
+      
+            next: data =>{
+      
+              this.messageService.add({
+                severity: 'success',
+                summary: 'success',
+                detail:"Antecedent supprimer avec succés",
+                life: 3000
+              });
+      
+              console.log("data",data);
+      
+            },
+            error: error => {
+              console.log('error!', error);
+      
+              this.messageService.add({
+                severity: 'error',
+                summary: error,
+                detail: error.message,
+                life: 3000
+              });
+          }
+          })
+      
+        }
+
       getConsultationById() {
 
         let slug = this.selectElement[0].slug;
@@ -990,6 +1068,10 @@ this.getPays();
       allergies: this.addConsultationForm.value.allergies,
       maladiesChronique: this.addConsultationForm.value.maladiesChronique,
       patientId: this.addConsultationForm.value.patientId,
+      groupeSanguin: this.addConsultationForm.value.groupeSanguin,
+      taille: this.addConsultationForm.value.taille,
+      poids: this.addConsultationForm.value.poids,
+      temperature: this.addConsultationForm.value.temperature,
       antecedent: this.antecedents,
       medicament: this.medicaments,
       hopitalAutres: this.hoptitaux,
@@ -1008,12 +1090,61 @@ this.getPays();
   }
 
 
+  updateConsultation() {
+    
+    
+    let addConsultationRequest= {
+      nom: this.addConsultationForm.value.nom,
+      probleme: this.addConsultationForm.value.probleme,
+      startDate: this.addConsultationForm.value.startDate,
+      evolution: this.addConsultationForm.value.evolution,
+      symptomeAssocier: this.addConsultationForm.value.symptomeAssocier,
+      facteurs: this.addConsultationForm.value.facteurs,
+      allergies: this.addConsultationForm.value.allergies,
+      maladiesChronique: this.addConsultationForm.value.maladiesChronique,
+      patientId: this.addConsultationForm.value.patientId,
+      groupeSanguin: this.addConsultationForm.value.groupeSanguin,
+      taille: this.addConsultationForm.value.taille,
+      poids: this.addConsultationForm.value.poids,
+      consultationId: this.selectElement[0].id,
+      temperature: this.addConsultationForm.value.temperature,
+      antecedent: this.antecedents,
+      medicament: this.medicaments,
+      hopitalAutres: this.hoptitaux,
+      habitudes: this.habitudes
+
+
+    };
+
+    this.charge =this.http.putElement(this.api.API_URI + "consultation", addConsultationRequest);
+    this.chargement(this.charge);
+      this.addConsultationForm.reset();
+      this.hideDialog();
+
+
+    console.log("Mes données envoyé", addConsultationRequest);
+
+    }
+
+
   getbolValue(){
     this.boolvalue = [
       { val: 'OUI', 'id': true },
       { val :  'NON', 'id':false}
      ]
 
+  }
+
+
+  getGroupeSanguin(){
+    this.groupes =[
+      {nom: 'Groupe A','id':1},
+      {nom: 'Groupe B','id':2},
+      {nom: 'Groupe AB','id':3},
+      {nom: 'Groupe O','id':4},
+      {nom: 'Rh positif (Rh+)','id':5},
+      {nom: 'Rh négatif (Rh-)','id':6},
+    ]
   }
 
 

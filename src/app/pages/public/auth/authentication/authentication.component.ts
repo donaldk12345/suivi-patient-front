@@ -71,6 +71,7 @@ export class AuthenticationComponent implements OnInit{
       this.isLoading =true;
 
        this.http.sessionset('token', JSON.stringify(data.token));
+       this.http.sessionset('username',this.loginForm.get('username')?.value);
 
       this.router.navigate(['/gestion/etablissement']);
     }, error =>{

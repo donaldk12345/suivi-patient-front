@@ -8,6 +8,8 @@ import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
 import { TokenService } from 'src/app/services/token.service';
 import { ApiUrlService } from 'src/app/services/api-url.service';
+import { HttpParams } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 Chart.register(...registerables);
 @Component({
   selector: 'dashboard',
@@ -20,13 +22,56 @@ export class DashboardComponent implements OnInit{
   @ViewChild('MyChart') canvas: ElementRef | undefined;
   
    chart: any 
+   public chart1: any;
+   public chart2: any;
+   public chart3: any;
   items: any;
   user: any;
+  stats: any;
+  elt:any;
+  loading:boolean =false;
   role: any;
+  username: any;
+
+  stats1: any;
+  stats2:any;
+  stats3:any;
+  stats4:any;
+  private labeldata: any[] = [];
+  private realdata: any[] = [];
+  private labeldata1: any[] = [];
+  private realdata1: any[] = [];
+  private labeldata2: any[] = [];
+  private labeldata3: any[] = [];
+  private realdata2: any[] = [];
+  private realdata3: any[] = [];
+  private colordata: any[] = [];
+  private colordata1: any[] = [];
+  private colordata2: any[] = [];
+  private colordata3: any[] = [];
+
+  loading1:boolean =false;
+  loading2:boolean =false;
+  loading3:boolean =false;
+  loading4:boolean =false;
 
   constructor(private api:ApiUrlService,private http: ResponseService, private router: Router,private messageService: MessageService,private tokenService: TokenService) {
 
 
+  }
+
+  colors =[ "#A5D152","#723E64","#E1CE9A","#926D27","#985717",
+    "#FCD21C","#CCCCFF","#9683EC","#CECECE","#BF3030",
+    "#462E01","#CDCD0D","#4E63CE","#8B6C42","#370028",
+    "#F0E36B","#88421D","#77B5FE","#2E006C","#AE4A34"
+  ]
+  
+  Randoom(taille: number): number {
+    let tr: number = 0;
+    if (taille != null && taille > 0) {
+      tr = Math.floor(Math.random() * taille)
+    }
+    return tr;
   }
 
 
@@ -39,164 +84,453 @@ export class DashboardComponent implements OnInit{
     console.log("token",this.tokenService.DecodeToken(JSON.stringify(this.http.sessionget('token'))));
 
     this.user = this.tokenService.DecodeToken(JSON.stringify(this.http.sessionget('token')));
-
-    this.loadData();
-    this.totalItems();
+    this.username=this.http.sessionget('username');
+    this.getStatsItems();
+    this.getStatsChart();
+    this.getStatsChart2();
+    this.getStatsChart4();
 
   }
 
 
-  colors = ["#A5D152", "#723E64", "#E1CE9A", "#926D27", "#985717",
-  "#FCD21C", "#CCCCFF", "#9683EC", "#CECECE", "#BF3030",
-  "#462E01", "#CDCD0D", "#4E63CE", "#8B6C42", "#370028",
-  "#F0E36B", "#88421D", "#77B5FE", "#2E006C", "#AE4A34"
-]
 
+  getStatsItems(){
 
-Randoom(taille: number): number {
-  let tr: number = 0;
-  if (taille != null && taille > 0) {
-    tr = Math.floor(Math.random() * taille)
-  }
-  return tr;
-}
+    let parmasvalue = new HttpParams;
 
- loadData(){
+    parmasvalue =parmasvalue.append('entrepriseId',this.elt);
 
-  let i = 1;
-  console.log(i);
- }
-
- createChart(){
-
-  this.chart = new Chart("MyChart", {
-    type: 'bar', //this denotes tha type of chart
-
-    data: {// values on X-Axis
-      labels: ['2022-05-10', '2022-05-11', '2022-05-12','2022-05-13',
-               '2022-05-14', '2022-05-15', '2022-05-16','2022-05-17', ],
-       datasets: [
-        {
-          label: "Sales",
-          data: ['467','576', '572', '79', '92',
-               '574', '573', '576'],
-          backgroundColor: 'blue'
-        },
-        {
-          label: "Profit",
-          data: ['542', '542', '536', '327', '17',
-                 '0.00', '538', '541'],
-          backgroundColor: 'limegreen'
-        }
-      ]
-    },
-    options: {
-      aspectRatio:2.5
-    }
-
-  });
-}
-  columnChartOptions = {
-    animationEnabled: true,
-    title: {
-      text: 'Suivi 1',
-    },
-    data: [
-      {
-        // Change type to "doughnut", "line", "splineArea", etc.
-        type: 'column',
-        dataPoints: [
-          { label: 'apple', y: 10 },
-          { label: 'orange', y: 15 },
-          { label: 'banana', y: 25 },
-          { label: 'mango', y: 30 },
-          { label: 'grape', y: 28 },
-          { label: 'ope', y: 31 },
-          { label: 'lorem', y: 12 },
-          { label: 'dat', y: 13 },
-          { label: 'man', y: 7 },
-          { label: 'gap', y: 3 },
-        ],
-      },
-    ],
-  };
-
-  pieChartOptions = {
-    animationEnabled: true,
-    title: {
-      text: 'Suivi 2',
-    },
-    theme: 'light2', // "light1", "dark1", "dark2"
-    data: [
-      {
-        type: 'pie',
-        dataPoints: [
-          { label: 'apple', y: 10 },
-          { label: 'orange', y: 15 },
-          { label: 'banana', y: 25 },
-          { label: 'mango', y: 30 },
-          { label: 'grape', y: 28 },
-          { label: 'ope', y: 31 },
-          { label: 'lorem', y: 12 },
-          { label: 'dat', y: 13 },
-          { label: 'man', y: 7 },
-          { label: 'gap', y: 3 },
-        ],
-      },
-    ],
-  };
-
-  lineChartOptions = {
-    animationEnabled: true,
-    title: {
-      text: 'Suivi 3',
-    },
-    theme: 'light2', // "light1", "dark1", "dark2"
-    data: [
-      {
-        type: 'area',
-        dataPoints: [
-          { label: 'apple', y: 10 },
-          { label: 'orange', y: 15 },
-          { label: 'banana', y: 25 },
-          { label: 'mango', y: 30 },
-          { label: 'grape', y: 28 },
-          { label: 'ope', y: 31 },
-          { label: 'lorem', y: 12 },
-          { label: 'dat', y: 13 },
-          { label: 'man', y: 7 },
-          { label: 'gap', y: 3 },
-        ],
-      },
-    ],
-  };
-
-
-  totalItems(){
-    this.http.getElement(this.api + url.dashboardItems).subscribe({
+     if(this.elt!=null){
+      
+      this.loading = true;
+       
+    this.http.getElementParams(this.api.API_URI + "dashboard/items",{params:parmasvalue}).subscribe({
       next: data => {
         if (data) {
-       
-          this.items= data;
-          console.log("me ", data);
+         this.loading = false;
+          this.stats= data;
+          console.log("stats", this.stats);
         } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Reésultat',
-            detail: data.message,
-            life: 3000
-          });
+          
         }
       }
     })
+     }else{
+
+       this.loading =true;
+    this.http.getElement(this.api.API_URI + "dashboard/items").subscribe({
+      next: data => {
+        if (data) {
+          this.loading = false;
+          this.stats= data;
+          console.log("stats 2", this.stats);
+       
+        } else {
+          
+        }
+      }
+    })
+     }
   }
 
-  
 
-  onUpdateChange(event:any){
 
-      console.log("event",event.target.value);
+  getStatsChart(){
+
+    let parmasvalue = new HttpParams;
+
+    parmasvalue =parmasvalue.append('etablissementId',this.elt);
+
+     if(this.elt!=null){
+
+      console.log('elt',this.elt);
+
+       this.loading1 = true;
+       this.http.getElementParams(this.api.API_URI + "dashboard/items/consultation",{params:parmasvalue}).subscribe({
+       next: data => {
+        if (data) {
+       
+          this.stats1= data;
+          console.log("stats chart params ", this.stats1);
+            this.loading1 = false;
+
+          if(this.stats1!=null){
+            this.stats1.forEach((element:any) => {
+        
+
+             console.log("element",element);
+        
+              this.labeldata.push(element['date']);
+              this.realdata.push(element['consultationSize']);
+              this.colordata.push(this.colors[this.Randoom(this.colors.length)]);
+    
+              for(let i = 0; i<= this.labeldata.length; i++){
+    
+                 let date = new Date();
+                 const pipe = new DatePipe('fr-FR')
+              
+              //console.log("date move", pipe.transform(this.labeldata[i]));
+    
+              }
+              
+            });
+
+            this.chart.destroy();
+
+            this.chart = new Chart("MyChart", {
+              type: 'line', //this denotes tha type of chart
+        
+              data: {// values on X-Axis
+                labels:this.labeldata, 
+                 datasets: [
+                  {
+                    label: "consultation",
+                    data: this.realdata,
+                    backgroundColor: this.colordata
+                  }
+                
+                ]
+              },
+              options: {
+                aspectRatio:2.5
+              }
+              
+            });
+            //this.chart.destroy();
+          }
+        } else {
+          
+        }
+      }
+    })
+     }else{
+   
+      this.loading1 = true;
+       
+    this.http.getElement(this.api.API_URI + "dashboard/items/consultation").subscribe({
+      next: data => {
+        if (data) {
+       
+          this.stats1= data;
+          this.loading1 = false;
+          console.log("stats 1",this.stats1);
+          if(this.stats1!=null){
+            this.stats1.forEach((element:any) => {
+
+        
+              const pipe = new DatePipe('fr-FR')
+              this.labeldata.push(element['date']);
+              this.realdata.push(element['consultationSize']);
+              this.colordata.push(this.colors[this.Randoom(this.colors.length)])
+    
+              for(let i = 0; i<= this.labeldata.length; i++){
+    
+                 let date = new Date();
+                 const pipe = new DatePipe('fr-FR')
+              
+              //console.log("date move", pipe.transform(this.labeldata[i]));
+    
+              }
+              
+            });
+
+            this.chart = new Chart("MyChart", {
+              type: 'line', //this denotes tha type of chart
+        
+              data: {// values on X-Axis
+                labels:this.labeldata, 
+                 datasets: [
+                  {
+                    label: "consultation",
+                    data: this.realdata,
+                    backgroundColor: this.colordata
+                  }
+                
+                ]
+              },
+              options: {
+                aspectRatio:2.5
+              }
+              
+            });
+
+            //this.chart.destroy();
+          }
+       
+        } else {
+          
+        }
+      }
+    })
+     }
+
+
   }
+
+
+  getStatsChart2(){
+
+    let parmasvalue = new HttpParams;
+
+    parmasvalue =parmasvalue.append('etablissementId',this.elt);
+
+     if(this.elt!=null){
+
+      console.log('elt 2',this.elt);
+
+       this.loading2= true;
+       this.http.getElementParams(this.api.API_URI + "dashboard/items/consultation/etab",{params:parmasvalue}).subscribe({
+       next: data => {
+        if (data) {
+       
+          this.stats2= data;
+          console.log("stats chart params 2 ", this.stats2);
+    
+           this.loading2 = false;
+          if(this.stats2!=null){
+            this.stats2.forEach((element:any) => {
+        
+
+             console.log("element",element);
+        
+              this.labeldata1.push(element['nomEtablissement']);
+              this.realdata1.push(element['consultationSize']);
+              this.colordata1.push(this.colors[this.Randoom(this.colors.length)]);
+    
+              for(let i = 0; i<= this.labeldata1.length; i++){
+    
+                 let date = new Date();
+                 const pipe = new DatePipe('fr-FR')
+              
+              //console.log("date move", pipe.transform(this.labeldata[i]));
+    
+              }
+              
+            });
+
+            this.chart1.destroy();
+
+            this.chart1 = new Chart("MyChart1", {
+              type: 'pie', //this denotes tha type of chart
+        
+              data: {// values on X-Axis
+                labels:this.labeldata1, 
+                 datasets: [
+                  {
+                    label: "consultation",
+                    data: this.realdata1,
+                    backgroundColor: this.colordata1
+                  }
+                
+                ]
+              },
+              options: {
+                aspectRatio:2.5
+              }
+              
+            });
+            //this.chart.destroy();
+          }
+        } else {
+          
+        }
+      }
+    })
+     }else{
+
+       this.loading2 = true;
+    this.http.getElement(this.api.API_URI + "dashboard/items/consultation/etab").subscribe({
+      next: data => {
+        if (data) {
+       
+          this.stats2= data;
+          this.loading2 = false;
+          if(this.stats2!=null){
+            this.stats2.forEach((element:any) => {
+
+        
+              const pipe = new DatePipe('fr-FR')
+              this.labeldata1.push(element['nomEtablissement']);
+              this.realdata1.push(element['consultationSize']);
+              this.colordata1.push(this.colors[this.Randoom(this.colors.length)])
+    
+              for(let i = 0; i<= this.labeldata1.length; i++){
+    
+                 let date = new Date();
+                 const pipe = new DatePipe('fr-FR')
+              
+              //console.log("date move", pipe.transform(this.labeldata[i]));
+    
+              }
+              
+            });
+
+            this.chart1 = new Chart("MyChart1", {
+              type: 'pie', //this denotes tha type of chart
+        
+              data: {// values on X-Axis
+                labels:this.labeldata1, 
+                 datasets: [
+                  {
+                    label: "consultation",
+                    data: this.realdata1,
+                    backgroundColor: this.colordata1
+                  }
+                
+                ]
+              },
+              options: {
+                aspectRatio:2.5
+              }
+              
+            });
+
+            //this.chart.destroy();
+          }
+       
+        } else {
+          
+        }
+      }
+    })
+     }
+
+
+  }
+
+  getStatsChart4(){
+
+    let parmasvalue = new HttpParams;
+
+    parmasvalue =parmasvalue.append('etablissementId',this.elt);
+
+     if(this.elt!=null){
+
+      console.log('elt 2',this.elt);
+
+        this.loading4 = true;
+       this.http.getElementParams(this.api.API_URI + "dashboard/items/rendezvous",{params:parmasvalue}).subscribe({
+       next: data => {
+        if (data) {
+          this.loading4 = false;
+          this.stats4= data;
+          console.log("stats  4 ", this.stats4);
+    
+
+          if(this.stats4!=null){
+            this.stats4.forEach((element:any) => {
+        
+
+             console.log("element 4",element);
+        
+              this.labeldata3.push(element['date']);
+              this.realdata3.push(element['nom']);
+              this.colordata3.push(this.colors[this.Randoom(this.colors.length)]);
+    
+              for(let i = 0; i<= this.labeldata3.length; i++){
+    
+                 let date = new Date();
+                 const pipe = new DatePipe('fr-FR')
+              
+              //console.log("date move", pipe.transform(this.labeldata[i]));
+    
+              }
+              
+            });
+
+            this.chart3.destroy();
+
+            this.chart3 = new Chart("MyChart3", {
+              type: 'bar', //this denotes tha type of chart
+        
+              data: {// values on X-Axis
+                labels:this.labeldata3, 
+                 datasets: [
+                  {
+                    label: "rendez-vous",
+                    data: this.realdata3,
+                    backgroundColor: this.colordata3
+                  }
+                
+                ]
+              },
+              options: {
+                aspectRatio:2.5
+              }
+              
+            });
+            //this.chart.destroy();
+          }
+        } else {
+          
+        }
+      }
+    })
+     }else{
+
+    this.loading4 =true; 
+    this.http.getElement(this.api.API_URI + "dashboard/items/rendezvous").subscribe({
+      next: data => {
+        if (data) {
+       
+          this.stats4= data;
+          console.log("stats  4 ", this.stats4);
+          this.loading4 =false;
+          if(this.stats4!=null){
+            this.stats4.forEach((element:any) => {
+
+        
+              const pipe = new DatePipe('fr-FR')
+              this.labeldata3.push(element['date']);
+              this.realdata3.push(element['nom']);
+              this.colordata3.push(this.colors[this.Randoom(this.colors.length)])
+    
+              for(let i = 0; i<= this.labeldata3.length; i++){
+    
+                 let date = new Date();
+                 const pipe = new DatePipe('fr-FR')
+              
+              //console.log("date move", pipe.transform(this.labeldata[i]));
+    
+              }
+              
+            });
+
+            this.chart3 = new Chart("MyChart3", {
+              type: 'bar', //this denotes tha type of chart
+        
+              data: {// values on X-Axis
+                labels:this.labeldata3, 
+                 datasets: [
+                  {
+                    label: "rendez-vous",
+                    data: this.realdata3,
+                    backgroundColor: this.colordata3
+                  }
+                
+                ]
+              },
+              options: {
+                aspectRatio:2.5
+              }
+              
+            });
+
+            //this.chart.destroy();
+          }
+       
+        } else {
+          
+        }
+      }
+    })
+     }
+
+
+  }
+
+
+
 
  
 }
