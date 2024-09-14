@@ -8,8 +8,9 @@ import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
 import { TokenService } from 'src/app/services/token.service';
 import { ApiUrlService } from 'src/app/services/api-url.service';
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 Chart.register(...registerables);
 @Component({
   selector: 'dashboard',
@@ -32,11 +33,12 @@ export class DashboardComponent implements OnInit{
   loading:boolean =false;
   role: any;
   username: any;
-
+  isrefresh:boolean =false;
   stats1: any;
   stats2:any;
   stats3:any;
   stats4:any;
+  cureent: any;
   private labeldata: any[] = [];
   private realdata: any[] = [];
   private labeldata1: any[] = [];
@@ -49,15 +51,18 @@ export class DashboardComponent implements OnInit{
   private colordata1: any[] = [];
   private colordata2: any[] = [];
   private colordata3: any[] = [];
-
+  verify: boolean;
   loading1:boolean =false;
   loading2:boolean =false;
   loading3:boolean =false;
   loading4:boolean =false;
+  etablissement: any[]=[];
+  patient: any[]=[];
+  rendesvous: any[]=[];
 
-  constructor(private api:ApiUrlService,private http: ResponseService, private router: Router,private messageService: MessageService,private tokenService: TokenService) {
+  constructor(private ht:HttpClient,private authService:AuthenticationService,private api:ApiUrlService,private http: ResponseService, private router: Router,private messageService: MessageService,private tokenService: TokenService) {
 
-
+    this.verify = this.authService.isLoggedIn();
   }
 
   colors =[ "#A5D152","#723E64","#E1CE9A","#926D27","#985717",
@@ -89,10 +94,60 @@ export class DashboardComponent implements OnInit{
     this.getStatsChart();
     this.getStatsChart2();
     this.getStatsChart4();
+    this.getEtablissement();
+    this.getPatient();
+    this.getRendezvous();
 
   }
 
 
+
+  getEtablissement(){
+     
+
+
+    this.http.getElement(this.api.API_URI + "etablissement/list").subscribe({
+      next: data => {
+          this.etablissement = data.content;
+          
+      },
+      error: error => {
+        
+          console.error('There was an error!', error);
+      }
+  })
+  }
+
+
+  changeMode(val: any) {
+
+    this.isrefresh = true;
+   
+    const selectEl = val.target.value;
+    this.elt = val.target.value;
+    console.log(" Value", selectEl);
+     
+    this.getStatsItems();
+     this.realdata = []=[];
+     this.labeldata =[]=[];
+    this.getStatsChart();
+    this.labeldata1=[] = [];
+    this.realdata1=[] = [];
+    this.getStatsChart2();
+    this.labeldata2=[] = [];
+    this.realdata2=[] = [];
+    this.labeldata3=[] = [];
+    this.realdata3=[] = [];
+    this.getStatsChart4();
+
+    }
+
+    refresh(){
+
+      this.isrefresh = false;
+      window.location.reload();
+
+    }
 
   getStatsItems(){
 
@@ -424,7 +479,7 @@ export class DashboardComponent implements OnInit{
              console.log("element 4",element);
         
               this.labeldata3.push(element['date']);
-              this.realdata3.push(element['nom']);
+              this.realdata3.push(element['rendezVousSize']);
               this.colordata3.push(this.colors[this.Randoom(this.colors.length)]);
     
               for(let i = 0; i<= this.labeldata3.length; i++){
@@ -482,7 +537,7 @@ export class DashboardComponent implements OnInit{
         
               const pipe = new DatePipe('fr-FR')
               this.labeldata3.push(element['date']);
-              this.realdata3.push(element['nom']);
+              this.realdata3.push(element['rendezVousSize']);
               this.colordata3.push(this.colors[this.Randoom(this.colors.length)])
     
               for(let i = 0; i<= this.labeldata3.length; i++){
@@ -529,6 +584,111 @@ export class DashboardComponent implements OnInit{
 
   }
 
+  downloadPatientFile(){
+
+    this.ht.get(this.api.API_URI + "dashboard/download/patient",{ responseType: "blob" }).subscribe({
+
+      next: data => {
+        if (data) {
+          console.log(" data ", data);
+          let d = new Date();
+          var date = d.getDate();
+          var month = d.getMonth(); //Be careful! January is 0 not 1
+          var year = d.getFullYear();
+          var HMS = d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
+          var dateString = date + "-" +(month + 1) + "-" + year;
+          const filename =  "patient" + "-" + dateString + "_"+ HMS + ".xlsx";
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(data);
+               a.setAttribute("download", filename);
+          a.click(); 
+           
+  
+        }
+      }
+  
+    })
+
+
+      
+  
+  }
+
+
+  getRendezvous(){
+    this.http.getElement(this.api.API_URI + url.rendezvous).subscribe({
+      next: data => {
+        if (data) {
+          console.log("Mes rendez vous ", data.content);
+          this.rendesvous = data.content;
+          this.loading = false;
+
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Reésultat',
+
+            detail: data.message,
+            life: 3000
+          });
+        }
+      }
+    })
+    }
+  
+
+  downloadRendevousFile(){
+
+    this.ht.get(this.api.API_URI + "dashboard/download/rendezvous",{ responseType: "blob" }).subscribe({
+
+      next: data => {
+        if (data) {
+          console.log(" data ", data);
+          let d = new Date();
+          var date = d.getDate();
+          var month = d.getMonth(); //Be careful! January is 0 not 1
+          var year = d.getFullYear();
+          var HMS = d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
+          var dateString = date + "-" +(month + 1) + "-" + year;
+          const filename =  "rendez-vous" + "-" + dateString + "_"+ HMS + ".xlsx";
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(data);
+               a.setAttribute("download", filename);
+          a.click(); 
+           
+  
+        }
+      }
+  
+    })
+
+
+      
+  
+  }
+
+
+  
+  getPatient(){
+    this.http.getElement(this.api.API_URI + url.patient).subscribe({
+      next: data => {
+        if (data) {
+          console.log("Mes patient ", data.content);
+          this.patient = data.content;
+          this.loading = false;
+
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Reésultat',
+
+            detail: data.message,
+            life: 3000
+          });
+        }
+      }
+    })
+    }
 
 
 
