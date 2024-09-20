@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { MenuItem } from "primeng/api";
+import { AuthenticationService } from "src/app/services/authentication.service";
+import { AuthService } from "src/app/services/guard/auth.service";
 import { LoaderService } from "src/app/services/loader.service";
 import { ResponseService } from "src/app/services/response.service";
 import { TokenService } from "src/app/services/token.service";
@@ -23,9 +25,10 @@ export class AdminComponent implements OnInit{
   items: MenuItem[] | undefined;
 
   home: MenuItem | undefined;
-  constructor(private httpService: ResponseService, private router: Router,private tokenService:TokenService,public loaderService:LoaderService) {
+  verify:boolean | undefined;
+  constructor(private httpService: ResponseService, private router: Router,private tokenService:TokenService,public loaderService:LoaderService,public auth:AuthenticationService) {
 
-  
+    this.verify = this.auth.isLoggedIn();
   }
     ngOnInit(): void{
       

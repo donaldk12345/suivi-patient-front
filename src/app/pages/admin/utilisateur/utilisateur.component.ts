@@ -413,8 +413,8 @@ getData(dat : any) : void {
         role :this.registerForm.value.role,
         password: this.registerForm.value.password,
         email: this.registerForm.value.email,
-        expired: this.registerForm.value.expired,
-        expiredDate: this.registerForm.value.expiredDate
+        expired: this.element==true?this.registerForm.value.expired:false,
+        expiredDate: this.element==true?this.registerForm.value.expiredDate:null
       };
 
       console.log("request",updateUerRequest);
