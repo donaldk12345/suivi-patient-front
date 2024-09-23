@@ -2,7 +2,7 @@
     <div class="col-md">
         <div class="col-md mt-2 mt-2 p-2">
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer Rendez-vous </button>
-            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="userPreview()" > <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateRendezVousView()" > <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
             <button id="" class="icomd mt-2 " type="button" (click)="showCalendarDialog()" > <i class="fas fa-calendar" style="color: #fff;"></i>&nbsp;Calendrier</button>
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Annuler</button>
           
@@ -141,5 +141,49 @@
         <span>
         <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="hideDialog()" class="p-button-danger"></button>
     </span>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Modifier un rendez-vous" [(visible)]="updateDisplay" [style]="{width: '650px'}" styleClass="p-fluid"
+[modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addShedulerForm">
+
+        
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Titre</label>
+                <input type="text" class="form-control" id="title" placeholder="Veillez saisir le titre" formControlName="title">
+                
+            </div>
+     
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-company">Date</label>
+                <input type="datetime-local" class="form-control" id="datetime-local" placeholder="Veillez saisir la date" formControlName="date">
+                 
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label" for="basic-default-fullname">Est patient</label>
+                <p-dropdown   (onChange)="onChange($event)" inputId="dropdown1" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="isPatient" placeholder="Est Patient ? " class="col-md"></p-dropdown>
+              </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Patient</label>
+                <p-dropdown inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="patient" optionLabel="nom" appendTo="body" optionValue="id" formControlName="patientId" placeholder="Choisir le patient " class="col-md"></p-dropdown>
+            </div>
+         
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button"   (click)="updateRendezvous()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+                    
+                </div>
+
+            </div>
+            
+
+        </form>
     </ng-template>
 </p-dialog>

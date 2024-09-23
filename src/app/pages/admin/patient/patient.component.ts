@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { er } from '@fullcalendar/core/internal-common';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { ApiUrlService } from 'src/app/services/api-url.service';
@@ -129,10 +130,12 @@ hideDialog(){
 
         },
         error: (error) => {
+
+          console.log("error",error);
           this.messageService.add({
             severity: 'error',
-            summary: error.error.message,
-            detail: error.error.details,
+            summary: error,
+            detail: error.details,
           });
 
         },
@@ -293,13 +296,13 @@ hideDialog(){
       }
 
       updatePatientView() {
-        let dt = formatDate(this.selectElement[0]?.date_naiss, 'yyyy-MM-dd','en_US');
+        let dt = formatDate(this.selectElement[0]?.dateNaissance, 'yyyy-MM-dd','en_US');
                 this.addPatientForm.patchValue({
               'nom': this.selectElement[0].nom,
               'prenom': this.selectElement[0].prenom,
-              'profesion': this.selectElement[0].profesion,
+              'profesion': this.selectElement[0].profession,
               'ville': this.selectElement[0].ville,
-              'quartier': this.selectElement[0].quartier,
+              'quartier': this.selectElement[0].quariter,
               'sexe': this.selectElement[0].sexe,
               'email': this.selectElement[0].email,
               'telephone': this.selectElement[0].telephone,
@@ -314,31 +317,10 @@ hideDialog(){
 
       }
       deletePatient(){
-
-
       let id = this.selectElement[0].id;
-      this.http.deleteElement(this.api.API_URI + url.patient + '/' + id).subscribe(
-        data =>{
-
-          this.messageService.add({
-            severity: 'success',
-            summary: '',
-            detail: 'patient supprimer avec succés !',
-            life: 3000
-          });
-        this.getPatient();
-
-    }, error => {
-       this.messageService.add({
-            severity:'error',
-            summary: error.error.message,
-            detail: error.error.details,
-            life: 3000
-       });
-
-    }
-
-      );
+      this.charge =this.http.deleteElement(this.api.API_URI + url.patient + '/' + id);
+      this.chargement(this.charge);
+      this.getPatient();
 
       }
 
