@@ -21,9 +21,7 @@ export class RendezvousComponent implements OnInit{
   element: any;
   rendesvous: any[]=[];
 
-userPreview() {
-throw new Error('Method not implemented.');
-}
+
 
   charge: Observable<any> = new Observable<any>();
   users: any[]=[];
@@ -38,6 +36,7 @@ throw new Error('Method not implemented.');
   unactivatebtn: boolean = false;
   detailbtn: boolean = false;
   displayBasic: boolean = false;
+  updateDisplay:boolean = false;
   updatebtn: boolean = false;
   deletebtn: boolean = false;
   exportColumns: any[] = [];
@@ -79,7 +78,7 @@ throw new Error('Method not implemented.');
  }
  
  updateDialog() {
-
+    
  }
 
  showCalendarDialog(){
@@ -90,7 +89,8 @@ throw new Error('Method not implemented.');
  
    this.display = false;
    this.addShedulerForm.reset();
-   this.calendarDialog = false
+   this.calendarDialog = false;
+   this.updateDisplay = false;
 
  
  }
@@ -339,6 +339,8 @@ throw new Error('Method not implemented.');
           var color = Math.floor(0x1000000 * Math.random()).toString(16);
           return '#' + ('000000' + color).slice(-6);
         }
+
+        
  
        addRendezvous(){
          let addRequest= {
@@ -371,71 +373,36 @@ throw new Error('Method not implemented.');
  
        updateRendezvous(){
          let addRequest= {
-           nom :this.addShedulerForm.value.nom,
-           prenom: this.addShedulerForm.value.prenom,
-           quartier :this.addShedulerForm.value.quartier,
-           villePatienConsl: this.addShedulerForm.value.villePatienConsl,
-           numeroPatienConsl :this.addShedulerForm.value.numeroPatienConsl,
            patientId: this.addShedulerForm.value.patientId,
-           telephone :this.addShedulerForm.value.telephone,
-           sexe: this.addShedulerForm.value.sexe,
-           ville: this.addShedulerForm.value.ville,
-           isPatient: this.addShedulerForm.value.isPatient
+           isPatient: this.addShedulerForm.value.isPatient,
+           title: this.addShedulerForm.value.title,
+           date: this.addShedulerForm.value.date,
+           rendezvousId: this.selectElement[0].id
  
          };
  
  
- 
-           this.http.putElement(this.api.API_URI + url.patient, addRequest).subscribe({
- 
-             next: data =>{
- 
-               console.log("Request",addRequest);
-               console.log("data",data);
-               this.getRendezvous();
-               this.addShedulerForm.reset();
-               this.hideDialog();
- 
-               this.messageService.add({
-                 severity: 'success',
-                 summary: 'success',
-                 detail:" Opérations succés",
-                 life: 3000
-               });
- 
- 
-             },
-             error: error => {
-               console.log('error!', error.details);
- 
-               this.messageService.add({
-                 severity: 'error',
-                 summary: 'Forbidden',
-                 detail: 'you are not authorized !',
-                 life: 3000
-               });
-           }
-           })
+           this.charge =this.http.putElement(this.api.API_URI + "rendezvous", addRequest);
+         this.chargement(this.charge);
+         this.getRendezvous();
+         this.addShedulerForm.reset();
+         this.hideDialog();
  
        }
  
-       updatePatientView() {
-         let dt = formatDate(this.selectElement[0]?.patientId, 'yyyy-MM-dd','en_US');
+       updateRendezVousView() {
+        this.updateDisplay = true;
+
+         let dt = formatDate(this.selectElement[0]?.date, 'yyyy-MM-ddTHH:mm','en_US');
                  this.addShedulerForm.patchValue({
-               'nom': this.selectElement[0].nom,
-               'prenom': this.selectElement[0].prenom,
-               'numeroPatienConsl': this.selectElement[0].numeroPatienConsl,
-               'ville': this.selectElement[0].ville,
-               'quartier': this.selectElement[0].quartier,
-               'sexe': this.selectElement[0].sexe,
                'isPatient': this.selectElement[0].isPatient,
-               'telephone': this.selectElement[0].telephone,
-               'villePatienConsl': this.selectElement[0].villePatienConsl,
-              'patientId': dt
+               'patientId': this.selectElement[0].patientId,
+               'title': this.selectElement[0].title,
+              'date': dt
  
  
          })
- 
+ this.getPatient();
         // this.addUpdateForm = true;
  
  

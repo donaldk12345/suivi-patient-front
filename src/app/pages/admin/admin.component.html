@@ -7,7 +7,7 @@
             <a class="list-group-item" routerLink="/gestion/etablissement" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Specialists"><i class="las la-stethoscope la-lw"></i><span>Etablissement</span></a>
             <a class="list-group-item" data-toggle="tooltip" data-placement="bottom" title="Patients" routerLink="/gestion/patient" routerLinkActive="active-link"><i class="las la-user-injured la-lw"></i><span>patients</span></a>
             <a class="list-group-item" routerLink="/gestion/consultation" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Specialists"><i class="las la-clinic-medical la-lw"></i><span>Consultation</span></a>
-            <a class="list-group-item" routerLink="/gestion/etablissements" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Etablissemnts"><i class="las la-user-plus la-lw"></i><span>Etablissements</span></a>
+            <a class="list-group-item" routerLink="/gestion/etablissements" *ngIf="verify" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Etablissemnts"><i class="las la-user-plus la-lw"></i><span>Etablissements</span></a>
             <a class="list-group-item" routerLink="/gestion/prescription" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="las la-capsules la-lw"></i><span>Préscriptions</span></a>
             <a class="list-group-item" routerLink="/gestion/report" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="report"><i class="las la-file-pdf la-lw"></i><span>Report</span></a>
             <a class="list-group-item" routerLink="/gestion/rendez-vous" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="las la-calendar-check la-lw"></i><span>Rendez vous</span></a>
@@ -17,15 +17,7 @@
 
             <hr class="divider" />
             <div class="aob-items" style="background-color:#ffffff;">
-                <div class="card">
-                    <!--<div class="card-header"><img style="height: 60px;" src="../../../assets/SiteAssets/images/africa.png" /></div>-->
-                    <div class="card-body">
-                        <p><u class="fw-bold "><i class="las la-support"></i>Support</u></p>
-                        <p>Téléphone<u>+237698839783</u></p>
-                        <p>Email<u>contact@ydv.ovh</u></p>
-                    </div>
-                    <div class="card-footer"><a class="btn btn-dark-green-f-gr btn-sm" href="https://www.ynodev.site/" target="_blank">voir le site web</a></div>
-                </div>
+        
             </div>
         </ul>
     </div>
@@ -79,7 +71,7 @@
         <footer>
             <div class="page-footer text-center">
                 <div class="fixed-bottom shadow-sm">
-                    <a href="https://covid19.who.int" target="_blank"><img src="../../../assets/SiteAssets/images/covid-19.svg" /><span>view COVID-19 info</span></a>
+                    <a href="https://covid19.who.int" target="_blank"><img src="../../../assets/SiteAssets/images/covid-19.svg" /><span></span></a>
                 </div>
             </div>
         </footer>
