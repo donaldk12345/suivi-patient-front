@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ResponseService } from './services/response.service';
 import { Router } from '@angular/router';
 import { TokenService } from './services/token.service';
+import { ApiUrlService } from './services/api-url.service';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,15 @@ export class AppComponent implements OnInit{
   authenticated = false;
   user: any;
   currentUser: any;
-  constructor(private http: ResponseService, private router: Router,private tokenService:TokenService) {
+  constructor(private http: ResponseService, private router: Router,private tokenService:TokenService,private api:ApiUrlService) {
 
   
 
   }
 
   ngOnInit(): void{
+
+    console.log("Hello world !");
 
     this.isUser();
     /*if (this.tokenService.isTokenExpired()) {
@@ -30,6 +33,18 @@ export class AppComponent implements OnInit{
     } else {
   
     }*/
+
+    setTimeout(()=>{
+      if(this.http.sessionget('username')!=null){
+        this.http.getElement(this.api.API_URI + "rendezvous/notif").subscribe({
+          next: data => {
+             console.log("job...")
+          }
+        })
+      }
+    },1000);
+
+  
 
   }
 

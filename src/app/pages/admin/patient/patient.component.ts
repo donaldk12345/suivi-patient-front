@@ -293,13 +293,13 @@ hideDialog(){
       }
 
       updatePatientView() {
-        let dt = formatDate(this.selectElement[0]?.date_naiss, 'yyyy-MM-dd','en_US');
+        let dt = formatDate(this.selectElement[0]?.dateNaissance, 'yyyy-MM-dd','en_US');
                 this.addPatientForm.patchValue({
               'nom': this.selectElement[0].nom,
               'prenom': this.selectElement[0].prenom,
-              'profesion': this.selectElement[0].profesion,
+              'profesion': this.selectElement[0].profession,
               'ville': this.selectElement[0].ville,
-              'quartier': this.selectElement[0].quartier,
+              'quartier': this.selectElement[0].quariter,
               'sexe': this.selectElement[0].sexe,
               'email': this.selectElement[0].email,
               'telephone': this.selectElement[0].telephone,
