@@ -407,17 +407,17 @@ export class RendezvousComponent implements OnInit{
  
  
        }
-       deletePatient(){
+       deleteRendezVous(){
  
  
        let id = this.selectElement[0].id;
-       this.http.deleteElement(this.api.API_URI + url.patient + '/' + id).subscribe(
+       this.http.deleteElement(this.api.API_URI + "rendezvous" + '/' + id).subscribe(
          data =>{
  
            this.messageService.add({
              severity: 'success',
              summary: '',
-             detail: 'patient supprimer avec succés !',
+             detail: 'rendez-vous supprimer avec succés !',
              life: 3000
            });
          this.getRendezvous();
@@ -446,14 +446,14 @@ export class RendezvousComponent implements OnInit{
        console.log("Suppression des éléments");
  
        this.confirmationService.confirm({
-         message: 'Voulez vous supprimer le patient ?',
+         message: 'Voulez vous supprimer le rendez-vous ?',
          icon: 'pi pi-info-circle',
          acceptLabel: 'Oui',
          rejectLabel: 'Nom',
          acceptButtonStyleClass: "p-button-info",
          rejectButtonStyleClass: "p-button-danger",
          accept: () => {
-           this.deletePatient()
+           this.deleteRendezVous()
          }
        });
  

@@ -2,10 +2,10 @@
     <div class="col-md">
         <div class="col-md mt-2 mt-2 p-2">
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer Rendez-vous </button>
-            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateRendezVousView()" > <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
-            <button id="" class="icomd mt-2 " type="button" (click)="showCalendarDialog()" > <i class="fas fa-calendar" style="color: #fff;"></i>&nbsp;Calendrier</button>
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateRendezVousView()"> <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
+            <!--  <button id="" class="icomd mt-2 " type="button" (click)="showCalendarDialog()" > <i class="fas fa-calendar" style="color: #fff;"></i>&nbsp;Calendrier</button>-->
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Annuler</button>
-          
+
         </div>
         <div class="card p-3">
             <h4 style="color:#303548; font-weight: 800;" class="text-center">Liste des Rendez-vous</h4>
@@ -16,111 +16,111 @@
 
 </div>
 
-<p-dialog header="Ajouter un rendez-vous" [(visible)]="display" [style]="{width: '650px'}" styleClass="p-fluid"
-[modal]="true">
+<p-dialog header="Ajouter un rendez-vous" [(visible)]="display" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
     <ng-template pTemplate="content">
         <form [formGroup]="addShedulerForm">
 
-        
+
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Titre</label>
                 <input type="text" class="form-control" id="title" placeholder="Veillez saisir le titre" formControlName="title">
-                
+
             </div>
-     
+
             <div class="mb-3">
                 <label class="form-label" for="basic-default-company">Date</label>
                 <input type="datetime-local" class="form-control" id="datetime-local" placeholder="Veillez saisir la date" formControlName="date">
-                 
+
             </div>
 
             <div class="mb-2">
                 <label class="form-label" for="basic-default-fullname">Est patient</label>
-                <p-dropdown   (onChange)="onChange($event)" inputId="dropdown1" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="isPatient" placeholder="Est Patient ? " class="col-md"></p-dropdown>
-              </div>
+                <p-dropdown (onChange)="onChange($event)" inputId="dropdown1" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="isPatient" placeholder="Est Patient ? "
+                    class="col-md"></p-dropdown>
+            </div>
 
-              <div class="mb-3" *ngIf="!element">
+            <div class="mb-3" *ngIf="!element">
                 <label class="form-label" for="basic-default-fullname">Sexe</label>
                 <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="sexes" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="sexe" placeholder="Choisir le sexe " class="col-md"></p-dropdown>
-        
+
             </div>
             <div class="mb-3" *ngIf="!element">
                 <label class="form-label" for="basic-default-fullname">Email</label>
                 <input type="text" class="form-control" id="email" placeholder="Veillez saisir l'adresse mail" formControlName="email">
-                
+
             </div>
-     
+
 
             <div class="row justify-content-center" *ngIf="!element">
 
-                <div class="col-md" >
+                <div class="col-md">
                     <label class="form-label" for="basic-default-company">Nom </label>
                     <input type="text" class="form-control" id="text" placeholder="Veillez saisir le nom" formControlName="nomPatienConsl">
-                     
+
                 </div>
-                <div class="col-md" >
+                <div class="col-md">
                     <label class="form-label" for="basic-default-company">Ville </label>
                     <input type="text" class="form-control" id="text" placeholder="Veillez saisir la ville " formControlName="villePatienConsl">
-                     
+
                 </div>
 
-              </div>
-              <div class="row justify-content-center" *ngIf="!element">
+            </div>
+            <div class="row justify-content-center" *ngIf="!element">
 
-                   <div class="col-md" >
+                <div class="col-md">
                     <label class="form-label" for="basic-default-company">Numéro </label>
                     <input type="text" class="form-control" id="text" placeholder="Veillez saisir le numéro" formControlName="numeroPatienConsl">
-                     
+
                 </div>
                 <div class="col-md">
                     <label class="form-label" for="basic-default-company">Prénom</label>
                     <input type="text" class="form-control" id="nom" placeholder="Veillez saisir le prénom" formControlName="prenom">
-                   
+
                 </div>
             </div>
-             <div class="row justify-content-center" *ngIf="!element">
+            <div class="row justify-content-center" *ngIf="!element">
 
-                 <div class="col-md" >
+                <div class="col-md">
                     <label class="form-label" for="basic-default-company">Numéro Cni </label>
                     <input type="text" class="form-control" id="text" placeholder="Veillez saisir la cni" formControlName="numeroCni">
-                     
+
                 </div>
                 <div class="col-md">
                     <label class="form-label" for="basic-default-company">Profession</label>
                     <input type="text" class="form-control" id="nom" placeholder="Veillez saisir la profession" formControlName="profesion">
-                   
+
                 </div>
             </div>
-             <div class="row justify-content-center" *ngIf="!element">
-                
-                <div class="col-md" >
+            <div class="row justify-content-center" *ngIf="!element">
+
+                <div class="col-md">
                     <label class="form-label" for="basic-default-company">Date naissance </label>
                     <input type="date" class="form-control" id="text" placeholder="" formControlName="date_naiss">
-                     
+
                 </div>
                 <div class="col-md">
                     <label class="form-label" for="basic-default-company">Quartier</label>
                     <input type="text" class="form-control" id="nom" placeholder="Veillez saisir le quartier" formControlName="quartier">
-                   
+
                 </div>
             </div>
-             
+
             <div class="mb-3" *ngIf="element">
                 <label class="form-label" for="basic-default-fullname">Patient</label>
                 <p-dropdown inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="patient" optionLabel="nom" appendTo="body" optionValue="id" formControlName="patientId" placeholder="Choisir le patient " class="col-md"></p-dropdown>
             </div>
-         
+
             <div class="row col-md m-auto">
                 <div class="col">
-                    <button class="ico mt-2" type="button"   (click)="addRendezvous()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                    <button class="ico mt-2" type="button" (click)="addRendezvous()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
                 </div>
                 <div class="col">
-                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
-                    
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+
                 </div>
 
             </div>
-            
+
 
         </form>
     </ng-template>
@@ -130,9 +130,9 @@
     <ng-template pTemplate="content">
         <div class="container mx-auto mt-5 pb-4">
             <div class="wrapper bg-white rounded shadow w-full ">
-                <full-calendar [options]="calendarOptions" ></full-calendar>
+                <full-calendar [options]="calendarOptions"></full-calendar>
             </div>
-          </div>
+        </div>
     </ng-template>
     <ng-template pTemplate="footer">
         <span>
@@ -144,45 +144,45 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Modifier un rendez-vous" [(visible)]="updateDisplay" [style]="{width: '650px'}" styleClass="p-fluid"
-[modal]="true">
+<p-dialog header="Modifier un rendez-vous" [(visible)]="updateDisplay" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
     <ng-template pTemplate="content">
         <form [formGroup]="addShedulerForm">
 
-        
+
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Titre</label>
                 <input type="text" class="form-control" id="title" placeholder="Veillez saisir le titre" formControlName="title">
-                
+
             </div>
-     
+
             <div class="mb-3">
                 <label class="form-label" for="basic-default-company">Date</label>
                 <input type="datetime-local" class="form-control" id="datetime-local" placeholder="Veillez saisir la date" formControlName="date">
-                 
+
             </div>
 
             <div class="mb-2">
                 <label class="form-label" for="basic-default-fullname">Est patient</label>
-                <p-dropdown   (onChange)="onChange($event)" inputId="dropdown1" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="isPatient" placeholder="Est Patient ? " class="col-md"></p-dropdown>
-              </div>
+                <p-dropdown (onChange)="onChange($event)" inputId="dropdown1" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="isPatient" placeholder="Est Patient ? "
+                    class="col-md"></p-dropdown>
+            </div>
 
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Patient</label>
                 <p-dropdown inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="patient" optionLabel="nom" appendTo="body" optionValue="id" formControlName="patientId" placeholder="Choisir le patient " class="col-md"></p-dropdown>
             </div>
-         
+
             <div class="row col-md m-auto">
                 <div class="col">
-                    <button class="ico mt-2" type="button"   (click)="updateRendezvous()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                    <button class="ico mt-2" type="button" (click)="updateRendezvous()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
                 </div>
                 <div class="col">
-                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
-                    
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+
                 </div>
 
             </div>
-            
+
 
         </form>
     </ng-template>

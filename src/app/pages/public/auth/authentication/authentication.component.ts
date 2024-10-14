@@ -81,7 +81,7 @@ export class AuthenticationComponent implements OnInit{
        this.messageService.add({
             severity:'error',
             summary: 'Erreur de connexion',
-            detail: 'Le nom ou le mot de passe saisie est incorrect !',
+            detail: error,
             life: 3000
           });
     }

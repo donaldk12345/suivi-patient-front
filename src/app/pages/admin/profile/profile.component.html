@@ -1,91 +1,75 @@
-<div class="container rounded bg-white mt-5 mb-5">
+<div class="container rounded  mt-5 mb-5">
     <div class="row">
-        <div class="col-md border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold" style="color: #303548;" *ngIf="!profil"> lmtgroup </span> <span class="font-weight-bold" style="color: #303548;" *ngIf="profil"> {{profil?.nom}} </span> <span class="text-black-50" *ngIf="!profil">default@lmtgroup.com </span><span class="text-black-50" *ngIf="profil">{{ profil?.email }} </span><span> </span></div>
-        </div>
-        <div class="col-md">
-            <p-tabView>
-                <p-tabPanel header="Profile" style="text-docaration:none;">
+        <div class="col-md ">
 
-                    <form [formGroup]="profileForm">
-                    <div class="p-3 py-5">
-                        <div class="row mt-2">
-                            <div class="col-md-6"><label class="labels" style="color: #303548dc;">Prénom</label><input type="text"  formControlName="prenom" class="form-control" placeholder="prénom" value="">
-                                <div class="col-md" *ngIf="prenom.touched && prenom.invalid">
-                                    <small *ngIf="  prenom.errors?.['required']" style="color:red ;">le champ est requis !</small>
-                                  
-                                </div>
+            <div class=" p-3 py-5 bg-white">
+                <div class="text-center justify-content-center">
+                    <h5 style="color: #303548dc;">Modifier mon mot de passe</h5>
+                </div>
+                <div class="p-3 py-5">
+
+                    <form [formGroup]="updatePasswordForm">
+                        <div class="col-md-12"><label class="labels" style="color: #303548dc;">Ancien mot de passe </label><input type="password" class="form-control" placeholder="ancien mot de passe " formControlName="currentPassword" aria-describedby="password" value="">
+                            <div class="col-md" *ngIf="currentPassword.touched && currentPassword.invalid">
+                                <small *ngIf="  currentPassword.errors?.['required']" style="color:red ;">L'ancien mot de passe n'est pas valide !</small>
+                                <small *ngIf="  currentPassword.errors?.['minlength']" style="color:red ;">Le mot de passe doit faire minimum 4 caractères !</small>
+
                             </div>
-                            <div class="col-md-6"><label class="labels" style="color: #303548dc;">poste</label><input type="text" class="form-control" formControlName="poste" value="" placeholder="poste occupé">
-                                <div class="col-md" *ngIf="poste.touched && poste.invalid">
-                                    <small *ngIf="  poste.errors?.['required']" style="color:red ;">le champ est requis !</small>
-                                  
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-12"><label class="labels" style="color: #303548dc;">Numéro</label><input type="number" class="form-control" formControlName="telephone" placeholder="numéro de téléphone" value="">
-                                <div class="col-md" *ngIf="telephone.touched && telephone.invalid">
-                                    <small *ngIf="  telephone.errors?.['required']" style="color:red ;">le champ est requis !</small>
-                                    
-                                  
-                                </div>
-                            </div>
-                            <div class="col-md-12"><label class="labels" style="color: #303548dc;">Email</label><input type="text" class="form-control"  formControlName="email" placeholder="adresse mail" value="">
-                                <div class="col-md" *ngIf="email.touched && email.invalid">
-                                    <small *ngIf="  email.errors?.['required']" style="color:red ;">le champ est requis !</small>
-                                    <small *ngIf="  email.errors?.['pattern']" style="color:red ;">adresse mail non valide !</small>
-                                </div>
+                        </div> <br>
+                        <div class="col-md-12"><label class="labels" style="color: #303548dc;">Nouveau mot de passe </label><input type="password" class="form-control" placeholder="nouveau mot de passe" formControlName="newPassword" aria-describedby="password" value="">
+                            <div class="col-md" *ngIf="newPassword.touched && newPassword.invalid">
+                                <small *ngIf="  newPassword.errors?.['required']" style="color:red ;">Le mot de passe n'est pas valide !</small>
+                                <small *ngIf="  newPassword.errors?.['minlength']" style="color:red ;">Le mot de passe doit faire minimum 4 caractères !</small>
+
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6"><label class="labels" style="color: #303548dc;">Ville</label><input type="text" class="form-control" formControlName="ville" placeholder="ville" value="">
-                                <div class="col-md" *ngIf="ville.touched && ville.invalid">
-                                    <small *ngIf="  ville.errors?.['required']" style="color:red ;">le champ est requis !</small>
-                                  
-                                </div>
-                            </div>
-                            <div class="col-md-6"><label class="labels" style="color: #303548dc;">Quartier</label><input type="text" class="form-control"  formControlName="quartier" value="" placeholder="quartier">
-                                <div class="col-md" *ngIf="quartier.touched && quartier.invalid">
-                                    <small *ngIf="  quartier.errors?.['required']" style="color:red ;">le champ est requis !</small>
-                                  
-                                </div>
-                            </div>
+                        <div class="col-md">
+                            <div class="mt-5 text-center"><button class="profile-button" type="button" [disabled]="updatePasswordForm.status != 'VALID'" (click)="changePassword()">Enregistrer</button></div>
                         </div>
-                        <div class="mt-5 text-center"><button class="profile-button" type="button" [disabled]="profileForm.status != 'VALID'" (click)="createProfile()">Mettre à jour</button></div>
-                    </div>
                     </form>
-                </p-tabPanel>
-                <p-tabPanel header="Mot de passe">
-                    
-                        <div class="p-3 py-5">
-                         
-                            <form [formGroup]="updatePasswordForm">
-                            <div class="col-md-12"><label class="labels" style="color: #303548dc;">Ancien mot de passe </label><input type="password" class="form-control" placeholder="ancien mot de passe "  formControlName="currentPassword"   aria-describedby="password" value="">
-                                <div class="col-md" *ngIf="currentPassword.touched && currentPassword.invalid">
-                                    <small *ngIf="  currentPassword.errors?.['required']" style="color:red ;">L'ancien mot de passe n'est pas valide !</small>
-                                    <small *ngIf="  currentPassword.errors?.['minlength']" style="color:red ;">Le mot de passe doit faire minimum 4 caractères !</small>
-                    
-                                </div>
-                            </div> <br>
-                            <div class="col-md-12"><label class="labels" style="color: #303548dc;">Nouveau mot de passe </label><input type="password" class="form-control" placeholder="nouveau mot de passe"   formControlName="newPassword"  aria-describedby="password" value="">
-                                <div class="col-md" *ngIf="newPassword.touched && newPassword.invalid">
-                                    <small *ngIf="  newPassword.errors?.['required']" style="color:red ;">Le mot de passe n'est pas valide !</small>
-                                    <small *ngIf="  newPassword.errors?.['minlength']" style="color:red ;">Le mot de passe doit faire minimum 4 caractères !</small>
-                    
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <div class="mt-5 text-center"><button class="profile-button" type="button" [disabled]="updatePasswordForm.status != 'VALID'" (click)="changePassword()">Enregistrer</button></div>
-                            </div>
-                            </form>
-                        </div>
-                    
-               
-                </p-tabPanel>
-            </p-tabView>
-            
+                </div>
+            </div>
         </div>
-      
+        <div class="col-md bg-white">
+            <form [formGroup]="profileForm">
+                <div class="p-3 py-5">
+                    <div class="text-center justify-content-center">
+                        <h5 style="color: #303548dc;">Mettre à jour mon profile</h5>
+                    </div><br>
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels" style="color: #303548dc;">Prénom</label><input type="text" formControlName="prenom" class="form-control" placeholder="prénom" value="">
+                            <div class="col-md" *ngIf="prenom.touched && prenom.invalid">
+                                <small *ngIf="  prenom.errors?.['required']" style="color:red ;">le champ est requis !</small>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6"><label class="labels" style="color: #303548dc;">Quartier</label><input type="text" class="form-control" formControlName="quartier" value="" placeholder="quartier">
+                            <div class="col-md" *ngIf="quartier.touched && quartier.invalid">
+                                <small *ngIf="  quartier.errors?.['required']" style="color:red ;">le champ est requis !</small>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12"><label class="labels" style="color: #303548dc;">Téléphone</label><input type="number" class="form-control" formControlName="telephone" placeholder="numéro de téléphone" value="">
+                            <div class="col-md" *ngIf="telephone.touched && telephone.invalid">
+                                <small *ngIf="  telephone.errors?.['required']" style="color:red ;">le champ est requis !</small>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-12"><label class="labels" style="color: #303548dc;">Ville</label><input type="text" class="form-control" formControlName="ville" placeholder="ville" value="">
+                            <div class="col-md" *ngIf="ville.touched && ville.invalid">
+                                <small *ngIf="  ville.errors?.['required']" style="color:red ;">le champ est requis !</small>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center"><button class="profile-button" type="button" [disabled]="profileForm.status != 'VALID'" (click)="createProfile()">Mettre à jour</button></div>
+                </div>
+            </form>
+
+        </div>
+
     </div>
 </div>

@@ -31,9 +31,8 @@ export class ProfileComponent implements OnInit{
 
     this.profileForm = new FormGroup({
       'prenom': new FormControl('',[Validators.required]),
-      'poste': new FormControl('', [Validators.required]),
       'telephone': new FormControl('',[Validators.required]),
-      'email': new FormControl('',[Validators.required,Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
+      //'email': new FormControl('',[Validators.required,Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
       'ville': new FormControl('', [Validators.required]),
       'quartier': new FormControl('',[Validators.required])
     });
@@ -58,7 +57,7 @@ export class ProfileComponent implements OnInit{
       quartier: this.profileForm.value.quartier
     };
 
-    this.http.postElement(this.api.API_URI + url.profile,addProfileRequest).subscribe({
+    this.http.postElement(this.api.API_URI + "user/profile/update",addProfileRequest).subscribe({
 
       next: data =>{
 
@@ -88,7 +87,7 @@ export class ProfileComponent implements OnInit{
   }
 
   getProfile(){
-   return  this.http.getElement(this.api.API_URI + url.myprofile).subscribe({
+   return  this.http.getElement(this.api.API_URI + "user/profile").subscribe({
       next: data => {
         if (data) {
           console.log("profile", data);
@@ -126,7 +125,7 @@ export class ProfileComponent implements OnInit{
       newPassword: this.updatePasswordForm.value.newPassword
     };
 
-    this.http.postElement(this.api.API_URI + url.change_password,addpasswordRequest).subscribe({
+    this.http.postElement(this.api.API_URI + "user/password/update",addpasswordRequest).subscribe({
 
       next: data =>{
 
