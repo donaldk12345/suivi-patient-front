@@ -128,6 +128,7 @@ export class DashboardComponent implements OnInit{
     console.log(" Value", selectEl);
      
     this.getStatsItems();
+    this.stats=[]=[];
      this.realdata = []=[];
      this.labeldata =[]=[];
     this.getStatsChart();
@@ -153,7 +154,7 @@ export class DashboardComponent implements OnInit{
 
     let parmasvalue = new HttpParams;
 
-    parmasvalue =parmasvalue.append('entrepriseId',this.elt);
+    parmasvalue =parmasvalue.append('etablissementId',this.elt);
 
      if(this.elt!=null){
       
@@ -164,7 +165,7 @@ export class DashboardComponent implements OnInit{
         if (data) {
          this.loading = false;
           this.stats= data;
-          console.log("stats", this.stats);
+          console.log("stats items", this.stats);
         } else {
           
         }
