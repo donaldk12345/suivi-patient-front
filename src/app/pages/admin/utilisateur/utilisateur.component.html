@@ -2,7 +2,7 @@
     <div class="col-md">
         <div class="col-md mt-2 mt-2 p-2">
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer utilisateur </button>
-            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="userPreview()" > <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="userPreview()"> <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Supprimer </button>
         </div>
         <div class="card p-3">
@@ -14,8 +14,7 @@
 
 </div>
 
-<p-dialog header="{{label}}" [(visible)]="display" [style]="{width: '550px'}" styleClass="p-fluid"
-[modal]="true">
+<p-dialog header="{{label}}" [(visible)]="display" [style]="{width: '550px'}" styleClass="p-fluid" [modal]="true">
     <ng-template pTemplate="content">
         <form [formGroup]="registerForm">
             <div class="mb-3">
@@ -23,163 +22,134 @@
                 <input type="text" class="form-control" id="username" placeholder="Veillez saisir le nom" formControlName="username">
                 <div class="col-md" *ngIf="username.touched && username.invalid">
                     <small *ngIf="  username.errors?.['required']" style="color:red ;">Le nom est obligatoire !</small>
-    
+
                 </div>
-             
+
             </div>
-     
+
             <div class="mb-3">
                 <label class="form-label" for="basic-default-company">Mot de passe</label>
                 <input type="password" class="form-control" id="password" placeholder="Veillez saisir le  mot de passe" formControlName="password">
-                 
+
                 <div class="col-md" *ngIf="password.touched && password.invalid">
                     <small *ngIf="  password.errors?.['required']" style="color:red ;">Le mot de passe n'est pas valide !</small>
                     <small *ngIf="  password.errors?.['minlength']" style="color:red ;">Le mot de passe doit faire minimum 4 caractères !</small>
-    
+
                 </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label" for="basic-default-company">Email</label>
                 <input type="email" class="form-control" id="email" placeholder="Veillez saisir votre email" formControlName="email">
-                 
+
                 <div class="col-md" *ngIf="email.touched && email.invalid">
                     <small *ngIf="  email.errors?.['required']" style="color:red ;">L'adresse mail  est obligatoire !</small>
                     <small *ngIf="  email.errors?.['pattern']" style="color:red ;">L'adresse mail n'est pas valide !</small>
-    
+
                 </div>
             </div>
-        
+
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Role</label>
-                <p-dropdown
-                  inputId="dropdown1"
-                  [autoDisplayFirst]="false"
-                  [filter]="true"
-                  filterBy="nom"
-                  [options]="role"
-                  optionLabel="nom"
-                  appendTo="body"
-                  optionValue="nom"
-                  formControlName="role"
-                  placeholder="Choisir le role "
-                  class="col-md"
-                ></p-dropdown>
-              </div>
-              <div class="col-md" *ngIf="_role.touched && _role.invalid">
+                <p-dropdown inputId="dropdown1" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="role" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="role" placeholder="Choisir le role " class="col-md"></p-dropdown>
+            </div>
+            <div class="col-md" *ngIf="_role.touched && _role.invalid">
                 <small *ngIf="  _role.errors?.['required']" style="color:red ;">Le role  est obligatoire !</small>
             </div>
             <div class="mb-2">
                 <label class="form-label" for="basic-default-fullname">Expire</label>
-                <p-dropdown   (onChange)="onChange($event)" inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="expired" placeholder="Le compte expire ? " class="col-md"></p-dropdown>
+                <p-dropdown (onChange)="onChange($event)" inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="expired" placeholder="Le compte expire ? "
+                    class="col-md"></p-dropdown>
                 <div class="col-md" *ngIf="expired.touched && expired.invalid">
                     <small *ngIf="  expired.errors?.['required']" style="color:red ;">Le choix  est obligatoire !</small>
                 </div>
-              </div>
+            </div>
 
-              <div class="mb-3" *ngIf="element">
+            <div class="mb-3" *ngIf="element">
                 <label class="form-label" for="basic-default-company">Date expiration </label>
                 <input type="datetime-local" class="form-control" id="date" placeholder="Veillez choisir la date" formControlName="expiredDate">
-                 
+
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3" *ngIf="verify">
                 <label class="form-label" for="basic-default-fullname">Etablissement</label>
-                <p-dropdown
-                  inputId="dropdown2"
-                  [autoDisplayFirst]="false"
-                  [filter]="true"
-                  filterBy="nomEtablissement"
-                  [options]="etablissement"
-                  optionLabel="nomEtablissement"
-                  appendTo="body"
-                  optionValue="id"
-                  formControlName="etablissement_id"
-                  placeholder="Choisir l'etablissement"
-                  class="col-md"
-                ></p-dropdown>
-              </div>
-              
+                <p-dropdown inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="nomEtablissement" [options]="etablissement" optionLabel="nomEtablissement" appendTo="body" optionValue="id" formControlName="etablissement_id" placeholder="Choisir l'etablissement"
+                    class="col-md"></p-dropdown>
+            </div>
+
             <div class="row col-md m-auto">
                 <div class="col">
-                    <button class="ico mt-2" type="button" [disabled]="registerForm.status != 'VALID'"  (click)="createUser()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                    <button class="ico mt-2" type="button" [disabled]="registerForm.status != 'VALID'" (click)="createUser()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
                 </div>
                 <div class="col">
-                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
-                    
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+
                 </div>
 
             </div>
-            
+
 
         </form>
     </ng-template>
 </p-dialog>
 
 
-<p-dialog header="Modifier" [(visible)]="updateDisplay" [style]="{width: '550px'}" styleClass="p-fluid"
-[modal]="true">
+<p-dialog header="Modifier" [(visible)]="updateDisplay" [style]="{width: '550px'}" styleClass="p-fluid" [modal]="true">
     <ng-template pTemplate="content">
         <form [formGroup]="registerForm">
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Nom</label>
                 <input type="text" class="form-control" id="username" placeholder="Veillez saisir le nom" formControlName="username">
-                
-             
+
+
             </div>
-     
+
             <div class="mb-3">
                 <label class="form-label" for="basic-default-company">Mot de passe</label>
                 <input type="password" class="form-control" id="password" placeholder="Veillez saisir le  mot de passe" formControlName="password">
-                 
-              
+
+
             </div>
 
             <div class="mb-3">
                 <label class="form-label" for="basic-default-company">Email</label>
                 <input type="email" class="form-control" id="email" placeholder="Veillez saisir votre email" formControlName="email">
-                 
-              
+
+
             </div>
-        
+
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Role</label>
-                <p-dropdown
-                  inputId="dropdown"
-                  [autoDisplayFirst]="false"
-                  [filter]="true"
-                  filterBy="nom"
-                  [options]="role"
-                  optionLabel="nom"
-                  appendTo="body"
-                  optionValue="nom"
-                  formControlName="role"
-                  placeholder="Choisir le role "
-                  class="col-md"
-                ></p-dropdown>
-              </div>
+                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="role" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="role" placeholder="Choisir le role " class="col-md"></p-dropdown>
+            </div>
 
-              <div class="mb-2">
+            <div class="mb-2">
                 <label class="form-label" for="basic-default-fullname">Expire</label>
-                <p-dropdown   (onChange)="onChange($event)" inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="expired" placeholder="Le compte expire ? " class="col-md"></p-dropdown>
-              </div>
-              <div class="mb-3" *ngIf="element">
+                <p-dropdown (onChange)="onChange($event)" inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="ids" formControlName="expired" placeholder="Le compte expire ? "
+                    class="col-md"></p-dropdown>
+            </div>
+            <div class="mb-3" *ngIf="element">
                 <label class="form-label" for="basic-default-company">Date expiration </label>
                 <input type="datetime-local" class="form-control" id="date" placeholder="Veillez choisir la date" formControlName="expiredDate">
-                 
+
             </div>
-        
+            <div class="mb-3" *ngIf="verify">
+                <label class="form-label" for="basic-default-fullname">Etablissement</label>
+                <p-dropdown inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="nomEtablissement" [options]="etablissement" optionLabel="nomEtablissement" appendTo="body" optionValue="id" formControlName="etablissement_id" placeholder="Choisir l'etablissement"
+                    class="col-md"></p-dropdown>
+            </div>
+
             <div class="row col-md m-auto">
                 <div class="col">
                     <button class="ico mt-2" type="button" (click)="updateUser()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
                 </div>
                 <div class="col">
-                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
-                    
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+
                 </div>
 
             </div>
-            
+
 
         </form>
     </ng-template>

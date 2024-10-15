@@ -34,7 +34,7 @@ export class AppComponent implements OnInit{
   
     }*/
 
-    setTimeout(()=>{
+   /* setTimeout(()=>{
       if(this.http.sessionget('username')!=null){
         this.http.getElement(this.api.API_URI + "rendezvous/notif").subscribe({
           next: data => {
@@ -42,7 +42,7 @@ export class AppComponent implements OnInit{
           }
         })
       }
-    },1000);
+    },1000);*/
 
   
 

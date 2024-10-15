@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ApiUrlService } from 'src/app/services/api-url.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { TokenService } from 'src/app/services/token.service';
 import { environment } from 'src/environments/enviroment';
@@ -44,9 +45,10 @@ export class UtilisateurComponent implements OnInit{
   updateDisplay: boolean = false;
   boolvalue: any[]=[];
   element: any;
-
-  constructor(private api:ApiUrlService,private confirmationService: ConfirmationService,private http: ResponseService,private messageService: MessageService, private tokenService:TokenService) {
-
+  isRole: any;
+  verify:boolean | undefined;
+  constructor(private api:ApiUrlService,private confirmationService: ConfirmationService,private http: ResponseService,private messageService: MessageService, private tokenService:TokenService,private auth:AuthenticationService) {
+    this.verify = this.auth.isLoggedIn();
   }
 
   ngOnInit(): void{
@@ -88,6 +90,7 @@ export class UtilisateurComponent implements OnInit{
 
     ];
     this.exportColumns = this.cols.map(col => ({title: col.header, dataKey: col.field}));
+    this.isRole = this.tokenService.DecodeToken(JSON.stringify(this.http.sessionget('token')))
 
 
   }
@@ -122,16 +125,25 @@ getData(dat : any) : void {
 
    // this.permission= this.user.role[0]
 
-     if(this.permission=='MANAGER'){
+     console.log("role...",this.user.role);
+
+     if(this.user.role=='MANAGER'){
 
     
 
-        return this.role =[{
-          nom: 'USER',
+        return this.role =[
+ 
+        {
+          nom: 'MANAGER',
           'id': 1
-
-        }]
-     }else{
+        },
+        {
+          nom: 'ASSISTANT',
+          'id': 2
+        },
+    
+      ]
+     }else if(this.user.role=='ADMIN'){
 
       return this.role= [{
         nom: 'USER',
@@ -143,11 +155,17 @@ getData(dat : any) : void {
       },
       {
         nom: 'MANAGER',
-        'id': 2
+        'id': 3
+      },
+      {
+        nom: 'ASSISTANT',
+        'id': 4
       },
   
       ]
 
+     }else{
+       return console.log("pas authoriser !");
      }
   }
 
