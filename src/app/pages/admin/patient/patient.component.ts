@@ -1,4 +1,5 @@
 import { formatDate } from '@angular/common';
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { er } from '@fullcalendar/core/internal-common';
@@ -16,15 +17,19 @@ import { url } from 'src/environments/url';
 })
 export class PatientComponent implements OnInit{
 
+
  charge: Observable<any> = new Observable<any>();
  users: any[]=[];
  display: boolean = false;
  selectElement: any;
  maSelection: any[] = [];
  cols: any[] = [];
+ displayFilter = false;
+ isRefresh=false;
  modifierbtn: boolean =false;
  activatebtn: boolean = false;
  addPatientForm : FormGroup = Object.create(null);
+ filterForm : FormGroup = Object.create(null);
  unactivatebtn: boolean = false;
  detailbtn: boolean = false;
  displayBasic: boolean = false;
@@ -67,6 +72,11 @@ showDialog() {
   this.display = true;
 }
 
+filterDialog() {
+  this.displayFilter = true;
+
+}
+
 updateDialog() {
   this.addUpdateForm = true;
 }
@@ -75,6 +85,8 @@ hideDialog(){
   this.display = false;
   this.addPatientForm.reset();
   this.addUpdateForm = false;
+  this.filterForm.reset();
+  this.displayFilter = false;
 
 }
 
@@ -92,6 +104,12 @@ hideDialog(){
       'sexe': new FormControl('', [Validators.required]),
       'ville': new FormControl('', [Validators.required]),
     });
+
+    this.filterForm = new FormGroup({
+      'nom':  new FormControl('',),
+
+    })
+
 
     this.cols = [
       {field: 'nom', header: 'Nom', type: 'string', width: 200, isFroz: true},
@@ -201,6 +219,11 @@ hideDialog(){
 
     }
 
+    refresh(){
+      this.isRefresh = false;
+      this.getPatient();
+   }
+
     getPatient(){
       this.http.getElement(this.api.API_URI + url.patient).subscribe({
         next: data => {
@@ -221,6 +244,40 @@ hideDialog(){
         }
       })
       }
+
+
+      getPatientFilter() {
+      
+        let parmasvalue = new HttpParams;
+        this.isRefresh = true;
+
+        parmasvalue =parmasvalue.append('nom', this.filterForm.get('nom')?.value);
+  
+        this.http.getElementParams(this.api.API_URI + url.patient,{params:parmasvalue}).subscribe({
+          next: data => {
+            if (data) {
+  
+              this.patient = data.content;
+              console.log("Mes patient filter ", this.patient);
+             
+              /*this.patient.forEach(elt=>{
+                 this.patien.set(elt.id,elt.nom);
+  
+                 console.log("Mes patient ", this.patien);
+              })*/
+  
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Reésultat',
+  
+                detail: data.message,
+                life: 3000
+              });
+            }
+          }
+        })
+        }
 
       addPatientData(){
         let addRequest= {

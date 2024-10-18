@@ -74,6 +74,31 @@ button#btn2:disabled {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2);
     transform: translate3d(0, -2px, 0);
 }
-body{
+
+body {
     background-color: #eeeeeeba!important;
+}
+
+.icom3 {
+    margin-right: 15px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 28px 13px 28px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+    cursor: pointer;
+    border: none;
+    color: #333;
+    transition: box-shadow .4s cubic-bezier(.25, .8, .25, 1), transform .4s cubic-bezier(.25, .8, .25, 1);
+    transform: translate3d(0, 0, 0)
+}
+
+.icom3:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2);
+    transform: translate3d(0, -2px, 0);
+}
+
+button#btn3:disabled {
+    background-color: #ffffff00;
 }

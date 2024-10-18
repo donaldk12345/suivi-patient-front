@@ -72,6 +72,16 @@ export class AuthenticationService {
     return false;
   }
 
+  public isManAdm():boolean{
+
+    this.isRo =this.DecodeToken(this.http.sessionget('token'));
+    if (this.isRo.role=="ADMIN" || this.isRo.role=='MANAGER') {
+      return true;
+    }
+    return false;
+
+  }
+
   isConnect():boolean{
     this.code = this.http.sessionget("verify");
      this.val = this.http.sessionget("token");

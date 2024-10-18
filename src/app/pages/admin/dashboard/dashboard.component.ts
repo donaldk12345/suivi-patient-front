@@ -34,6 +34,8 @@ export class DashboardComponent implements OnInit{
   role: any;
   username: any;
   isrefresh:boolean =false;
+  Ploading:boolean = true;
+  Rloading:boolean = true;
   stats1: any;
   stats2:any;
   stats3:any;
@@ -622,7 +624,7 @@ export class DashboardComponent implements OnInit{
         if (data) {
           console.log("Mes rendez vous ", data.content);
           this.rendesvous = data.content;
-          this.loading = false;
+          this.Rloading = false;
 
         } else {
           this.messageService.add({
@@ -676,7 +678,7 @@ export class DashboardComponent implements OnInit{
         if (data) {
           console.log("Mes patient ", data.content);
           this.patient = data.content;
-          this.loading = false;
+          this.Ploading = false;
 
         } else {
           this.messageService.add({

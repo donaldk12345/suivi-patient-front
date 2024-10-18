@@ -62,7 +62,7 @@ export class PreinscriptionComponent implements OnInit{
  suggestions:any[] | undefined;
  exportColumns: any[] = [];
  patient : any[]=[];
- loading = false;
+ loading = true;
   sexes: any[]=[];
   addUpdateForm: boolean=false;
   consultations: any[]=[];

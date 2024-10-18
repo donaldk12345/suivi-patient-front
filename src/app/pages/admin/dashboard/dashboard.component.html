@@ -15,10 +15,10 @@
                             <h5>hello, {{username}} </h5>
                             <p>Bienvenue sur l'application</p>
                         </div>
-                        <div  *ngIf="!verify" class="col-md-4 welcome-img-wrapper"><img src="../../../../assets/images/stethoscope.gif" /></div>
+                        <div *ngIf="!verify" class="col-md-4 welcome-img-wrapper"><img src="../../../../assets/images/stethoscope.gif" /></div>
                         <div class="col-md-4" *ngIf="verify">
-                            <span class="fw-bold">{{ 'Filtre' | translate}}</span>   
-                            <select  (change)="changeMode($event)" class="form-select ">
+                            <span class="fw-bold">{{ 'Filtre' | translate}}</span>
+                            <select (change)="changeMode($event)" class="form-select ">
                                 <option  *ngFor="let x of etablissement" [value]="x.id" [selected]="x.id === this.cureent">{{x.nomEtablissement}} </option>
                             </select>
                             <button *ngIf="isrefresh" type="button" class="btn btn-default btn-sm" (click)="refresh()">
@@ -33,18 +33,38 @@
                     <div class="row text-center">
                         <div class="col-md-3"><i class="las la-user-injured la-3x align-self-center"></i>
                             <p>total patients</p>
+                            <div class="text-center" *ngIf="loading">
+                                <div class="spinner-border" role="status" style="width: 1rem; height: 1rem;">
+                                    <span class="visually-hidden"></span>
+                                </div>
+                            </div>
                             <h4> {{stats?.patients}} </h4>
                         </div>
                         <div class="col-md-3"><i class="las la-user-md la-3x align-self-center"></i>
                             <p>total consulatations</p>
+                            <div class="text-center" *ngIf="loading">
+                                <div class="spinner-border" role="status" style="width: 1rem; height: 1rem;">
+                                    <span class="visually-hidden"></span>
+                                </div>
+                            </div>
                             <h4>{{stats?.consultations}}</h4>
                         </div>
                         <div class="col-md-3"><i class="las la-clinic-medical la-3x align-self-center"></i>
                             <p>total prescriptions</p>
+                            <div class="text-center" *ngIf="loading">
+                                <div class="spinner-border" role="status" style="width: 1rem; height: 1rem;">
+                                    <span class="visually-hidden"></span>
+                                </div>
+                            </div>
                             <h4>{{stats?.prescriptions}}</h4>
                         </div>
                         <div class="col-md-3"><i class="las la-users la-3x align-self-center"></i>
                             <p>total Rendez-vous</p>
+                            <div class="text-center" *ngIf="loading">
+                                <div class="spinner-border" role="status" style="width: 1rem; height: 1rem;">
+                                    <span class="visually-hidden"></span>
+                                </div>
+                            </div>
                             <h4>{{stats?.rendezvous}}</h4>
                         </div>
                     </div>
@@ -108,12 +128,12 @@
                 </div>
                 <div class="card-body">
                     <div class="text-center" *ngIf="loading1">
-                        <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
-                          <span class="visually-hidden"></span>
+                        <div class="spinner-border" role="status" style="width: 2rem; height: 2rem;">
+                            <span class="visually-hidden"></span>
                         </div>
-                      </div>
-                    <canvas  id="MyChart" >{{ chart }}</canvas>
-                
+                    </div>
+                    <canvas id="MyChart">{{ chart }}</canvas>
+
                 </div>
             </div>
             <div class="card">
@@ -122,12 +142,12 @@
                 </div>
                 <div class="card-body">
                     <div class="text-center" *ngIf="loading2">
-                        <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
-                          <span class="visually-hidden"></span>
+                        <div class="spinner-border" role="status" style="width: 2rem; height: 2rem;">
+                            <span class="visually-hidden"></span>
                         </div>
-                      </div>
-                    <canvas  id="MyChart1" >{{ chart1 }}</canvas>
-                
+                    </div>
+                    <canvas id="MyChart1">{{ chart1 }}</canvas>
+
                 </div>
             </div>
             <div class="card">
@@ -137,15 +157,15 @@
                 <div class="card-body">
 
                     <div class="text-center" *ngIf="loading4">
-                        <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
-                          <span class="visually-hidden"></span>
+                        <div class="spinner-border" role="status" style="width: 2rem; height: 2rem;">
+                            <span class="visually-hidden"></span>
                         </div>
-                      </div>
-                     <canvas  id="MyChart3" >{{ chart3 }}</canvas>
+                    </div>
+                    <canvas id="MyChart3">{{ chart3 }}</canvas>
                 </div>
             </div>
         </div>
-     <!--    <div class="card-deck">
+        <!--    <div class="card-deck">
             <div class="card">
                 <div class="card-header">
                     <h5>top treatments</h5>
@@ -235,11 +255,13 @@
                     <h5 style="text-transform: lowercase;">Liste des patients</h5>
                 </div>
                 <div class="card-body">
+
                     <table class="table table-borderless table-hover table-responsive-md">
                         <tbody>
                             <tr>
                                 <td>
-                                    <p>Nom</p></td>
+                                    <p>Nom</p>
+                                </td>
                                 <td>
                                     <p>Prenom</p>
                                 </td>
@@ -250,34 +272,42 @@
                             </tr>
                             <tr *ngFor="let p of patient.slice(0, 6);">
                                 <td>
-                                    <p> {{p?.nom}} </p></td>
+                                    <p> {{p?.nom}} </p>
+                                </td>
                                 <td>
                                     <p> {{p?.prenom}} </p>
                                 </td>
-                                <td >
+                                <td>
                                     <p> {{p?.telephone}} </p>
                                 </td>
                                 <td>
                                     <p style="text-transform: lowercase;"> {{p?.nomEtablissement}} </p>
                                 </td>
-                        
+
                             </tr>
-                      
+
                         </tbody>
                     </table>
+                    <div class="text-center" *ngIf="Ploading">
+                        <div class="spinner-border" role="status" style="width: 2rem; height: 2rem;">
+                            <span class="visually-hidden"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer"><button  (click)="downloadPatientFile()" class="view-more">Exporter<i class="las la-file-excel"></i></button></div>
+                <div class="card-footer"><button (click)="downloadPatientFile()" class="view-more">Exporter<i class="las la-file-excel"></i></button></div>
             </div>
             <div class="card">
                 <div class="card-header">
                     <h5 style="text-transform: lowercase;">Liste des rendez-vous</h5>
                 </div>
                 <div class="card-body">
+
                     <table class="table table-borderless table-hover table-responsive-md">
                         <tbody>
                             <tr>
                                 <td>
-                                    <p>Nom</p></td>
+                                    <p>Nom</p>
+                                </td>
                                 <td>
                                     <p>Profession</p>
                                 </td>
@@ -286,26 +316,32 @@
                                 </td>
                                 <td class="text-right">Etablissement</td>
                             </tr>
-                            
+
                             <tr *ngFor="let r of rendesvous.slice(0, 6);">
                                 <td>
-                                    <p> {{r?.nomPatient}} </p></td>
+                                    <p> {{r?.nomPatient}} </p>
+                                </td>
                                 <td>
                                     <p> {{r?.profession}} </p>
                                 </td>
-                                <td >
+                                <td>
                                     <p> {{r?.quartier}} </p>
                                 </td>
                                 <td>
                                     <p style="text-transform: lowercase;"> {{r?.nomEtablissement}} </p>
                                 </td>
-                        
+
                             </tr>
-          
+
                         </tbody>
                     </table>
+                    <div class="text-center" *ngIf="Rloading">
+                        <div class="spinner-border" role="status" style="width: 2rem; height: 2rem;">
+                            <span class="visually-hidden"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer"><button  (click)="downloadRendevousFile()" class="view-more">Exporter<i class="las la-file-excel"></i></button></div>
+                <div class="card-footer"><button (click)="downloadRendevousFile()" class="view-more">Exporter<i class="las la-file-excel"></i></button></div>
             </div>
         </div>
     </div>

@@ -13,11 +13,11 @@
             <a class="list-group-item" routerLink="/gestion/rendez-vous" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="las la-calendar-check la-lw"></i><span>Rendez vous</span></a>
             <a class="list-group-item" routerLink="/gestion/caisse" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Procurement"><i class="las la-receipt la-lw"></i><span>Caisse</span></a>
             <a class="list-group-item" routerLink="/gestion/messenging" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Notifications"><i class="las la-sms la-lw"></i><span>Messenging</span></a>
-            <a class="list-group-item" routerLink="/gestion/utlisateur" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="las la-users la-lw"></i><span>Utilisateurs</span></a>
+            <a class="list-group-item" routerLink="/gestion/utlisateur" *ngIf="manager_admin" routerLinkActive="active-link" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="las la-users la-lw"></i><span>Utilisateurs</span></a>
 
             <hr class="divider" />
             <div class="aob-items" style="background-color:#ffffff;">
-        
+
             </div>
         </ul>
     </div>

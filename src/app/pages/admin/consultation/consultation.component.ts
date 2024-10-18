@@ -78,7 +78,7 @@ export class ConsultationComponent implements OnInit{
  suggestions:any[] | undefined;
  exportColumns: any[] = [];
  patient : any[]=[];
- loading = false;
+ loading = true;
   sexes: any[]=[];
   addUpdateForm: boolean=false;
   consultations: any[]=[];
@@ -450,7 +450,7 @@ this.getPays();
   
               this.consultations = data.content;
               console.log("Mes consultation ", this.consultations);
-             
+              this.loading = false;
               /*this.patient.forEach(elt=>{
                  this.patien.set(elt.id,elt.nom);
   

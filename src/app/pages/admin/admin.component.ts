@@ -26,9 +26,11 @@ export class AdminComponent implements OnInit{
 
   home: MenuItem | undefined;
   verify:boolean | undefined;
+  manager_admin:boolean | undefined;
   constructor(private httpService: ResponseService, private router: Router,private tokenService:TokenService,public loaderService:LoaderService,public auth:AuthenticationService) {
 
     this.verify = this.auth.isLoggedIn();
+    this.manager_admin = this.auth.isManAdm();
   }
     ngOnInit(): void{
       
