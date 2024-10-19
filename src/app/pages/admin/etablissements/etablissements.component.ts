@@ -60,6 +60,7 @@ export class EtablissementsComponent  implements OnInit{
       'responsable': new FormControl(''),
       'statut':new FormControl(''),
       'ville': new FormControl(''),
+      'userSize': new FormControl(''),
       'date': new FormControl(''),
       'description': new FormControl(''),
     });
@@ -69,6 +70,7 @@ export class EtablissementsComponent  implements OnInit{
       {field: 'responsable', header: 'Responsable', type: 'string', width: 270, isFroz: false},
        { field: 'email', header: 'Email', type: 'string', width: 270, isFroz: false },
        { field: 'ville', header: 'Ville', type: 'string', width: 270, isFroz: false },
+       { field: 'userSize', header: 'Utilisateurs', type: 'string', width: 270, isFroz: false },
        { field: 'numero', header: 'Téléphone', type: 'string', width: 270, isFroz: false },
         { field: 'statut', header: 'Status', type: 'boolean', width: 270, isFroz: false },
         {field: 'date', header: 'Créer le', type: 'jour', width: 270, isFroz: false},
@@ -235,6 +237,7 @@ export class EtablissementsComponent  implements OnInit{
           responsable :this.addEtablissementForm.value.responsable,
           ville: this.addEtablissementForm.value.ville,
           date: this.addEtablissementForm.value.date,
+          userSize:this.addEtablissementForm.value.userSize,
           description: this.addEtablissementForm.value.description,
           statut: this.addEtablissementForm.value.statut
         };
@@ -280,6 +283,8 @@ export class EtablissementsComponent  implements OnInit{
           responsable :this.addEtablissementForm.value.responsable,
           ville: this.addEtablissementForm.value.ville,
           date: this.addEtablissementForm.value.date,
+          statut: this.addEtablissementForm.value.statut,
+          userSize:this.addEtablissementForm.value.userSize,
           description: this.addEtablissementForm.value.description,
           statutEntreprise: this.addEtablissementForm.value.statutEntreprise,
           etablissementId: this.selectElement[0].id,
@@ -329,6 +334,7 @@ export class EtablissementsComponent  implements OnInit{
             'statut': this.selectElement[0].statut,
             'ville': this.selectElement[0].ville,
             'pays': this.selectElement[0].pays,
+            'userSize': this.selectElement[0].userSize,
             'description': this.selectElement[0].description,
             'email': this.selectElement[0].email,
             'date':dt
@@ -369,5 +375,9 @@ export class EtablissementsComponent  implements OnInit{
     get description(){
       return this.addEtablissementForm.controls['description'];
       }
+
+    get userSize(){
+      return this.addEtablissementForm.controls['userSize'];
+    }
 
 }
