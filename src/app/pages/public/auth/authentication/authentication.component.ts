@@ -80,7 +80,7 @@ export class AuthenticationComponent implements OnInit{
 
        this.messageService.add({
             severity:'error',
-            summary: 'Erreur de connexion',
+            summary: error,
             detail: error,
             life: 3000
           });

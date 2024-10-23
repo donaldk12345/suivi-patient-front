@@ -33,6 +33,7 @@ export class RendezvousComponent implements OnInit{
   modifierbtn: boolean =false;
   activatebtn: boolean = false;
   addShedulerForm : FormGroup = Object.create(null);
+  addActiviteForm : FormGroup = Object.create(null);
   unactivatebtn: boolean = false;
   detailbtn: boolean = false;
   displayBasic: boolean = false;
@@ -44,6 +45,10 @@ export class RendezvousComponent implements OnInit{
   loading = true;
    sexes: any[]=[];
   boolvalue: any=[]=[];
+  activite: boolean=false;
+activitebtn: boolean=false;
+  detail: boolean=false;
+  activites: any[]=[];
   onRowSelect(dat: any): void {
  
    console.log('Data : ', dat);
@@ -57,6 +62,7 @@ export class RendezvousComponent implements OnInit{
  this.manageDeleteBtn();
    this.manageUpdateBtn();
    this.manageDetailsBtn();
+   this.manageActiviteeBtn();
  
  
  }
@@ -76,6 +82,16 @@ export class RendezvousComponent implements OnInit{
    this.display = true;
    this.getPatient();
  }
+
+ showActiviteDialog(){
+  this.activite=true;
+ }
+
+ showDetail(){
+  this.detail=true;
+  this.getActivites();
+
+ }
  
  updateDialog() {
     
@@ -91,6 +107,9 @@ export class RendezvousComponent implements OnInit{
    this.addShedulerForm.reset();
    this.calendarDialog = false;
    this.updateDisplay = false;
+   this.activite = false;
+   this.addActiviteForm.reset();
+   this.detail=false;
 
  
  }
@@ -139,6 +158,13 @@ export class RendezvousComponent implements OnInit{
        'date_naiss': new FormControl(''),
        'sexe': new FormControl(''),
        'isPatient': new FormControl('')
+     });
+
+     this.addActiviteForm = new FormGroup({
+
+      'nomActivite':  new FormControl(''),
+      'descirption': new FormControl(''),
+
      });
  
      this.cols = [
@@ -263,6 +289,15 @@ export class RendezvousComponent implements OnInit{
            this.updatebtn = true;
          }
         }
+
+
+        manageActiviteeBtn(){
+          if(this.selectElement.length == 0 || this.selectElement.length > 1){
+            this.activitebtn = false;
+          } else {
+            this.activitebtn = true;
+          }
+         }
  
      manageDetailsBtn() {
             if(this.selectElement.length == 0 || this.selectElement.length > 1){
@@ -293,6 +328,28 @@ export class RendezvousComponent implements OnInit{
         }
       })
       }
+
+
+      getActivites(){
+        this.http.getElement(this.api.API_URI + "rendezvous/activite/" + this.selectElement[0].id ).subscribe({
+          next: data => {
+            if (data) {
+              console.log("Mes activites ", data);
+              this.activites = data;
+              this.loading = false;
+  
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Reésultat',
+  
+                detail: data.message,
+                life: 3000
+              });
+            }
+          }
+        })
+        }
 
 
 
@@ -465,6 +522,26 @@ export class RendezvousComponent implements OnInit{
            { nom :  'Feminin', 'id':2}
           ]
        }
+
+
+
+    addActivite(){
+
+      let addRequest= {
+        nomActivite :this.addActiviteForm.value.nomActivite,
+        descirption: this.addActiviteForm.value.descirption,
+        rendezvousId :this.selectElement[0].id,
+
+      };
+
+      //console.log("request",addRequest);
+
+     this.charge =this.http.postElement(this.api.API_URI + url.addActivite, addRequest);
+      this.chargement(this.charge);
+        this.addShedulerForm.reset();
+        this.hideDialog();
+
+    }
  
 
 }

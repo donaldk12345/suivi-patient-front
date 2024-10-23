@@ -11,6 +11,7 @@ export const url = {
   patient : 'patient',
   patientName: 'patient/list',
   rendezvous: 'rendezvous',
+  addActivite: 'rendezvous/activite/add',
   consultation: 'consultation',
   prescription: 'prescription',
   report_prescription_list: 'prescription/report/list',

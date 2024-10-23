@@ -3,6 +3,8 @@
         <div class="col-md mt-2 mt-2 p-2">
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer Rendez-vous </button>
             <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateRendezVousView()"> <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
+            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!activitebtn" (click)="showActiviteDialog()"> <i class="las la-save" style="color: #333; size: 20px;"></i>&nbsp;Activités</button>
+            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!deletebtn" (click)="showDetail()"> <i class="las la-info" style="color: #333; size: 20px;"></i>&nbsp;Détails Activités</button>
             <!--  <button id="" class="icomd mt-2 " type="button" (click)="showCalendarDialog()" > <i class="fas fa-calendar" style="color: #fff;"></i>&nbsp;Calendrier</button>-->
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Annuler</button>
 
@@ -185,5 +187,78 @@
 
 
         </form>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Ajouter une activité " [(visible)]="activite" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addActiviteForm">
+
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Nom de l'activité</label>
+                <input type="text" class="form-control" id="title" placeholder="Veillez saisir le titre" formControlName="nomActivite">
+
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="basic-default-fullname">Détails</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="descirption" rows="3"></textarea>
+
+            </div>
+
+            <div class="row col-md m-auto">
+                <div class="col">
+                    <button class="ico mt-2" type="button" (click)="addActivite()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                </div>
+                <div class="col">
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+
+                </div>
+
+            </div>
+
+
+        </form>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Liste des activites" [(visible)]="detail" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nom activité</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let a of activites">
+                        <td> {{a.nomActivite}} </td>
+                        <td> {{a.description}} </td>
+                        <td> {{a.date | date: 'dd/MM/yyyy hh:mm a'}} </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="row col-md m-auto">
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+
+
+
     </ng-template>
 </p-dialog>
