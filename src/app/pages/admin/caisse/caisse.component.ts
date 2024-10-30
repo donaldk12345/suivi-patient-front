@@ -20,6 +20,8 @@ export class CaisseComponent implements OnInit{
   rendesvous: any[]=[];
   raisons: any[]=[];
   caisses: any[]=[];
+  detail: boolean=false;
+  caisseData: any;
 
 userPreview() {
 throw new Error('Method not implemented.');
@@ -87,6 +89,11 @@ throw new Error('Method not implemented.');
    this.display = true;
    this.getPatient();
  }
+
+ showDetail(){
+  this.detail=true;
+  this.getCaisseById();
+}
  
  updateDialog() {
 
@@ -563,6 +570,29 @@ throw new Error('Method not implemented.');
            { nom: 'Masculin', 'id': 1 },
            { nom :  'Feminin', 'id':2}
           ]
+       }
+
+       getCaisseById(){
+
+        this.http.getElement(this.api.API_URI + "caisse" + "/" + this.selectElement[0].id).subscribe({
+          next: data => {
+            if (data) {
+              console.log("Ma caisse ", data);
+              this.caisseData = data;
+           
+  
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Reésultat',
+  
+                detail: data.message,
+                life: 3000
+              });
+            }
+          }
+        })
+
        }
  
 

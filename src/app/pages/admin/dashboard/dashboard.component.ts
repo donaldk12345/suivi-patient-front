@@ -26,6 +26,8 @@ export class DashboardComponent implements OnInit{
    public chart1: any;
    public chart2: any;
    public chart3: any;
+   public chart4:any;
+   public chart5:any;
   items: any;
   user: any;
   stats: any;
@@ -40,6 +42,7 @@ export class DashboardComponent implements OnInit{
   stats2:any;
   stats3:any;
   stats4:any;
+  stats5:any;
   cureent: any;
   private labeldata: any[] = [];
   private realdata: any[] = [];
@@ -53,11 +56,15 @@ export class DashboardComponent implements OnInit{
   private colordata1: any[] = [];
   private colordata2: any[] = [];
   private colordata3: any[] = [];
+  private colordata4:any[]=[];
+  private realdata4:any[]=[];
+  private labeldata4:any[]=[];
   verify: boolean;
   loading1:boolean =false;
   loading2:boolean =false;
   loading3:boolean =false;
   loading4:boolean =false;
+  loading5:boolean=false;
   etablissement: any[]=[];
   patient: any[]=[];
   rendesvous: any[]=[];
@@ -96,6 +103,7 @@ export class DashboardComponent implements OnInit{
     this.getStatsChart();
     this.getStatsChart2();
     this.getStatsChart4();
+    this.getStatsChart5();
     this.getEtablissement();
     this.getPatient();
     this.getRendezvous();
@@ -142,6 +150,9 @@ export class DashboardComponent implements OnInit{
     this.labeldata3=[] = [];
     this.realdata3=[] = [];
     this.getStatsChart4();
+    this.labeldata4=[] = [];
+    this.realdata4=[] = [];
+    this.getStatsChart5();
 
     }
 
@@ -564,6 +575,137 @@ export class DashboardComponent implements OnInit{
                     label: "rendez-vous",
                     data: this.realdata3,
                     backgroundColor: this.colordata3
+                  }
+                
+                ]
+              },
+              options: {
+                aspectRatio:2.5
+              }
+              
+            });
+
+            //this.chart.destroy();
+          }
+       
+        } else {
+          
+        }
+      }
+    })
+     }
+
+
+  }
+
+  getStatsChart5(){
+
+    let parmasvalue = new HttpParams;
+
+    parmasvalue =parmasvalue.append('etablissementId',this.elt);
+
+     if(this.elt!=null){
+
+      console.log('elt 2',this.elt);
+
+        this.loading5 = true;
+       this.http.getElementParams(this.api.API_URI + "dashboard/items/caisse",{params:parmasvalue}).subscribe({
+       next: data => {
+        if (data) {
+          this.loading5 = false;
+          this.stats5= data;
+          console.log("stats  5 ", this.stats5);
+    
+
+          if(this.stats5!=null){
+            this.stats5.forEach((element:any) => {
+        
+
+             console.log("element 5",element);
+        
+              this.labeldata4.push(element['date']);
+              this.realdata4.push(element['caisseSize']);
+              this.colordata4.push(this.colors[this.Randoom(this.colors.length)]);
+    
+              for(let i = 0; i<= this.labeldata4.length; i++){
+    
+                 let date = new Date();
+                 const pipe = new DatePipe('fr-FR')
+              
+              //console.log("date move", pipe.transform(this.labeldata[i]));
+    
+              }
+              
+            });
+
+            this.chart4.destroy();
+
+            this.chart4 = new Chart("MyChart4", {
+              type: 'bar', //this denotes tha type of chart
+        
+              data: {// values on X-Axis
+                labels:this.labeldata4, 
+                 datasets: [
+                  {
+                    label: "caisse",
+                    data: this.realdata4,
+                    backgroundColor: this.colordata4
+                  }
+                
+                ]
+              },
+              options: {
+                aspectRatio:2.5
+              }
+              
+            });
+            //this.chart.destroy();
+          }
+        } else {
+          
+        }
+      }
+    })
+     }else{
+
+    this.loading5 =true; 
+    this.http.getElement(this.api.API_URI + "dashboard/items/caisse").subscribe({
+      next: data => {
+        if (data) {
+       
+          this.stats5= data;
+          console.log("stats  5 ", this.stats5);
+          this.loading5 =false;
+          if(this.stats5!=null){
+            this.stats5.forEach((element:any) => {
+
+        
+              const pipe = new DatePipe('fr-FR')
+              this.labeldata4.push(element['date']);
+              this.realdata4.push(element['caisseSize']);
+              this.colordata4.push(this.colors[this.Randoom(this.colors.length)])
+    
+              for(let i = 0; i<= this.labeldata4.length; i++){
+    
+                 let date = new Date();
+                 const pipe = new DatePipe('fr-FR')
+              
+              //console.log("date move", pipe.transform(this.labeldata[i]));
+    
+              }
+              
+            });
+
+            this.chart4 = new Chart("MyChart4", {
+              type: 'bar', //this denotes tha type of chart
+        
+              data: {// values on X-Axis
+                labels:this.labeldata4, 
+                 datasets: [
+                  {
+                    label: "caisse",
+                    data: this.realdata4,
+                    backgroundColor: this.colordata4
                   }
                 
                 ]

@@ -13,10 +13,12 @@ import { url } from 'src/environments/url';
   styleUrls: ['./etablissement.component.css']
 })
 export class EtablissementComponent implements OnInit{
+
 val: any;
 
   logo:any;
   image!: Blob;
+  file: File | null = null; 
   imageURL:SafeUrl | undefined;
   updateEntrepriseForm: FormGroup = Object.create(null);
   entreprise: any;
@@ -26,7 +28,7 @@ val: any;
 
 
   ngOnInit(): void {
-    //this.getLogo();
+    this.getLogo();
     this.getEtablissement();
     this.val="Fonctionnelle";
       
@@ -119,5 +121,46 @@ val: any;
 
 
       }
+
+      upload(event:any) {
+        const file: File = event.target.files[0];
+
+        if (file) {
+          this.file = file;
+          console.log("file",this.file);
+          const formData = new FormData();
+
+          formData.append('file', this.file);
+          this.h.post(this.api.API_URI + "logo/ajouter",formData).subscribe({
+
+            next: data => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'success',
+                detail:"Logo ajouter avec succés",
+                life: 3000
+              });
+
+              this.getLogo();
+              console.log("data", data);
+             
+          },
+          error: error => {
+            
+            console.log('error!', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: error,
+              detail: error.message,
+              life: 3000
+            });
+
+ 
+ 
+          }
+          })
+        }
+    
+        }
 
 }

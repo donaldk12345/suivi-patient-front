@@ -2,7 +2,8 @@
     <div class="col-md">
         <div class="col-md mt-2 mt-2 p-2">
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer une facture </button>
-            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateDialog()" > <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Paiement</button>
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateDialog()"> <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Paiement</button>
+            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn" (click)="showDetail()"> <i class="las la-info" style="color: #333; size: 20px;"></i>&nbsp;Détails Facture</button>
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Annuler</button>
             <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!genratebtn" (click)="getCaisseGenerateReportPdf()"> <i class="las la-file-pdf" style="color: #333; size: 20px;"></i>&nbsp;Générer le pdf</button>
         </div>
@@ -15,24 +16,23 @@
 
 </div>
 
-<p-dialog header="Ajouter une facturation" [(visible)]="display" [style]="{width: '650px'}" styleClass="p-fluid"
-[modal]="true">
+<p-dialog header="Ajouter une facturation" [(visible)]="display" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
     <ng-template pTemplate="content">
         <form [formGroup]="addCaisseForm">
 
-        
+
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Titre facturation</label>
                 <input type="text" class="form-control" id="title" placeholder="Veillez saisir le titre" formControlName="titre">
-                
+
             </div>
-       
-            <div class="mb-3" >
+
+            <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Patient</label>
                 <p-dropdown inputId="dropdown2" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="patient" optionLabel="nom" appendTo="body" optionValue="id" formControlName="patientId" placeholder="Choisir le patient " class="col-md"></p-dropdown>
             </div>
 
-                      <div class="mb-3">
+            <div class="mb-3">
                 <div class="mt-2 p-2 " style="background-color: #d8d8d84f; border-radius:10px;">
                     <h4 class="text-center text-secondary">Services effectués</h4>
                     <div class="col">
@@ -77,82 +77,148 @@
                     </ng-template>
                 </p-table>
             </div>
-         
+
             <div class="row col-md m-auto">
                 <div class="col">
-                    <button class="ico mt-2" type="button"   (click)="addCaisse()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                    <button class="ico mt-2" type="button" (click)="addCaisse()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
                 </div>
                 <div class="col">
-                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
-                    
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+
                 </div>
 
             </div>
-            
+
 
         </form>
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Faire le paiement" [(visible)]="displayUpdate" [style]="{width: '650px'}" styleClass="p-fluid"
-[modal]="true">
+<p-dialog header="Faire le paiement" [(visible)]="displayUpdate" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
     <ng-template pTemplate="content">
         <form [formGroup]="updateCaisseForm">
 
             <div class="mb-2">
                 <label class="form-label" for="basic-default-fullname">Mode de paiement</label>
-                <p-dropdown   (onChange)="onChange($event)" inputId="dropdown1" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="val" formControlName="mode" placeholder="Choisir me mode " class="col-md"></p-dropdown>
-              </div>
+                <p-dropdown (onChange)="onChange($event)" inputId="dropdown1" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="val" formControlName="mode" placeholder="Choisir me mode " class="col-md"></p-dropdown>
+            </div>
             <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Montant</label>
                 <input type="number" class="form-control" id="title" placeholder="Veillez saisir le montant versé" (input)="onSearchChange($event)" formControlName="montant">
-                
+
             </div>
-     
+
             <div class="mb-3">
                 <label class="form-label" for="basic-default-company">Reste</label>
                 <input type="number" class="form-control" id="datetime-local" placeholder="Veillez saisir le reste" formControlName="reste">
-                 
+
             </div>
 
-     
-              <div class="mb-3" *ngIf="getReste()">
+
+            <div class="mb-3" *ngIf="getReste()">
                 <label class="form-label" for="basic-default-fullname">Date reste</label>
                 <input type="date" class="form-control" id="datetime-local" placeholder="Veillez saisir la date" formControlName="date">
-        
+
             </div>
             <div class="mb-3" *ngIf="element=='OM'">
                 <label class="form-label" for="basic-default-fullname">Numéro</label>
                 <input type="text" class="form-control" id="email" placeholder="Veillez saisir le numéro mobile money" formControlName="numero">
-                
+
             </div>
-         
+
             <div class="row col-md m-auto">
                 <div class="col">
-                    <button class="ico mt-2" type="button"   (click)="updateCaisse()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
+                    <button class="ico mt-2" type="button" (click)="updateCaisse()"> <i class="fas fa-check" style="color: #fff;"></i>&nbsp;Enregistrer</button>
                 </div>
                 <div class="col">
-                    <button class="icob mt-2" type="button" (click)=" hideDialog()" > <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
-                    
+                    <button class="icob mt-2" type="button" (click)=" hideDialog()"> <i class="fas fa-window-close" style="color: #fff;"></i>&nbsp;Annuler</button>
+
                 </div>
 
             </div>
-            
+
 
         </form>
     </ng-template>
 </p-dialog>
 
-<!--<p-dialog header="Calendrier des rendez-vous" [(visible)]="calendarDialog" [style]="{width: '1280px'}" styleClass="p-fluid" [modal]="true">
+<p-dialog header="Détails Facture" [(visible)]="detail" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
+
     <ng-template pTemplate="content">
 
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <span>
+        <div>
 
-    </span>
-        <span>
-        <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="hideDialog()" class="p-button-danger"></button>
-    </span>
+            <ul class="list-group">
+                <li class="list-group-item"><span class="font-weight-bold">Titre</span> :
+                    <span class=""> {{caisseData?.titre}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Nom du patient</span> :
+                    <span class=""> {{caisseData?.nomPatient}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Prenom</span> :
+                    <span class=""> {{caisseData?.prenomPatient}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Numéro</span> :
+                    <span class=""> {{caisseData?.numero}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Numéro facture</span> :
+                    <span class=""> {{caisseData?.numeroFacture}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Ville</span> :
+                    <span class=""> {{caisseData?.villeEtab}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Nom établissement</span> :
+                    <span class=""> {{caisseData?.nomEtablissement}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Date de naissance</span> :
+                    <span class=""> {{caisseData?.dateNaiss | date: 'dd/MM/yyyy'}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Responsable</span> :
+                    <span class=""> {{caisseData?.responsable}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Total à payer</span> :
+                    <span class=""> {{caisseData?.total}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Montant versé</span> :
+                    <span class=""> {{caisseData?.montantVerse}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Mode de paiement</span> :
+                    <span class=""> {{caisseData?.mode}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Numéro OM</span> :
+                    <span class=""> {{caisseData?.numeroOm}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Montant versé</span> :
+                    <span class=""> {{caisseData?.montantVerse}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Reste à payer</span> :
+                    <span class=""> {{caisseData?.reste}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Date reste</span> :
+                    <span class=""> {{caisseData?.dateReste | date: 'dd/MM/yyyy'}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Crée le </span> :
+                    <span class=""> {{caisseData?.date | date: 'dd/MM/yyyy'}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Ajouter par</span> :
+                    <span class=""> {{caisseData?.username}} </span>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <div class="row col-md m-auto">
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+
+
+
     </ng-template>
-</p-dialog>-->
+</p-dialog>

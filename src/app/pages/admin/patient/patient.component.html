@@ -3,6 +3,7 @@
         <div class="col-md mt-2 mt-2 p-2">
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="fas fa-plus" style="color: #fff;" ></i>&nbsp;Créer patient </button>
             <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updatePatientView()"> <i class="fas fa-pen" style="color: #fff;"></i>&nbsp;Modifier </button>
+            <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn" (click)="showDetail()"> <i class="las la-info" style="color: #333; size: 20px;"></i>&nbsp;Détails Patient</button>
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="fas fa-trash" style="color: #fff;"></i>&nbsp;Supprimer </button>
             <button id="btn3" class="icom3 mt-2 " type="button" (click)="filterDialog()"> <i class="las la-search" style="color: #333;"></i>&nbsp;Filtrer</button>
             <button id="btn3" class="icom3 mt-2 " type="button" *ngIf=" this.isRefresh" (click)="refresh()"> <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="18" viewBox="0 0 30 30">
@@ -263,5 +264,68 @@
 
 
         </form>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Détails patient" [(visible)]="detail" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
+
+    <ng-template pTemplate="content">
+
+        <div>
+
+            <ul class="list-group">
+                <li class="list-group-item"><span class="font-weight-bold">Nom patient</span> :
+                    <span class=""> {{patientData?.nom}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Prenom</span> :
+                    <span class=""> {{patientData?.prenom}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Quartier</span> :
+                    <span class=""> {{patientData?.quariter}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Profession</span> :
+                    <span class=""> {{patientData?.profession}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Téléphone</span> :
+                    <span class=""> {{patientData?.telephone}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Email</span> :
+                    <span class=""> {{patientData?.email}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Ville</span> :
+                    <span class=""> {{patientData?.ville}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Date de naissance</span> :
+                    <span class=""> {{patientData?.dateNaissance | date: 'dd/MM/yyyy'}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Sexe</span> :
+                    <span class=""> {{patientData?.sexe}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Numéro CNI</span> :
+                    <span class=""> {{patientData?.numeroCni}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Etablissement</span> :
+                    <span class=""> {{patientData?.nomEtablissement}} </span>
+                </li>
+                <li class="list-group-item"><span class="font-weight-bold">Ajouter par</span> :
+                    <span class=""> {{patientData?.username}} </span>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <div class="row col-md m-auto">
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+
+
+
     </ng-template>
 </p-dialog>

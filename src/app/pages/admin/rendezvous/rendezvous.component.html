@@ -224,9 +224,11 @@
 </p-dialog>
 
 <p-dialog header="Liste des activites" [(visible)]="detail" [style]="{width: '650px'}" styleClass="p-fluid" [modal]="true">
+
     <ng-template pTemplate="content">
 
         <div>
+
             <table class="table">
                 <thead>
                     <tr>
@@ -234,7 +236,16 @@
                         <th scope="col">Description</th>
                         <th scope="col">Date</th>
                     </tr>
+
+                    <div class="text-center col-md" *ngIf="activiteloading">
+                        <div class="spinner-border" role="status" style="width: 2rem; height: 2rem;">
+                            <span class="visually-hidden"></span>
+                        </div>
+                    </div>
                 </thead>
+
+
+
                 <tbody>
                     <tr *ngFor="let a of activites">
                         <td> {{a.nomActivite}} </td>

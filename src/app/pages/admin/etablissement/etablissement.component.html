@@ -5,8 +5,8 @@
                 <div class="profile-img">
                     <img src="../../../../assets/images/stethoscope.gif" *ngIf="!imageURL" /> <img [src]="imageURL" *ngIf="imageURL" />
                     <div class="file btn btn-lg btn-primary" style="cursor: pointer;">
-                        Change Logo
-                        <input type="file" name="file" />
+                        Mettre à jour le logo
+                        <input type="file" name="file" (change)="upload($event)" />
                     </div>
                 </div>
             </div>
@@ -16,69 +16,70 @@
                         Informations de l'établissement
                     </h5>
                     <h6>
-                       
+
                     </h6>
-                  
+
                 </div>
             </div>
             <div class="col-md-2">
-                
+
             </div>
         </div>
-     
+
         <div class="app-card-body p-4">
             <label for="">Description : </label>
             <div class="notification-content"> {{entreprise?.description}} </div>
-        </div><!--//app-card-body-->
-    
+        </div>
+        <!--//app-card-body-->
+
         <div class="p-4">
-    
-             <form [formGroup]="updateEntrepriseForm">
+
+            <form [formGroup]="updateEntrepriseForm">
                 <div class="row">
-    
+
                     <div class="col-md">
                         <label class="form-label" for="basic-default-fullname">{{ 'nomEtablissement' | translate}}</label>
                         <input type="text" class="form-control" id="ville" formControlName="nomEtablissement" placeholder="">
                     </div>
                     <div class="col-md">
-                
+
                         <label class="form-label" for="basic-default-fullname">{{ 'Ville' | translate}}</label>
-                        <input type="text" class="form-control" id="ville" formControlName="ville" placeholder="" >
-                
+                        <input type="text" class="form-control" id="ville" formControlName="ville" placeholder="">
+
                     </div>
                     <div class="col-md">
-                
+
                         <label class="form-label" for="basic-default-fullname">{{ 'Responsable' | translate}}</label>
-                        <input type="text" class="form-control" id="responsable" formControlName="responsable" placeholder="" >
-                
+                        <input type="text" class="form-control" id="responsable" formControlName="responsable" placeholder="">
+
                     </div>
-                
+
                 </div>
                 <br>
                 <div class="row">
-        
+
                     <div class="col-md">
                         <label class="form-label" for="basic-default-fullname">{{ 'Numero' | translate}}</label>
-                        <input type="text" class="form-control" id="numero" formControlName ="numero" placeholder="">
+                        <input type="text" class="form-control" id="numero" formControlName="numero" placeholder="">
                     </div>
                     <div class="col-md">
-                
+
                         <label class="form-label" for="basic-default-fullname">{{ 'Email' | translate}}</label>
-                        <input type="text" class="form-control" id="email" formControlName="email" placeholder="" >
-                
+                        <input type="text" class="form-control" id="email" formControlName="email" placeholder="">
+
                     </div>
                     <div class="col-md">
-                
-                        <label class="form-label" for="basic-default-fullname" >Statut</label>
-                        <input type="text" class="form-control" id="ville" formControlName ="statut" placeholder=" {{entreprise?.statut==true?val:null}} " >
-                
+
+                        <label class="form-label" for="basic-default-fullname">Statut</label>
+                        <input type="text" class="form-control" id="ville" formControlName="statut" placeholder=" {{entreprise?.statut==true?val:null}} ">
+
                     </div>
-                
+
                 </div>
                 <div class="mb-3 mt-2">
-                    <button class="icom mt-2 " id="btn1" type="button"  (click)="updateEtabli()"> <i class="fas fa-check" style="color: #fff;" ></i>&nbsp;{{ 'Modifier' | translate}}</button>
+                    <button class="icom mt-2 " id="btn1" type="button" (click)="updateEtabli()"> <i class="fas fa-check" style="color: #fff;" ></i>&nbsp;{{ 'Modifier' | translate}}</button>
                 </div>
-             </form>
+            </form>
         </div>
     </form>
 </div>

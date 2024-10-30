@@ -43,6 +43,7 @@ export class RendezvousComponent implements OnInit{
   exportColumns: any[] = [];
   patient : any[]=[];
   loading = true;
+  activiteloading=true;
    sexes: any[]=[];
   boolvalue: any=[]=[];
   activite: boolean=false;
@@ -331,12 +332,13 @@ activitebtn: boolean=false;
 
 
       getActivites(){
+        this.activiteloading = true;
         this.http.getElement(this.api.API_URI + "rendezvous/activite/" + this.selectElement[0].id ).subscribe({
           next: data => {
             if (data) {
               console.log("Mes activites ", data);
               this.activites = data;
-              this.loading = false;
+              this.activiteloading= false;
   
             } else {
               this.messageService.add({

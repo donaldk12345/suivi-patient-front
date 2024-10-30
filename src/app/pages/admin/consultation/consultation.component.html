@@ -2,14 +2,14 @@
     <div class="col-md">
         <div class="col-md mt-2 mt-2 p-2">
             <button class="ico mt-2 " type="button" (click)="showDialog()"> <i class="las la-plus" style="color: #fff;" ></i>&nbsp;Créer</button>
-            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateconsultationPreview()"> <i class="las la-edit" style="color: #fff;"></i>&nbsp;Modifier </button> <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn"
-                (click)="getConsultationById()"> <i class="las la-save" style="color: #333;"></i>&nbsp;Details</button>
-         <!--  <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn" (click)="getPdf()"> <i class="las la-print" style="color: #333; size: 20px;"></i>&nbsp;Visualiser</button>-->  
+            <button id="btn1" class="icom mt-2 " type="button" [disabled]="!updatebtn" (click)="updateconsultationPreview()"> <i class="las la-edit" style="color: #fff;"></i>&nbsp;Modifier </button> <button id="btn3" class="icom3 mt-2 " type="button"
+                [disabled]="!detailbtn" (click)="getConsultationById()"> <i class="las la-save" style="color: #333;"></i>&nbsp;Details</button>
+            <!--  <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!detailbtn" (click)="getPdf()"> <i class="las la-print" style="color: #333; size: 20px;"></i>&nbsp;Visualiser</button>-->
             <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!uploadbtn" (click)="uploadDialog()"> <i class="las la-upload" style="color: #333;"></i>&nbsp;Import</button>
-            <button id="btn3" class="icom3 mt-2 " type="button"  (click)="filterDialog()"> <i class="las la-search" style="color: #333;"></i>&nbsp;Filtrer</button>
+            <button id="btn3" class="icom3 mt-2 " type="button" (click)="filterDialog()"> <i class="las la-search" style="color: #333;"></i>&nbsp;Filtrer</button>
             <button id="btn3" class="icom3 mt-2 " type="button" [disabled]="!genratebtn" (click)="getGenerateReportPdf()"> <i class="las la-file-pdf" style="color: #333; size: 20px;"></i>&nbsp;Générer le pdf</button>
             <button id="btn2" class="icob mt-2 " type="button" [disabled]="!deletebtn" (click)="confirmDelete()"> <i class="las la-trash" style="color: #fff; size:20px;"></i>&nbsp;Supprimer </button>
-            <button id="btn3" class="icom3 mt-2 " type="button"  *ngIf=" this.isRefresh"  (click) ="refresh()"> <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="18" viewBox="0 0 30 30">
+            <button id="btn3" class="icom3 mt-2 " type="button" *ngIf=" this.isRefresh" (click)="refresh()"> <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="18" viewBox="0 0 30 30">
                 <path d="M 15 3 C 12.053086 3 9.3294211 4.0897803 7.2558594 5.8359375 A 1.0001 1.0001 0 1 0 8.5449219 7.3652344 C 10.27136 5.9113916 12.546914 5 15 5 C 20.226608 5 24.456683 8.9136179 24.951172 14 L 22 14 L 26 20 L 30 14 L 26.949219 14 C 26.441216 7.8348596 21.297943 3 15 3 z M 4.3007812 9 L 0.30078125 15 L 3 15 C 3 21.635519 8.3644809 27 15 27 C 17.946914 27 20.670579 25.91022 22.744141 24.164062 A 1.0001 1.0001 0 1 0 21.455078 22.634766 C 19.72864 24.088608 17.453086 25 15 25 C 9.4355191 25 5 20.564481 5 15 L 8.3007812 15 L 4.3007812 9 z"></path>
                 </svg></button>
         </div>
@@ -142,8 +142,8 @@
             -->
             </div>
             <div class="mb-3">
-                <label class="form-label" for="basic-default-fullname">Groupe Sanguin</label>      
-                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="groupes" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="groupeSanguin"  placeholder="Chosir le groupe " class="col-md"></p-dropdown>
+                <label class="form-label" for="basic-default-fullname">Groupe Sanguin</label>
+                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="groupes" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="groupeSanguin" placeholder="Chosir le groupe " class="col-md"></p-dropdown>
 
             </div>
             <div class="mb-3">
@@ -252,8 +252,8 @@
                         <input type="text" placeholder="Nom hôpital " class="form-control" pInputText [formControl]="nomHopital" required />
                     </div><br>
                     <div class="col">
-                        
-                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="countryName" optionLabel="nom" appendTo="body" optionValue="nom" [formControl]="pays"  placeholder="Chosir le pays " class="col-md"></p-dropdown>
+
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="countryName" optionLabel="nom" appendTo="body" optionValue="nom" [formControl]="pays" placeholder="Chosir le pays " class="col-md"></p-dropdown>
 
                     </div><br>
                     <div class="col">
@@ -273,7 +273,8 @@
 
                     </div><br>
                     <div class="col">
-                        <button type="button" [disabled]="nomHopital.status != 'VALID' || nomDocteur.status != 'VALID' || pays.status != 'VALID' || ville.status != 'VALID' || addresse.status != 'VALID' || dateHopital.status != 'VALID'" pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addHopital(addresse,dateHopital,nomHopital,nomDocteur,pays,ville)"></button>
+                        <button type="button" [disabled]="nomHopital.status != 'VALID' || nomDocteur.status != 'VALID' || pays.status != 'VALID' || ville.status != 'VALID' || addresse.status != 'VALID' || dateHopital.status != 'VALID'" pButton pRipple icon="pi pi-plus" styleClass="p-button-warn"
+                            (click)="addHopital(addresse,dateHopital,nomHopital,nomDocteur,pays,ville)"></button>
                     </div>
 
                 </div>
@@ -319,19 +320,19 @@
                     <div class="col">
                         <label class="form-label" for="basic-default-fullname">Faites-vous usage ou avez-vous déjà fait usage de tabac ?</label>
                         <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="tabac" placeholder="Vous fumez ? " class="col-md"></p-dropdown>
-                       
+
                     </div>
                     <br>
                     <div class="col">
                         <label class="form-label" for="basic-default-fullname">Consommez-vous de l'alcool ?</label>
                         <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="alcool" placeholder="Vous buvez de l'alcool ? " class="col-md"></p-dropdown>
-                       
+
 
                     </div><br>
                     <div class="col">
                         <label class="form-label" for="basic-default-fullname">Sport</label>
                         <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="sport" placeholder="Vous faites du sport ? " class="col-md"></p-dropdown>
-                       
+
 
                     </div><br>
                     <div class="col">
@@ -360,7 +361,7 @@
                                 <p-tag [value]="habitude.sport" [severity]="getStatusSeverity(habitude.sport)"></p-tag>
                             </td>
                             <td>
-                            
+
                                 <p-tag [value]="habitude.tabac" [severity]="getStatusSeverity(habitude.tabac)"></p-tag>
                             </td>
                             <td>
@@ -512,8 +513,8 @@
             -->
             </div>
             <div class="mb-3">
-                <label class="form-label" for="basic-default-fullname">Groupe Sanguin</label>      
-                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="groupes" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="groupeSanguin"  placeholder="Chosir le groupe " class="col-md"></p-dropdown>
+                <label class="form-label" for="basic-default-fullname">Groupe Sanguin</label>
+                <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="groupes" optionLabel="nom" appendTo="body" optionValue="nom" formControlName="groupeSanguin" placeholder="Chosir le groupe " class="col-md"></p-dropdown>
 
             </div>
             <div class="mb-3">
@@ -556,7 +557,7 @@
                             <th>Type </th>
                             <th>Date</th>
                             <th>Annuler</th>
-         
+
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-antecedent>
@@ -573,7 +574,7 @@
                             <td>
                                 <button pButton pRipple type="button" (click)="deleteAntecedent(antecedent.nom)" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text"></button>
                             </td>
-                        
+
                         </tr>
                     </ng-template>
                 </p-table>
@@ -625,8 +626,8 @@
                         <input type="text" placeholder="Nom hôpital " class="form-control" pInputText [formControl]="nomHopital" required />
                     </div><br>
                     <div class="col">
-                        
-                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="countryName" optionLabel="nom" appendTo="body" optionValue="nom" [formControl]="pays"  placeholder="Chosir le pays " class="col-md"></p-dropdown>
+
+                        <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="nom" [options]="countryName" optionLabel="nom" appendTo="body" optionValue="nom" [formControl]="pays" placeholder="Chosir le pays " class="col-md"></p-dropdown>
 
                     </div><br>
                     <div class="col">
@@ -646,7 +647,8 @@
 
                     </div><br>
                     <div class="col">
-                        <button type="button" [disabled]="nomHopital.status != 'VALID' || nomDocteur.status != 'VALID' || pays.status != 'VALID' || ville.status != 'VALID' || addresse.status != 'VALID' || dateHopital.status != 'VALID'" pButton pRipple icon="pi pi-plus" styleClass="p-button-warn" (click)="addHopital(addresse,dateHopital,nomHopital,nomDocteur,pays,ville)"></button>
+                        <button type="button" [disabled]="nomHopital.status != 'VALID' || nomDocteur.status != 'VALID' || pays.status != 'VALID' || ville.status != 'VALID' || addresse.status != 'VALID' || dateHopital.status != 'VALID'" pButton pRipple icon="pi pi-plus" styleClass="p-button-warn"
+                            (click)="addHopital(addresse,dateHopital,nomHopital,nomDocteur,pays,ville)"></button>
                     </div>
 
                 </div>
@@ -692,19 +694,19 @@
                     <div class="col">
                         <label class="form-label" for="basic-default-fullname">Faites-vous usage ou avez-vous déjà fait usage de tabac ?</label>
                         <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="tabac" placeholder="Vous fumez ? " class="col-md"></p-dropdown>
-                       
+
                     </div>
                     <br>
                     <div class="col">
                         <label class="form-label" for="basic-default-fullname">Consommez-vous de l'alcool ?</label>
                         <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="alcool" placeholder="Vous buvez de l'alcool ? " class="col-md"></p-dropdown>
-                       
+
 
                     </div><br>
                     <div class="col">
                         <label class="form-label" for="basic-default-fullname">Sport</label>
                         <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [filter]="true" filterBy="val" [options]="boolvalue" optionLabel="val" appendTo="body" optionValue="id" [formControl]="sport" placeholder="Vous faites du sport ? " class="col-md"></p-dropdown>
-                       
+
 
                     </div><br>
                     <div class="col">
@@ -733,7 +735,7 @@
                                 <p-tag [value]="habitude.sport" [severity]="getStatusSeverity(habitude.sport)"></p-tag>
                             </td>
                             <td>
-                            
+
                                 <p-tag [value]="habitude.tabac" [severity]="getStatusSeverity(habitude.tabac)"></p-tag>
                             </td>
                             <td>
@@ -771,7 +773,7 @@
             <div class="col-md-8">
 
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page">{{ consultationOne?.nomPatient}}</li>
+                    <li class="breadcrumb-item active" aria-current="page"></li>
                 </ol>
 
             </div>
@@ -792,7 +794,7 @@
                                                 <h5>age</h5>
                                                 <p>{{ age}}</p>
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                     <div class="col-md-8 patients-details-card-wrapper">
@@ -885,7 +887,7 @@
                                                 <div class="media-body">
                                                     <div class="row">
                                                         <label class="label-green-bl " style="height: 100px!important;"> Nom du médicament: &nbsp;{{at.nomMedicament}} </label>
-                                                
+
                                                         <p></p>
                                                     </div>
 
@@ -902,10 +904,16 @@
                                                 <div class="media-body">
                                                     <div class="row">
                                                         <label class="label-green-bl " style="height: 100px!important;"> Alimentantion: &nbsp;{{at.alimentation}} </label>
-                                                
-                                                        <p>Est alcoolique ?  <p-tag [value]="at.alcool" [severity]="getStatusSeverity(at.alcool)"></p-tag> </p>
-                                                        <p>Est fumeur ?  <p-tag [value]="at.tabac" [severity]="getStatusSeverity(at.tabac)"></p-tag> </p>
-                                                        <p>Fait du sport ?  <p-tag [value]="at.sport" [severity]="getStatusSeverity(at.sport)"></p-tag> </p>
+
+                                                        <p>Est alcoolique ?
+                                                            <p-tag [value]="at.alcool" [severity]="getStatusSeverity(at.alcool)"></p-tag>
+                                                        </p>
+                                                        <p>Est fumeur ?
+                                                            <p-tag [value]="at.tabac" [severity]="getStatusSeverity(at.tabac)"></p-tag>
+                                                        </p>
+                                                        <p>Fait du sport ?
+                                                            <p-tag [value]="at.sport" [severity]="getStatusSeverity(at.sport)"></p-tag>
+                                                        </p>
                                                     </div>
 
                                                 </div>
@@ -918,17 +926,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card notes-card">
-                        
-                        <div class="card-footer">
-                            <div class="float-left">
-                                <p><i class="las la-user"></i>dr. jekyll</p>
-                            </div>
-                            <div class="float-right">
-                                <p>04, may, 2020</p>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="card files-card">
                         <div class="card-header">
                             <h5>Fichiers patients</h5>

@@ -40,6 +40,8 @@ export class PatientComponent implements OnInit{
  loading = true;
   sexes: any[]=[];
   addUpdateForm: boolean=false;
+detail: boolean=false;
+  patientData: any;
  onRowSelect(dat: any): void {
 
   console.log('Data : ', dat);
@@ -70,6 +72,11 @@ getData(dat : any) : void {
 }
 showDialog() {
   this.display = true;
+}
+
+showDetail(){
+  this.detail=true;
+  this.getPatientById();
 }
 
 filterDialog() {
@@ -231,6 +238,29 @@ hideDialog(){
             console.log("Mes patient ", data.content);
             this.patient = data.content;
             this.loading = false;
+
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Reésultat',
+
+              detail: data.message,
+              life: 3000
+            });
+          }
+        }
+      })
+      }
+
+
+      
+    getPatientById(){
+      this.http.getElement(this.api.API_URI + url.patient + "/" + this.selectElement[0].id).subscribe({
+        next: data => {
+          if (data) {
+            console.log("Mon patient ", data);
+            this.patientData = data;
+         
 
           } else {
             this.messageService.add({
