@@ -11,14 +11,14 @@
             <div class="card welcome-content-card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 welcome-text-wrapper align-self-center">
+                        <div class="col-md-4 welcome-text-wrapper text-center">
                             <h5>hello, {{username}} </h5>
                             <p>Bienvenue sur l'application</p>
                         </div>
-                        <div *ngIf="!verify" class="col-md-4 welcome-img-wrapper"><img src="../../../../assets/images/stethoscope.gif" /></div>
+                        <!--<div *ngIf="!verify" class="col-md-4 welcome-img-wrapper"><img src="../../../../assets/images/LOGO PATIENT_Plan de travail 1.png" /></div>-->
                         <div class="col-md-4" *ngIf="verify">
                             <span class="fw-bold">{{ 'Filtre' | translate}}</span>
-                            <select (change)="changeMode($event)" class="form-select ">
+                            <select (change)="changeMode($event)" class="form-select form-select-lg mb-3" id="custom-select">
                                 <option  *ngFor="let x of etablissement" [value]="x.id" [selected]="x.id === this.cureent">{{x.nomEtablissement}} </option>
                             </select>
                             <button *ngIf="isrefresh" type="button" class="btn btn-default btn-sm" (click)="refresh()">
