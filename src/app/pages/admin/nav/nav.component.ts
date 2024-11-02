@@ -5,6 +5,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ApiUrlService } from 'src/app/services/api-url.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ResponseService } from 'src/app/services/response.service';
 import { environment } from 'src/environments/enviroment';
 import { url } from 'src/environments/url';
@@ -21,9 +22,9 @@ export class NavComponent implements OnInit{
   logo:any;
   image!: Blob;
   imageURL:SafeUrl | undefined
-
-  constructor(private api:ApiUrlService,private sanitizer: DomSanitizer,private h:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService,private router:Router){
-
+  verify:boolean | undefined;
+  constructor(private auth:AuthenticationService,private api:ApiUrlService,private sanitizer: DomSanitizer,private h:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService,private router:Router){
+    this.verify = this.auth.isLoggedIn();
   }
 
   ngOnInit(): void{

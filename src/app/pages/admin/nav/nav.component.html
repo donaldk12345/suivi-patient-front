@@ -45,7 +45,7 @@
                     <div class="dropdown-menu shadow-lg profile-dropdown-menu" aria-labelledby="profile-dropdown">
                         <a class="dropdown-item" routerLink="/gestion/profile" style="text-decoration: none;"><i class="las la-user mr-2"></i>profile</a>
                         <a class="dropdown-item" (click)="logOut()" style="text-decoration: none; cursor: pointer;"><i class="las la-sign-out-alt mr-2"></i>Déconnexion</a>
-                        <a class="dropdown-item" routerLink="/gestion/reglage" style="text-decoration: none;"><i class="las la-cog mr-2"></i>Réglages</a>
+                        <a class="dropdown-item" *ngIf="verify" routerLink="/gestion/reglage" style="text-decoration: none;"><i class="las la-cog mr-2"></i>Réglages</a>
 
                     </div>
 
