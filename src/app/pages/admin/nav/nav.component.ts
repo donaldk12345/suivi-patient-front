@@ -23,6 +23,7 @@ export class NavComponent implements OnInit{
   image!: Blob;
   imageURL:SafeUrl | undefined
   verify:boolean | undefined;
+  etab: any;
   constructor(private auth:AuthenticationService,private api:ApiUrlService,private sanitizer: DomSanitizer,private h:HttpClient,private confirmationService: ConfirmationService, private http: ResponseService, private formBuilder: FormBuilder, private messageService: MessageService,private router:Router){
     this.verify = this.auth.isLoggedIn();
   }
@@ -52,7 +53,10 @@ export class NavComponent implements OnInit{
         if (data) {
 
           this.user= data;
-          console.log("me ", this.username);
+          console.log("me ", this.user);
+          this.etab= this.user?.nomEtablissement;
+          this.etab[0].toUpperCase() + this.etab.substring(1);
+          console.log("etab", this.etab);
         } else {
           this.messageService.add({
             severity: 'error',

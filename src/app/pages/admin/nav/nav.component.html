@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
 
-    <a class="navbar-brand" href=""><img src="../../../assets/images/LOGO PATIENT_Plan de travail 1.png" style="height: 45px; width: 30%;" *ngIf="!imageURL" /> <img [src]="imageURL" *ngIf="imageURL" /> <span class="font-weight-normal">Patient-management</span></a>
+    <a class="navbar-brand" href=""><img src="../../../assets/images/LOGO PATIENT_Plan de travail 1.png" style="height: 45px; width: 30%;" *ngIf="!imageURL" /> <img [src]="imageURL" *ngIf="imageURL" /> <span class="font-weight-normal;size:12px;"> {{user?.nomEtablissement  | uppercase}} </span></a>
     <div class="navbar-collapse">
         <ul class="navbar-nav">
             <!--   <li class="nav-item"><a class="nav-link"><i class="las la-question-circle"></i></a></li>-->
