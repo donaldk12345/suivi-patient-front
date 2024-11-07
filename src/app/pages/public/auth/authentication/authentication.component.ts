@@ -70,10 +70,19 @@ export class AuthenticationComponent implements OnInit{
 
       this.isLoading =true;
 
-       this.http.sessionset('token', JSON.stringify(data.token));
-       this.http.sessionset('username',this.loginForm.get('username')?.value);
+       if(data.isfirstConnect==true){
+        this.http.sessionset('token', JSON.stringify(data.token));
+        this.http.sessionset('username',this.loginForm.get('username')?.value);
+ 
+       this.router.navigate(['/gestion/etablissement']);
+       }else{
 
-      this.router.navigate(['/gestion/etablissement']);
+        this.http.sessionset('token', JSON.stringify(data.token));
+        this.http.sessionset('username',this.loginForm.get('username')?.value);
+ 
+       this.router.navigate(['change-first-password']);
+
+       }
     }, error =>{
 
       this.isLoading = false;
